@@ -24,6 +24,11 @@
       <version>5.11.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx</artifactId>
+      <version>1.12.1</version>
+    </dependency>
   </dependencies>
 
   <build>
