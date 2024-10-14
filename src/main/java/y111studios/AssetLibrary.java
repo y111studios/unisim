@@ -12,12 +12,12 @@ public class AssetLibrary {
         initialised = false;
     }
 
-    private static class LazyHolder {
+    private static class Holder {
         private static final AssetLibrary INSTANCE = new AssetLibrary();
     }
 
     public static AssetLibrary getInstance() {
-        return LazyHolder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     public void init(){
