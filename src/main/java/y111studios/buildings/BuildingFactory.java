@@ -3,6 +3,7 @@ package y111studios.buildings;
 import y111studios.buildings.premade_variants.AccomodationVariant;
 import y111studios.buildings.premade_variants.CateringVariant;
 import y111studios.buildings.premade_variants.RecreationVariant;
+import y111studios.buildings.premade_variants.TeachingVariant;
 import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
@@ -46,6 +47,18 @@ public final class BuildingFactory {
         }
         GridArea area = new GridArea(position, variant.getWidth(), variant.getHeight());
         return new RecreationBuilding(area);
+    }
+
+    public static TeachingBuilding createTeachingBuilding(TeachingVariant variant,
+            GridPosition position) {
+        if (variant == null) {
+            throw new IllegalArgumentException("RecreationVariant must not be null");
+        }
+        if (position == null) {
+            throw new IllegalArgumentException("GridPosition must not be null");
+        }
+        GridArea area = new GridArea(position, variant.getWidth(), variant.getHeight());
+        return new TeachingBuilding(area);
     }
 
 }
