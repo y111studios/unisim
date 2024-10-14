@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import y111studios.buildings.premade_variants.AccomodationVariant;
 import y111studios.buildings.premade_variants.CateringVariant;
+import y111studios.buildings.premade_variants.RecreationVariant;
 import y111studios.position.GridPosition;
 
 public class BuildingFactoryTest {
@@ -45,6 +46,14 @@ public class BuildingFactoryTest {
         void cateringBuildingCreation(CateringVariant variant) {
             assertDoesNotThrow(() -> {
                 BuildingFactory.createCateringBuilding(variant, DEFAULT_POSITION);
+            });
+        }
+
+        @ParameterizedTest
+        @EnumSource(value = RecreationVariant.class)
+        void recreationBuildingCreation(RecreationVariant variant) {
+            assertDoesNotThrow(() -> {
+                BuildingFactory.createRecreationBuilding(variant, DEFAULT_POSITION);
             });
         }
 
