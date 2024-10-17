@@ -1,5 +1,4 @@
-package y111studios;
-
+package y111studios.map;
 
 // 2D array - True = can build, False = can't build
 public class CollisionDetection {
@@ -30,8 +29,8 @@ public class CollisionDetection {
     }
 
     /**
-     * Attempts to place a building on the grid at the specified coordinates.
-     * If the building can be placed, it marks the grid cells as occupied.
+     * Attempts to place a building on the grid at the specified coordinates. If the building can be
+     * placed, it marks the grid cells as occupied.
      *
      * @param x the x-coordinate of the top-left corner of the building
      * @param y the y-coordinate of the top-left corner of the building
