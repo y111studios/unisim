@@ -21,7 +21,7 @@ public class StartScreen extends ScreenAdapter {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 400);
-        monke = new Texture("src/main/java/y111studios/assets/monke.png");
+        monke = game.assetLib.manager.get("src/main/java/y111studios/assets/monke.png");
     }
 
     @Override
@@ -30,8 +30,7 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    Gdx.app.exit();
-                    System.exit(-1);
+                    game.setScreen(new GameScreen(game));
                 }
                 return true;
             }

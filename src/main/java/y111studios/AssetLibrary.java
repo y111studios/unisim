@@ -1,11 +1,12 @@
 package y111studios;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 
 public class AssetLibrary {
 
     private static AssetLibrary instance;
-    private AssetManager manager;
+    public AssetManager manager;
     private boolean initialised;
     
     private AssetLibrary(){
@@ -27,6 +28,7 @@ public class AssetLibrary {
     }
 
     private void preload(){
+        manager.load("src/main/java/y111studios/assets/monke.png", Texture.class);
     }
 
 }

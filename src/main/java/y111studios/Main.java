@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 // Loading assests at game start
 public class Main extends Game {
 
-    private AssetLibrary assetLib;
+    public AssetLibrary assetLib;
     public SpriteBatch spritebatch;
     public BitmapFont font;
 
@@ -24,6 +24,9 @@ public class Main extends Game {
         assetLib.init();
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
+        while (!assetLib.manager.update()) {
+            continue;
+        }
         this.setScreen(new StartScreen(this));
 
         // Templates
