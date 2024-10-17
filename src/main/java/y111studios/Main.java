@@ -3,6 +3,7 @@ package y111studios;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 // Loading assests at game start
 public class Main extends Game {
@@ -10,6 +11,7 @@ public class Main extends Game {
     public AssetLibrary assetLib;
     public SpriteBatch spritebatch;
     public BitmapFont font;
+    public ShapeRenderer shape;
 
     // Templates
     // Texture backgroundTexture;
@@ -24,6 +26,7 @@ public class Main extends Game {
         assetLib.init();
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
+        shape = new ShapeRenderer();
         while (!assetLib.manager.update()) {
             continue;
         }

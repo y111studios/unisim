@@ -29,6 +29,7 @@ public class AssetLibrary {
 
     private void preload(){
         manager.load("src/main/java/y111studios/assets/monke.png", Texture.class);
+        manager.finishLoading();
     }
 
 }
