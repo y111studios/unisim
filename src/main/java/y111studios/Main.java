@@ -10,7 +10,7 @@ public class Main extends Game {
     private AssetLibrary assetLib;
     public SpriteBatch spritebatch;
     public BitmapFont font;
-    
+
     // Templates
     // Texture backgroundTexture;
     // Texture bucketTexture;
@@ -25,6 +25,7 @@ public class Main extends Game {
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
         this.setScreen(new StartScreen(this));
+
         // Templates
         // backgroundTexture = new Texture("background.png");
         // bucketTexture = new Texture("bucket.png");
@@ -32,7 +33,7 @@ public class Main extends Game {
         // Templates
     }
 
-    @Override
+    /*@Override
     public void dispose() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
@@ -41,12 +42,12 @@ public class Main extends Game {
     public void pause() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }
+    }*/
     @Override
     public void render() {
         super.render();
     }
-    @Override
+    /*@Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resize'");
@@ -55,6 +56,6 @@ public class Main extends Game {
     public void resume() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
+    }*/
 }
 
