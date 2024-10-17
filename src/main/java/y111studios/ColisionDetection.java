@@ -2,10 +2,10 @@ package y111studios;
 
 
 // 2D array - True = can build, False = can't build
-public class TerrainCollisionDetection {
+public class CollisionDetection {
     private boolean[][] buildingGrid;
 
-    public TerrainCollisionDetection(int xSize, int ySize) {
+    public CollisionDetection(int xSize, int ySize) {
         buildingGrid = new boolean[xSize][ySize];
     }
 
