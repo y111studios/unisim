@@ -2,13 +2,18 @@ package y111studios;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.Texture;
 
-public class StartScreen implements Screen{
+public class StartScreen extends ScreenAdapter {
 
     final Main game;
+
+    Texture monke;
 
     OrthographicCamera camera;
     
@@ -16,12 +21,21 @@ public class StartScreen implements Screen{
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 400);
+        monke = new Texture("src/main/java/y111studios/assets/monke.png");
     }
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'show'");
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.SPACE) {
+                    Gdx.app.exit();
+                    System.exit(-1);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -32,44 +46,39 @@ public class StartScreen implements Screen{
         game.spritebatch.setProjectionMatrix(camera.combined);
 
         game.spritebatch.begin();
-        game.font.draw(game.spritebatch, "UniSim", 100, 150);
-        game.font.draw(game.spritebatch, "Press enter to begin", 100, 150);
+        game.spritebatch.draw(monke, 0, 0);
+        game.font.draw(game.spritebatch, "UniSim", 100, 250);
+        game.font.draw(game.spritebatch, "Press space to begin", 100, 150);
         game.spritebatch.end();
-
-        if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
     }
 
-    @Override
+    /*@Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resize'");
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void pause() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void resume() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
+    }*/
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
+        Gdx.input.setInputProcessor(null);
     }
 
-    @Override
+    /*@Override
     public void dispose() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
-    }
+    }*/
 
 }
