@@ -10,14 +10,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen{
 
+    static final int TILE_SIZE = 32;
+    static final int WIDTH = 30;
+    static final int HEIGHT = 20;
+
     final Main game;
 
-    TiledGameMap map;
+    TiledMap map;
+    TiledMapRenderer renderer;
     MapLayer cursorLayer;
 
     boolean createBuilding;
@@ -32,9 +41,19 @@ public class GameScreen implements Screen{
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
         createBuilding = false;
-        map = new TiledGameMap(game);
+        map = game.assetLib.manager.get("src/main/java/y111studios/assets/map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map) {
+            @Override
+            public void renderObject(MapObject object) {
+                if (object instanceof TextureMapObject) {
+                    TextureMapObject tmo = (TextureMapObject)object;
+                    game.spritebatch.draw(tmo.getTextureRegion(), tmo.getX(), tmo.getY());
+                }
+            
+            }
+        };
         Texture cursorTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Cursor.png");
-        cursorLayer = map.getLayer("Cursor layer");
+        cursorLayer = map.getLayers().get("Cursor layer");
         TextureMapObject tmo = new TextureMapObject(new TextureRegion(cursorTexture, 32, 32));
         tmo.setX(0);
         tmo.setY(0);
@@ -52,16 +71,15 @@ public class GameScreen implements Screen{
                     Gdx.app.exit();
                     System.exit(-1);
                 } else { 
-                    TextureMapObject tmo = (TextureMapObject)map.getLayer("Cursor layer").getObjects().get(0);
+                    TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
                     if (keyCode == Input.Keys.DOWN) {
-                        System.out.println(tmo.getY() + TiledGameMap.TILE_SIZE);
-                        tmo.setY(tmo.getY() + TiledGameMap.TILE_SIZE);
+                        tmo.setY(tmo.getY() - TILE_SIZE);
                     } else if (keyCode == Input.Keys.LEFT) {
-                        tmo.setX(tmo.getX() - TiledGameMap.TILE_SIZE);
+                        tmo.setX(tmo.getX() - TILE_SIZE);
                     } else if (keyCode == Input.Keys.RIGHT) {
-                        tmo.setX(tmo.getX() + TiledGameMap.TILE_SIZE);
+                        tmo.setX(tmo.getX() + TILE_SIZE);
                     } else if (keyCode == Input.Keys.UP) {
-                        tmo.setY(tmo.getY() - TiledGameMap.TILE_SIZE);
+                        tmo.setY(tmo.getY() + TILE_SIZE);
                     }
                 }
                 return true;
@@ -84,9 +102,9 @@ public class GameScreen implements Screen{
         camera.update();
         game.spritebatch.setProjectionMatrix(camera.combined);
 
-        map.render(camera);
-
         game.spritebatch.begin();
+        renderer.setView(camera);
+        renderer.render();
         game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
         if (createBuilding) {
             game.shape.begin(ShapeType.Filled);
