@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
@@ -29,10 +27,6 @@ public class GameScreen implements Screen{
     TiledMapRenderer renderer;
     MapLayer cursorLayer;
 
-    boolean createBuilding;
-    int cursorX;
-    int cursorY;
-
     OrthographicCamera camera;
 
     public GameScreen(final Main game) {
@@ -40,7 +34,6 @@ public class GameScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
-        createBuilding = false;
         map = game.assetLib.manager.get("src/main/java/y111studios/assets/map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map) {
             @Override
@@ -87,9 +80,11 @@ public class GameScreen implements Screen{
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                createBuilding = true;
-                cursorX = screenX;
-                cursorY = screenY;
+                TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
+                screenX = (screenX / TILE_SIZE) * TILE_SIZE;
+                screenY = (screenY / TILE_SIZE) * TILE_SIZE;
+                tmo.setX(screenX);
+                tmo.setY(640 - screenY);
                 return true;
             }
         });
@@ -106,13 +101,6 @@ public class GameScreen implements Screen{
         renderer.setView(camera);
         renderer.render();
         game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
-        if (createBuilding) {
-            game.shape.begin(ShapeType.Filled);
-            game.shape.setColor(Color.WHITE);
-            game.shape.circle(cursorX, 400 - cursorY, 10);
-            game.shape.end();
-            createBuilding = false;
-        }
         game.spritebatch.end();
     }
 

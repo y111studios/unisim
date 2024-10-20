@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 // Loading assests at game start
 public class Main extends Game {
@@ -12,7 +11,6 @@ public class Main extends Game {
     public AssetLibrary assetLib;
     public SpriteBatch spritebatch;
     public BitmapFont font;
-    public ShapeRenderer shape;
 
     // Templates
     // Texture backgroundTexture;
@@ -27,7 +25,6 @@ public class Main extends Game {
         assetLib.init();
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
-        shape = new ShapeRenderer();
         Gdx.graphics.setWindowedMode(960, 640);
         while (!assetLib.manager.update()) {
             continue;
@@ -45,7 +42,6 @@ public class Main extends Game {
     public void dispose() {
         spritebatch.dispose();
         font.dispose();
-        shape.dispose();
         assetLib.manager.dispose();
     }
     /*@Override
