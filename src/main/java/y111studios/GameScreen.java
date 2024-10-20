@@ -6,7 +6,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen{
@@ -14,6 +18,7 @@ public class GameScreen implements Screen{
     final Main game;
 
     TiledGameMap map;
+    MapLayer cursorLayer;
 
     boolean createBuilding;
     int cursorX;
@@ -28,6 +33,13 @@ public class GameScreen implements Screen{
         camera.update();
         createBuilding = false;
         map = new TiledGameMap(game);
+        Texture cursorTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Cursor.png");
+        cursorLayer = map.getLayer("Cursor layer");
+        TextureMapObject tmo = new TextureMapObject(new TextureRegion(cursorTexture, 32, 32));
+        tmo.setX(0);
+        tmo.setY(0);
+        cursorLayer.getObjects().add(tmo);
+
     }
 
     @Override
@@ -36,10 +48,22 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.assetLib.manager.dispose();
+                    game.dispose();
                     Gdx.app.exit();
                     System.exit(-1);
-                } 
+                } else { 
+                    TextureMapObject tmo = (TextureMapObject)map.getLayer("Cursor layer").getObjects().get(0);
+                    if (keyCode == Input.Keys.DOWN) {
+                        System.out.println(tmo.getY() + TiledGameMap.TILE_SIZE);
+                        tmo.setY(tmo.getY() + TiledGameMap.TILE_SIZE);
+                    } else if (keyCode == Input.Keys.LEFT) {
+                        tmo.setX(tmo.getX() - TiledGameMap.TILE_SIZE);
+                    } else if (keyCode == Input.Keys.RIGHT) {
+                        tmo.setX(tmo.getX() + TiledGameMap.TILE_SIZE);
+                    } else if (keyCode == Input.Keys.UP) {
+                        tmo.setY(tmo.getY() - TiledGameMap.TILE_SIZE);
+                    }
+                }
                 return true;
             }
 
@@ -63,6 +87,7 @@ public class GameScreen implements Screen{
         map.render(camera);
 
         game.spritebatch.begin();
+        game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
         if (createBuilding) {
             game.shape.begin(ShapeType.Filled);
             game.shape.setColor(Color.WHITE);

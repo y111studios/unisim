@@ -19,7 +19,7 @@ public class StartScreen extends ScreenAdapter {
     public StartScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 400);
+        camera.setToOrtho(false, 960, 640);
         monke = game.assetLib.manager.get("src/main/java/y111studios/assets/monke.png");
     }
 

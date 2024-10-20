@@ -1,6 +1,7 @@
 package y111studios;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,6 +28,7 @@ public class Main extends Game {
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
         shape = new ShapeRenderer();
+        Gdx.graphics.setWindowedMode(960, 640);
         while (!assetLib.manager.update()) {
             continue;
         }
@@ -39,12 +41,14 @@ public class Main extends Game {
         // Templates
     }
 
-    /*@Override
-    public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
-    }
     @Override
+    public void dispose() {
+        spritebatch.dispose();
+        font.dispose();
+        shape.dispose();
+        assetLib.manager.dispose();
+    }
+    /*@Override
     public void pause() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'pause'");
