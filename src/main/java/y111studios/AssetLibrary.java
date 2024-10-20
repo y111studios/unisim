@@ -1,7 +1,10 @@
 package y111studios;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class AssetLibrary {
 
@@ -27,8 +30,14 @@ public class AssetLibrary {
         preload();
     }
 
+    public void dispose() {
+        manager.dispose();
+    }
+
     private void preload(){
         manager.load("src/main/java/y111studios/assets/monke.png", Texture.class);
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("src/main/java/y111studios/assets/map.tmx", TiledMap.class);
         manager.finishLoading();
     }
 

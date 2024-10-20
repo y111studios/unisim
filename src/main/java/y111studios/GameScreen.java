@@ -13,6 +13,8 @@ public class GameScreen implements Screen{
 
     final Main game;
 
+    TiledGameMap map;
+
     boolean createBuilding;
     int cursorX;
     int cursorY;
@@ -22,8 +24,10 @@ public class GameScreen implements Screen{
     public GameScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 400);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
         createBuilding = false;
+        map = new TiledGameMap(game);
     }
 
     @Override
@@ -32,6 +36,7 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
+                    game.assetLib.manager.dispose();
                     Gdx.app.exit();
                     System.exit(-1);
                 } 
@@ -55,9 +60,9 @@ public class GameScreen implements Screen{
         camera.update();
         game.spritebatch.setProjectionMatrix(camera.combined);
 
+        map.render(camera);
+
         game.spritebatch.begin();
-        game.font.draw(game.spritebatch, "UniSim", 100, 250);
-        game.font.draw(game.spritebatch, "Playing Game", 100, 150);
         if (createBuilding) {
             game.shape.begin(ShapeType.Filled);
             game.shape.setColor(Color.WHITE);
