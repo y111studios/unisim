@@ -73,10 +73,9 @@ public class StartScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(null);
     }
 
-    /*@Override
+    @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
-    }*/
+        game.dispose();
+    }
 
 }

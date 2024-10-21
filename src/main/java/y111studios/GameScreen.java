@@ -43,7 +43,6 @@ public class GameScreen implements Screen{
                     TextureMapObject tmo = (TextureMapObject)object;
                     game.spritebatch.draw(tmo.getTextureRegion(), tmo.getX(), tmo.getY());
                 }
-            
             }
         };
         Texture cursorTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Cursor.png");
@@ -52,7 +51,6 @@ public class GameScreen implements Screen{
         tmo.setX(0);
         tmo.setY(0);
         cursorLayer.getObjects().add(tmo);
-
     }
 
     @Override
@@ -80,9 +78,9 @@ public class GameScreen implements Screen{
                         float x = tmo.getX();
                         float y = tmo.getY();
                         if (x > 0) {
-                            tmo.setX(x-1);
+                            tmo.setX(x-TILE_SIZE);
                         } else {
-                            tmo.setX(x+2);
+                            tmo.setX(x+(2*TILE_SIZE));
                         }
                         TextureMapObject tmo2 = new TextureMapObject(new TextureRegion(buildingTexture, 64, 64));
                         tmo2.setX(x);
@@ -114,7 +112,8 @@ public class GameScreen implements Screen{
 
         game.spritebatch.begin();
         renderer.setView(camera);
-        renderer.render();
+        renderer.render(new int[]{0,2});
+        renderer.render(new int[]{1});
         game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
         game.spritebatch.end();
     }
@@ -145,8 +144,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'dispose'");
+        game.dispose();
     }
 
 }
