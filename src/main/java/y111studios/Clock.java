@@ -27,6 +27,8 @@ public class Clock {
      */
     private final static Duration MAX_DURATION = Duration.ofSeconds(300);
 
+    private Duration totalDuration;
+    private boolean paused;
     private Instant start;
 
     /**
@@ -42,17 +44,35 @@ public class Clock {
      * @param start The start time of the clock.
      */
     Clock(Instant start) {
+        this.totalDuration = Duration.ZERO;
+        this.paused = false;
         this.start = start;
     }
 
     /**
-     * Gets a {@link Duration} representing the elapsed time since the clock was created.
+     * Gets a {@link Duration} representing the elapsed time since the clock was last started. If
+     * the clock is paused, this method returns 0.
      * 
-     * @return The elapsed time since the clock was created.
+     * @return The elapsed time since the clock was last started.
      */
-    private Duration getElapsedTime() {
+    private Duration elapsedSessionTime() {
         Instant now = Instant.now();
-        return Duration.between(start, now);
+        if (paused) {
+            return Duration.ZERO;
+        } else {
+            return Duration.between(start, now);
+        }
+    }
+
+    /**
+     * Gets a {@link Duration} representing the total elapsed time since the clock was created,
+     * excluding the time the clock was paused.
+     * 
+     * @return The total counted time since the clock was created.
+     */
+    private Duration totalElapsedTime() {
+        Duration sessionTime = elapsedSessionTime();
+        return totalDuration.plusNanos(sessionTime.toNanos());
     }
 
     /**
@@ -61,7 +81,37 @@ public class Clock {
      * @return True if the maximum duration has been reached, false otherwise.
      */
     public boolean isTimeUp() {
-        return getElapsedTime().compareTo(MAX_DURATION) >= 0;
+        return totalElapsedTime().compareTo(MAX_DURATION) >= 0;
+    }
+
+    /**
+     * Pauses the clock.
+     * 
+     * <p>
+     * If the clock is already paused, this method does nothing.
+     * </p>
+     */
+    public void pause() {
+        if (!paused) {
+            Duration session = elapsedSessionTime();
+            totalDuration = totalDuration.plusNanos(session.toNanos());
+            paused = true;
+            start = null;
+        }
+    }
+
+    /**
+     * Resumes the clock.
+     * 
+     * <p>
+     * If the clock is not paused, this method does nothing.
+     * </p>
+     */
+    public void resume() {
+        if (paused) {
+            start = Instant.now();
+            paused = false;
+        }
     }
 
 }

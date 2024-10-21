@@ -35,4 +35,21 @@ public class ClockTest {
         clock = new Clock(end);
         assertTrue(clock.isTimeUp());
     }
+
+    @Test
+    void pause() {
+        Clock clock = new Clock();
+        clock.pause();
+
+        assertDoesNotThrow(() -> clock.isTimeUp());
+    }
+
+    @Test
+    void resume() {
+        Clock clock = new Clock();
+        clock.pause();
+        clock.resume();
+
+        assertDoesNotThrow(() -> clock.isTimeUp());
+    }
 }
