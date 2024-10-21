@@ -16,6 +16,11 @@ public class StartScreen extends ScreenAdapter {
 
     OrthographicCamera camera;
     
+    /**
+     * Sets up the camera and loads the background
+     * 
+     * @param game reference to game manager
+     */
     public StartScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();

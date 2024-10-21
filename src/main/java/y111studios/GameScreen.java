@@ -30,6 +30,12 @@ public class GameScreen implements Screen{
 
     OrthographicCamera camera;
 
+    /**
+     * Sets up the game camera and creates the map and cursor
+     * to indicate where the buildings are being placed
+     * 
+     * @param game reference to the manager of the game
+     */
     public GameScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
@@ -41,12 +47,14 @@ public class GameScreen implements Screen{
             public void renderObject(MapObject object) {
                 if (object instanceof TextureMapObject) {
                     TextureMapObject tmo = (TextureMapObject)object;
+                    //draws the object on the screen at the position in the object layer of the map
                     game.spritebatch.draw(tmo.getTextureRegion(), tmo.getX(), tmo.getY());
                 }
             }
         };
         Texture cursorTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Cursor.png");
         cursorLayer = map.getLayers().get("Cursor layer");
+        //creates a 32x32 cursor
         TextureMapObject tmo = new TextureMapObject(new TextureRegion(cursorTexture, 32, 32));
         tmo.setX(0);
         tmo.setY(0);
@@ -59,11 +67,12 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.dispose();
+                    game.dispose();//prevent memory leaks
                     Gdx.app.exit();
                     System.exit(-1);
                 } else { 
                     TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
+                    //moves the cursor by the size of a tile
                     if (keyCode == Input.Keys.DOWN) {
                         tmo.setY(tmo.getY() - TILE_SIZE);
                     } else if (keyCode == Input.Keys.LEFT) {
@@ -77,6 +86,7 @@ public class GameScreen implements Screen{
                         buildingLayer = map.getLayers().get("Building layer");
                         float x = tmo.getX();
                         float y = tmo.getY();
+                        //move the cursor before placing the building
                         if (x > 0) {
                             tmo.setX(x-TILE_SIZE);
                         } else {
@@ -85,6 +95,7 @@ public class GameScreen implements Screen{
                         TextureMapObject tmo2 = new TextureMapObject(new TextureRegion(buildingTexture, 64, 64));
                         tmo2.setX(x);
                         tmo2.setY(y);
+                        //create a building where the cursor was
                         buildingLayer.getObjects().add(tmo2);
                     }
                 }
@@ -93,6 +104,7 @@ public class GameScreen implements Screen{
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                //move the game cursor to where the computer cursor has been pressed
                 TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
                 screenX = (screenX / TILE_SIZE) * TILE_SIZE;
                 screenY = (screenY / TILE_SIZE) * TILE_SIZE;
@@ -112,6 +124,7 @@ public class GameScreen implements Screen{
 
         game.spritebatch.begin();
         renderer.setView(camera);
+        //render the layers separately so the cursor remains visible
         renderer.render(new int[]{0,2});
         renderer.render(new int[]{1});
         game.font.draw(game.spritebatch, "Press space to exit", 100, 150);

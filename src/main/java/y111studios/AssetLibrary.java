@@ -21,6 +21,7 @@ public class AssetLibrary {
     }
 
     public static AssetLibrary getInstance() {
+        //singleton as only one should exist
         return Holder.INSTANCE;
     }
 
@@ -34,6 +35,10 @@ public class AssetLibrary {
         manager.dispose();
     }
 
+    /**
+     * Loads all the assets before the game starts to make it run
+     * smoother
+     */
     private void preload(){
         manager.load("src/main/java/y111studios/assets/monke.png", Texture.class);
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
