@@ -33,7 +33,16 @@ public class Clock {
      * Initializes the clock with the current time.
      */
     public Clock() {
-        start = Instant.now();
+        this(Instant.now());
+    }
+
+    /**
+     * Initializes the clock with the specified start time.
+     * 
+     * @param start The start time of the clock.
+     */
+    Clock(Instant start) {
+        this.start = start;
     }
 
     /**
