@@ -52,4 +52,13 @@ public class ClockTest {
 
         assertDoesNotThrow(() -> clock.isTimeUp());
     }
+
+    @Test
+    void timeRemaining() {
+        Clock clock = new Clock();
+        clock.pause();
+
+        assertDoesNotThrow(() -> clock.timeRemaining());
+        assertFalse(clock.timeRemaining().isNegative());
+    }
 }

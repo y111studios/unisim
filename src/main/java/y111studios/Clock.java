@@ -85,6 +85,15 @@ public class Clock {
     }
 
     /**
+     * Returns the time remaining on the clock.
+     * 
+     * @return Duration representing the time remaining on the clock.
+     */
+    public Duration timeRemaining() {
+        return MAX_DURATION.minus(totalElapsedTime());
+    }
+
+    /**
      * Pauses the clock.
      * 
      * <p>
