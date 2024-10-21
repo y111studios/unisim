@@ -26,6 +26,7 @@ public class GameScreen implements Screen{
     TiledMap map;
     TiledMapRenderer renderer;
     MapLayer cursorLayer;
+    MapLayer buildingLayer;
 
     OrthographicCamera camera;
 
@@ -73,6 +74,20 @@ public class GameScreen implements Screen{
                         tmo.setX(tmo.getX() + TILE_SIZE);
                     } else if (keyCode == Input.Keys.UP) {
                         tmo.setY(tmo.getY() + TILE_SIZE);
+                    } else if (keyCode == Input.Keys.ENTER) {
+                        Texture buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                        buildingLayer = map.getLayers().get("Building layer");
+                        float x = tmo.getX();
+                        float y = tmo.getY();
+                        if (x > 0) {
+                            tmo.setX(x-1);
+                        } else {
+                            tmo.setX(x+2);
+                        }
+                        TextureMapObject tmo2 = new TextureMapObject(new TextureRegion(buildingTexture, 64, 64));
+                        tmo2.setX(x);
+                        tmo2.setY(y);
+                        buildingLayer.getObjects().add(tmo2);
                     }
                 }
                 return true;

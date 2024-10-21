@@ -39,6 +39,7 @@ public class AssetLibrary {
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load("src/main/java/y111studios/assets/map.tmx", TiledMap.class);
         manager.load("src/main/java/y111studios/assets/Cursor.png", Texture.class);
+        manager.load("src/main/java/y111studios/assets/Building.png", Texture.class);
         manager.finishLoading();
     }
 
