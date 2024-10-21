@@ -30,7 +30,7 @@ public class BuildingCounter {
     }
 
     /**
-     * Increments the count for the specified building type.
+     * Increments the count for the specified building type and the total count.
      * 
      * @param type The type of building to increment.
      */
@@ -59,12 +59,13 @@ public class BuildingCounter {
     }
 
     /**
-     * Resets the building counter to its initial state, setting all building counts to 0 and total buildings placed to 0.
+     * Resets the building counter to its initial state, setting all building counts to 0 and the total buildings placed to 0.
      */
     public void reset() {
         for (BuildingType type : BuildingType.values()) {
             buildingMap.put(type, 0);
         }
+        count = 0;
     }
     
 }
