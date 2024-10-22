@@ -8,11 +8,19 @@ public class BuildingCounterTest {
     
     private BuildingCounter buildingCounter;
 
+    /**
+     * Initializes a new instance of BuildingCounter before each test, ensuring that
+     * each test runs with a fresh counter.
+     */
     @BeforeEach
     void setUp() {
         buildingCounter = new BuildingCounter();
     }
 
+    /**
+     * Tests that all the building counts and the total count are initially zero when
+     * a new counter is created.
+     */
     @Test
     void testInitialCount() {
 
@@ -24,6 +32,9 @@ public class BuildingCounterTest {
 
     }
 
+    /**
+     * Tests the placing of one of each building type, and verifies that the counts are updated correctly.
+     */
     @Test
     void testPlaceBuilding() {
         
@@ -45,6 +56,10 @@ public class BuildingCounterTest {
 
     }
 
+    /**
+     * Tests the placing of multiple buildings of the same type, and verifies that the
+     * counts are updated correctly.
+     */
     @Test
     void testMultipleBuildings() {
 
@@ -61,6 +76,10 @@ public class BuildingCounterTest {
 
     }
 
+    /**
+     * Tests the reset functionality of the counter by placing some buildings, and
+     * then resetting the counter and verifying that all counts return to zero.
+     */
     @Test
     void testReset() {
 
@@ -70,6 +89,7 @@ public class BuildingCounterTest {
         assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
         assertEquals(2, buildingCounter.getTotalCount());
 
+        // Reset the counter.
         buildingCounter.reset();
         assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.RECREATION));
         assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
