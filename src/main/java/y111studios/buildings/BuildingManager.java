@@ -27,7 +27,8 @@ public class BuildingManager {
      * <p>
      * This array is null-initialized and will contain null elements until a building is placed. The
      * array should not contain any null elements in the range of 0 to the total number of buildings
-     * placed.
+     * placed. This array should not contain any elements beyond the total number of buildings.
+     * Additionally, this array is unordered and the order of buildings is not guaranteed.
      * </p>
      */
     private Building[] buildings;
@@ -74,6 +75,55 @@ public class BuildingManager {
     }
 
     /**
+     * Removes a building from the array of buildings at the specified index.
+     * 
+     * <p>
+     * This method will remove the building at the specified index from the array of buildings and
+     * decrement the counter, returning true. If the index is out of bounds, this method returns
+     * false.
+     * </p>
+     * 
+     * @param index The index of the building to remove
+     * @return if the building was successfully removed
+     */
+    public boolean removeIndex(int index) {
+        final int length = getCount();
+        if (index < 0 || index >= length) {
+            return false;
+        }
+        if (index == length - 1) {
+            // If removing the last building just remove it
+            popLast();
+        } else {
+            // Swap index building with last building
+            buildings[index] = popLast();
+        }
+        return true;
+    }
+
+    /**
+     * Pops the last building from the array of buildings.
+     * 
+     * <p>
+     * This method will remove the last building from the array of buildings and decrement the
+     * counter. The last building is returned. If there are no buildings to pop, this method returns
+     * null.
+     * </p>
+     * 
+     * @return Last building from the array of buildings
+     */
+    private Building popLast() {
+        final int index = getCount() - 1;
+        if (index < 0) {
+            return null;
+        }
+        Building building = buildings[index];
+        buildings[index] = null;
+        counter.removeBuilding(building);
+        return building;
+    }
+
+    /**
      * Gets the number of buildings placed.
      * 
      * @return The number of buildings placed
@@ -94,6 +144,15 @@ public class BuildingManager {
      */
     public boolean isFull() {
         return getCount() >= MAX_BUILDINGS;
+    }
+
+    /**
+     * Returns if the building manager is empty.
+     * 
+     * @return if the building manager is empty
+     */
+    public boolean isEmpty() {
+        return getCount() == 0;
     }
 
 }

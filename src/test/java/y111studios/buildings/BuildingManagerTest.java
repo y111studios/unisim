@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import y111studios.buildings.premade_variants.AccomodationVariant;
 import y111studios.position.GridPosition;
 
@@ -21,10 +23,24 @@ public class BuildingManagerTest {
         manager = new BuildingManager();
     }
 
+    private void fillManager() {
+        while (manager.isFull() == false) {
+            manager.push(building);
+        }
+        assertTrue(manager.isFull());
+    }
+
+    private void pushToManager(int count) {
+        for (int i = 0; i < count; i++) {
+            manager.push(building);
+        }
+        assertTrue(manager.getCount() == count);
+    }
+
     @Test
     void pushNull() {
         assertTrue(manager.push(null));
-        assertEquals(0, manager.getCount());
+        assertTrue(manager.isEmpty());
     }
 
     @Test
@@ -36,6 +52,65 @@ public class BuildingManagerTest {
         }
         assertTrue(manager.isFull());
         assertFalse(manager.push(building));
+    }
+
+    @Test
+    void removeIndex() {
+        // Setup the manager with 5 buildings
+        pushToManager(5);
+
+        // Bounds check
+        assertFalse(manager.removeIndex(-1));
+        assertFalse(manager.removeIndex(1000));
+        assertEquals(5, manager.getCount()); // Removal should fail
+
+        // Remove the building at index 2
+        assertTrue(manager.removeIndex(2));
+        assertEquals(4, manager.getCount()); // Removal should be successful
+
+        // Remove the building at the end
+        assertTrue(manager.removeIndex(3));
+        assertEquals(3, manager.getCount()); // Removal should be successful
+
+        // Remove the building at the start
+        assertTrue(manager.removeIndex(0));
+        assertEquals(2, manager.getCount()); // Removal should be successful
+    }
+
+    @Test
+    void removeFromFullManager() {
+        // Fill the manager
+        fillManager();
+
+        // Remove the building at index 2
+        assertTrue(manager.removeIndex(2));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, 1000})
+    void removeFromEmptyManager(int index) {
+        // Removing from an empty manager should not throw an exception
+        assertFalse(manager.removeIndex(index));
+        assertTrue(manager.isEmpty()); // This should be a no-op
+    }
+
+    @Test
+    void exhaustivelyRemove() {
+        // Setup the manager with 10 buildings
+        pushToManager(10);
+
+        // Remove all buildings
+        for (int i = 0; i < 10; i++) {
+            assertTrue(manager.removeIndex(0));
+        }
+        assertEquals(0, manager.getCount());
+    }
+
+    @Test
+    void isEmpty() {
+        assertTrue(manager.isEmpty());
+        pushToManager(1);
+        assertFalse(manager.isEmpty());
     }
 
 }

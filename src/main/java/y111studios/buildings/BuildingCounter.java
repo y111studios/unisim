@@ -43,6 +43,26 @@ public class BuildingCounter {
     }
 
     /**
+     * Decrements the count for the specified building type and the total count.
+     * 
+     * @param type The type of building to decrement.
+     */
+    public void removeBuilding(BuildingType type) {
+        buildingMap.put(type, buildingMap.get(type) - 1);
+        count--;
+    }
+
+    /**
+     * Decrements the count for the type of the building and the total count.
+     * 
+     * @param building The building to decrement the type count for.
+     */
+    public void removeBuilding(Building building) {
+        BuildingType type = BuildingType.fromBuilding(building);
+        removeBuilding(type);
+    }
+
+    /**
      * Returns the count for the specified building type.
      * 
      * @param type The type of building to retrieve the count for.
