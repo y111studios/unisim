@@ -1,6 +1,7 @@
 package y111studios.buildings;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import y111studios.buildings.premade_variants.AccomodationVariant;
 import y111studios.buildings.premade_variants.CateringVariant;
@@ -12,6 +13,8 @@ public class BuildingTypeTest {
 
     @Test
     void fromBuilding() {
+        assertThrows(IllegalArgumentException.class, () -> BuildingType.fromBuilding(null));
+
         final GridPosition ZERO = new GridPosition(0, 0);
         Building building;
 
@@ -27,7 +30,6 @@ public class BuildingTypeTest {
 
         building = BuildingFactory.createTeachingBuilding(TeachingVariant.SMALL_CLASSROOM, ZERO);
         assertEquals(BuildingType.TEACHING, BuildingType.fromBuilding(building));
-
     }
 
 }
