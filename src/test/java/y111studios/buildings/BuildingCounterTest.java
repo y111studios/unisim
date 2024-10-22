@@ -16,10 +16,10 @@ public class BuildingCounterTest {
     @Test
     void testInitialCount() {
 
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.ACCOMMODATION));
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.CATERING));
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.RECREATION));
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.ACCOMMODATION));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.CATERING));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.TEACHING));
         assertEquals(0, buildingCounter.getTotalCount());
 
     }
@@ -27,20 +27,20 @@ public class BuildingCounterTest {
     @Test
     void testPlaceBuilding() {
         
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.ACCOMMODATION);
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.ACCOMMODATION));
+        buildingCounter.placeBuilding(BuildingType.ACCOMMODATION);
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.ACCOMMODATION));
         assertEquals(1, buildingCounter.getTotalCount());
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.CATERING);
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.CATERING));
+        buildingCounter.placeBuilding(BuildingType.CATERING);
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.CATERING));
         assertEquals(2, buildingCounter.getTotalCount());
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.RECREATION);
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.RECREATION));
+        buildingCounter.placeBuilding(BuildingType.RECREATION);
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.RECREATION));
         assertEquals(3, buildingCounter.getTotalCount());
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.TEACHING);
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
+        buildingCounter.placeBuilding(BuildingType.TEACHING);
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.TEACHING));
         assertEquals(4, buildingCounter.getTotalCount());
 
     }
@@ -48,15 +48,15 @@ public class BuildingCounterTest {
     @Test
     void testMultipleBuildings() {
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.ACCOMMODATION);
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.ACCOMMODATION);
-        assertEquals(2, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.ACCOMMODATION));
+        buildingCounter.placeBuilding(BuildingType.ACCOMMODATION);
+        buildingCounter.placeBuilding(BuildingType.ACCOMMODATION);
+        assertEquals(2, buildingCounter.getBuildingCount(BuildingType.ACCOMMODATION));
         assertEquals(2, buildingCounter.getTotalCount());
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.CATERING);
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.CATERING);
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.CATERING);        
-        assertEquals(3, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.CATERING));
+        buildingCounter.placeBuilding(BuildingType.CATERING);
+        buildingCounter.placeBuilding(BuildingType.CATERING);
+        buildingCounter.placeBuilding(BuildingType.CATERING);        
+        assertEquals(3, buildingCounter.getBuildingCount(BuildingType.CATERING));
         assertEquals(5, buildingCounter.getTotalCount());
 
     }
@@ -64,15 +64,15 @@ public class BuildingCounterTest {
     @Test
     void testReset() {
 
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.RECREATION);
-        buildingCounter.placeBuilding(BuildingCounter.BuildingType.TEACHING);
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.RECREATION));
-        assertEquals(1, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
+        buildingCounter.placeBuilding(BuildingType.RECREATION);
+        buildingCounter.placeBuilding(BuildingType.TEACHING);
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.TEACHING));
         assertEquals(2, buildingCounter.getTotalCount());
 
         buildingCounter.reset();
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.RECREATION));
-        assertEquals(0, buildingCounter.getBuildingCount(BuildingCounter.BuildingType.TEACHING));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.TEACHING));
         assertEquals(0, buildingCounter.getTotalCount());
 
     }

@@ -8,13 +8,6 @@ import java.util.Map;
  */
 public class BuildingCounter {
 
-    public enum BuildingType {
-        ACCOMMODATION,
-        CATERING,
-        RECREATION,
-        TEACHING;
-    }
-
     private final Map<BuildingType, Integer> buildingMap; // A dictionary to store the count of each building type.
     private int count; // A field to track the total number of buildings
 
