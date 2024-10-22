@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -67,23 +68,35 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.dispose();//prevent memory leaks
+                    dispose();//prevent memory leaks
                     Gdx.app.exit();
                     System.exit(-1);
                 } else { 
                     TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
                     //moves the cursor by the size of a tile
+                    float x = tmo.getX();
+                    float y = tmo.getY();
                     if (keyCode == Input.Keys.DOWN) {
-                        tmo.setY(tmo.getY() - TILE_SIZE);
+                        if (isValidTile(x, y - TILE_SIZE) &&
+                            !containsObstacle(x, y - TILE_SIZE, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            tmo.setY(y - TILE_SIZE);
+                        }
                     } else if (keyCode == Input.Keys.LEFT) {
-                        tmo.setX(tmo.getX() - TILE_SIZE);
+                        if (isValidTile(x - TILE_SIZE, y) &&
+                            !containsObstacle(x - TILE_SIZE, y, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            tmo.setX(x - TILE_SIZE);
+                        }
                     } else if (keyCode == Input.Keys.RIGHT) {
-                        tmo.setX(tmo.getX() + TILE_SIZE);
+                        if (isValidTile(x + TILE_SIZE, y) &&
+                            !containsObstacle(x + TILE_SIZE, y, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            tmo.setX(x + TILE_SIZE);
+                        }
                     } else if (keyCode == Input.Keys.UP) {
-                        tmo.setY(tmo.getY() + TILE_SIZE);
+                        if (isValidTile(x, y + TILE_SIZE) &&
+                            !containsObstacle(x, y + TILE_SIZE, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            tmo.setY(y + TILE_SIZE);
+                        }
                     } else if (keyCode == Input.Keys.ENTER) {
-                        float x = tmo.getX();
-                        float y = tmo.getY();
                         buildingLayer = map.getLayers().get("Building layer");
                         TextureMapObject tmo2;
                         tmo2 = containsBuilding(x, y, buildingLayer);
@@ -121,16 +134,15 @@ public class GameScreen implements Screen{
         });
     }
 
-    private TextureMapObject containsObstacle(float x, float y, MapLayer layer) {
-        for (MapObject object : layer.getObjects()) {
-            if (object instanceof TextureMapObject) {
-                TextureMapObject tmo = (TextureMapObject)object;
-                if (tmo.getX() == x && tmo.getY() == y) {
-                    return tmo;
-                }
-            }
+    private boolean containsObstacle(float x, float y, TiledMapTileLayer layer) {
+        TiledMapTileLayer.Cell cell = layer.getCell((int)x, (int)y);
+        if (cell == null) {
+            return false;
+        } else if (cell.getTile() == null) {
+            return false;
+        } else {
+            return true;
         }
-        return null;
     }
 
     private TextureMapObject containsBuilding(float x, float y, MapLayer layer) {
@@ -150,7 +162,7 @@ public class GameScreen implements Screen{
         return null;
     }
 
-    private boolean isValidTile(int x, int y) {
+    private boolean isValidTile(float x, float y) {
         if (x >= 0 && y >= 0 && x <= TILE_SIZE * (WIDTH-1) && y <= TILE_SIZE * (HEIGHT-1)) {
             return true;
         } else {
@@ -194,8 +206,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'hide'");
+        dispose();
     }
 
     @Override
