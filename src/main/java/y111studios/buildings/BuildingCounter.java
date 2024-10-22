@@ -33,6 +33,16 @@ public class BuildingCounter {
     }
 
     /**
+     * Increments the count for the type of the building and the total count.
+     * 
+     * @param building The building to increment the type count for.
+     */
+    public void placeBuilding(Building building) {
+        BuildingType type = BuildingType.fromBuilding(building);
+        placeBuilding(type);
+    }
+
+    /**
      * Returns the count for the specified building type.
      * 
      * @param type The type of building to retrieve the count for.
