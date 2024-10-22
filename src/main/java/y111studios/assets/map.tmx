@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="3">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="3">
  <tileset firstgid="1" source="UniSimTiles.tsx"/>
+ <tileset firstgid="157" source="Obstacles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJwrZGBgKKIzLgbiOiDmpzNuGLV31N5Re0ftHbV31N5Re0eUvd1A3ENn3AvEAMkUTSk=
+   eJwrZGBgKKIzLgbiOiDmpzNuGLV31N5RewfEXhgYKfaOtPgdtXfU3sFsbzcQ99AZ9wIxAK1tTO0=
+  </data>
+ </layer>
+ <layer id="4" name="Obstacle layer" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzVsNgDAQBdGtMB4GoBVAAQXFAVhnKoLdkNxJ5vuYqT82JLORJ56Tn7tgrZy5OLoVa+eDT0e31/AuZ7N3Yz4B7hdlLgHuxjXAVUqpF/6xBvE=
   </data>
  </layer>
  <objectgroup id="2" name="Cursor layer"/>

@@ -82,21 +82,27 @@ public class GameScreen implements Screen{
                     } else if (keyCode == Input.Keys.UP) {
                         tmo.setY(tmo.getY() + TILE_SIZE);
                     } else if (keyCode == Input.Keys.ENTER) {
-                        Texture buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
-                        buildingLayer = map.getLayers().get("Building layer");
                         float x = tmo.getX();
                         float y = tmo.getY();
-                        //move the cursor before placing the building
-                        if (x > 0) {
-                            tmo.setX(x-TILE_SIZE);
+                        buildingLayer = map.getLayers().get("Building layer");
+                        TextureMapObject tmo2;
+                        tmo2 = containsBuilding(x, y, buildingLayer);
+                        if (tmo2 != null) {
+                            buildingLayer.getObjects().remove(tmo2);
                         } else {
-                            tmo.setX(x+(2*TILE_SIZE));
+                            Texture buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                            //move the cursor before placing the building
+                            if (x > 0) {
+                                tmo.setX(x-TILE_SIZE);
+                            } else {
+                                tmo.setX(x+(2*TILE_SIZE));
+                            }
+                            tmo2 = new TextureMapObject(new TextureRegion(buildingTexture, 64, 64));
+                            tmo2.setX(x);
+                            tmo2.setY(y);
+                            //create a building where the cursor was
+                            buildingLayer.getObjects().add(tmo2);
                         }
-                        TextureMapObject tmo2 = new TextureMapObject(new TextureRegion(buildingTexture, 64, 64));
-                        tmo2.setX(x);
-                        tmo2.setY(y);
-                        //create a building where the cursor was
-                        buildingLayer.getObjects().add(tmo2);
                     }
                 }
                 return true;
@@ -115,6 +121,43 @@ public class GameScreen implements Screen{
         });
     }
 
+    private TextureMapObject containsObstacle(float x, float y, MapLayer layer) {
+        for (MapObject object : layer.getObjects()) {
+            if (object instanceof TextureMapObject) {
+                TextureMapObject tmo = (TextureMapObject)object;
+                if (tmo.getX() == x && tmo.getY() == y) {
+                    return tmo;
+                }
+            }
+        }
+        return null;
+    }
+
+    private TextureMapObject containsBuilding(float x, float y, MapLayer layer) {
+        float xTile;
+        float yTile;
+        for (MapObject object : layer.getObjects()) {
+            if (object instanceof TextureMapObject) {
+                TextureMapObject tmo = (TextureMapObject)object;
+                xTile = tmo.getX();
+                yTile = tmo.getY();
+                if (xTile == x && yTile == y || xTile == x-TILE_SIZE && yTile == y ||
+                    xTile == x && yTile == y-TILE_SIZE || xTile == x-TILE_SIZE && yTile == y-TILE_SIZE) {
+                    return tmo;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isValidTile(int x, int y) {
+        if (x >= 0 && y >= 0 && x <= TILE_SIZE * (WIDTH-1) && y <= TILE_SIZE * (HEIGHT-1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 0);
@@ -125,8 +168,8 @@ public class GameScreen implements Screen{
         game.spritebatch.begin();
         renderer.setView(camera);
         //render the layers separately so the cursor remains visible
-        renderer.render(new int[]{0,2});
-        renderer.render(new int[]{1});
+        renderer.render(new int[]{0,1,3});
+        renderer.render(new int[]{2});
         game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
         game.spritebatch.end();
     }
