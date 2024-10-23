@@ -40,7 +40,7 @@ public class AssetLibrary {
      * smoother
      */
     private void preload(){
-        manager.load("src/main/java/y111studios/assets/monke.png", Texture.class);
+        manager.load("src/main/java/y111studios/assets/StartScreen.png", Texture.class);
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load("src/main/java/y111studios/assets/map.tmx", TiledMap.class);
         manager.load("src/main/java/y111studios/assets/Cursor.png", Texture.class);

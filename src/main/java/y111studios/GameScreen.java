@@ -28,6 +28,7 @@ public class GameScreen implements Screen{
     TiledMapRenderer renderer;
     MapLayer cursorLayer;
     MapLayer buildingLayer;
+    TiledMapTileLayer obstacleLayer;
 
     OrthographicCamera camera;
 
@@ -40,7 +41,7 @@ public class GameScreen implements Screen{
     public GameScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         camera.update();
         map = game.assetLib.manager.get("src/main/java/y111studios/assets/map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map) {
@@ -76,24 +77,25 @@ public class GameScreen implements Screen{
                     //moves the cursor by the size of a tile
                     float x = tmo.getX();
                     float y = tmo.getY();
+                    obstacleLayer = (TiledMapTileLayer)map.getLayers().get("Obstacle layer");
                     if (keyCode == Input.Keys.DOWN) {
                         if (isValidTile(x, y - TILE_SIZE) &&
-                            !containsObstacle(x, y - TILE_SIZE, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            !containsObstacle(x, y - TILE_SIZE, obstacleLayer)) {
                             tmo.setY(y - TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.LEFT) {
                         if (isValidTile(x - TILE_SIZE, y) &&
-                            !containsObstacle(x - TILE_SIZE, y, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            !containsObstacle(x - TILE_SIZE, y, obstacleLayer)) {
                             tmo.setX(x - TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.RIGHT) {
                         if (isValidTile(x + TILE_SIZE, y) &&
-                            !containsObstacle(x + TILE_SIZE, y, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            !containsObstacle(x + TILE_SIZE, y, obstacleLayer)) {
                             tmo.setX(x + TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.UP) {
                         if (isValidTile(x, y + TILE_SIZE) &&
-                            !containsObstacle(x, y + TILE_SIZE, (TiledMapTileLayer)map.getLayers().get("Obstacle layer"))) {
+                            !containsObstacle(x, y + TILE_SIZE, obstacleLayer)) {
                             tmo.setY(y + TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.ENTER) {
@@ -102,7 +104,9 @@ public class GameScreen implements Screen{
                         tmo2 = containsBuilding(x, y, buildingLayer);
                         if (tmo2 != null) {
                             buildingLayer.getObjects().remove(tmo2);
-                        } else {
+                        } else if (!containsObstacle(x, y + TILE_SIZE, obstacleLayer) &&
+                            !containsObstacle(x + TILE_SIZE, y, obstacleLayer) &&
+                            !containsObstacle(x + TILE_SIZE, y + TILE_SIZE, obstacleLayer)) {
                             Texture buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
                             //move the cursor before placing the building
                             if (x > 0) {
@@ -135,6 +139,8 @@ public class GameScreen implements Screen{
     }
 
     private boolean containsObstacle(float x, float y, TiledMapTileLayer layer) {
+        x /= TILE_SIZE;
+        y /= TILE_SIZE;
         TiledMapTileLayer.Cell cell = layer.getCell((int)x, (int)y);
         if (cell == null) {
             return false;

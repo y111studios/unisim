@@ -25,7 +25,7 @@ public class Main extends Game {
         assetLib.init();
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
-        Gdx.graphics.setWindowedMode(960, 640);
+        Gdx.graphics.setWindowedMode(640, 480);
         while (!assetLib.manager.update()) {
             continue;
         }

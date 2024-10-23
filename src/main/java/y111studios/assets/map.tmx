@@ -9,7 +9,7 @@
  </layer>
  <layer id="4" name="Obstacle layer" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJztzVsNgDAQBdGtMB4GoBVAAQXFAVhnKoLdkNxJ5vuYqT82JLORJ56Tn7tgrZy5OLoVa+eDT0e31/AuZ7N3Yz4B7hdlLgHuxjXAVUqpF/6xBvE=
+   eJztkl0NgDAMBjth/BiATQADFAwHmwJwAFo5E7QJ6SX3fPnSiuhyBpErKEfhpvkYdL+iY0uPA46KuyZaM0ZMit1Ma8UNd+U7FnqHwe9Umu0nPxsxGXQXzAZdx3GcF2r4CUs=
   </data>
  </layer>
  <objectgroup id="2" name="Cursor layer"/>

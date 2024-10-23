@@ -12,7 +12,7 @@ public class StartScreen extends ScreenAdapter {
 
     final Main game;
 
-    Texture monke;
+    Texture startScreen;
 
     OrthographicCamera camera;
     
@@ -24,8 +24,8 @@ public class StartScreen extends ScreenAdapter {
     public StartScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 960, 640);
-        monke = game.assetLib.manager.get("src/main/java/y111studios/assets/monke.png");
+        camera.setToOrtho(false, GameScreen.WIDTH * GameScreen.TILE_SIZE, GameScreen.HEIGHT * GameScreen.TILE_SIZE);
+        startScreen = game.assetLib.manager.get("src/main/java/y111studios/assets/StartScreen.png");
     }
 
     @Override
@@ -49,9 +49,7 @@ public class StartScreen extends ScreenAdapter {
         game.spritebatch.setProjectionMatrix(camera.combined);
 
         game.spritebatch.begin();
-        game.spritebatch.draw(monke, 0, 0);
-        game.font.draw(game.spritebatch, "UniSim", 100, 250);
-        game.font.draw(game.spritebatch, "Press space to begin", 100, 150);
+        game.spritebatch.draw(startScreen, 0, 0);
         game.spritebatch.end();
     }
 
