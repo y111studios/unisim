@@ -4,7 +4,7 @@
  <tileset firstgid="157" source="Obstacles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJwrZGBgKKIzLgbiOiDmpzNuGLV31N5RewfEXhgYKfaOtPgdtXfU3sFsbzcQ99AZ9wIxAK1tTO0=
+   eJwrZGBgKKIzLgbiOiDmpzNuGLV31N5RewfEXhgYKfaOtPgdtXfUXmLs7QbiHjrjXiAWGiAMAAKmTGc=
   </data>
  </layer>
  <layer id="4" name="Obstacle layer" width="30" height="20">

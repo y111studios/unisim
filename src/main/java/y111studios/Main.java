@@ -2,6 +2,7 @@ package y111studios;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -25,6 +26,8 @@ public class Main extends Game {
         assetLib.init();
         spritebatch = new SpriteBatch();
         font = new BitmapFont();
+        font.setColor(Color.BLACK);
+        font.getData().setScale(1.3f);
         Gdx.graphics.setWindowedMode(640, 480);
         while (!assetLib.manager.update()) {
             continue;

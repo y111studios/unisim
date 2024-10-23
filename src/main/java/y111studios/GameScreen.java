@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,6 +19,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen{
 
+    enum Building {
+        SLEEP,
+        LEARN,
+        EAT,
+        RECREATION
+    }
+
     static final int TILE_SIZE = 32;
     static final int WIDTH = 30;
     static final int HEIGHT = 20;
@@ -29,6 +37,9 @@ public class GameScreen implements Screen{
     MapLayer cursorLayer;
     MapLayer buildingLayer;
     TiledMapTileLayer obstacleLayer;
+
+    Building buildType = Building.SLEEP;
+    String time = "5:00";
 
     OrthographicCamera camera;
 
@@ -59,7 +70,7 @@ public class GameScreen implements Screen{
         //creates a 32x32 cursor
         TextureMapObject tmo = new TextureMapObject(new TextureRegion(cursorTexture, 32, 32));
         tmo.setX(0);
-        tmo.setY(0);
+        tmo.setY(64);
         cursorLayer.getObjects().add(tmo);
     }
 
@@ -72,6 +83,14 @@ public class GameScreen implements Screen{
                     dispose();//prevent memory leaks
                     Gdx.app.exit();
                     System.exit(-1);
+                } else if (keyCode == Input.Keys.NUM_1) {
+                    buildType = Building.SLEEP;
+                } else if (keyCode == Input.Keys.NUM_2) {
+                    buildType = Building.LEARN;
+                } else if (keyCode == Input.Keys.NUM_3) {
+                    buildType = Building.EAT;
+                } else if (keyCode == Input.Keys.NUM_4) {
+                    buildType = Building.RECREATION;
                 } else { 
                     TextureMapObject tmo = (TextureMapObject)map.getLayers().get("Cursor layer").getObjects().get(0);
                     //moves the cursor by the size of a tile
@@ -79,23 +98,19 @@ public class GameScreen implements Screen{
                     float y = tmo.getY();
                     obstacleLayer = (TiledMapTileLayer)map.getLayers().get("Obstacle layer");
                     if (keyCode == Input.Keys.DOWN) {
-                        if (isValidTile(x, y - TILE_SIZE) &&
-                            !containsObstacle(x, y - TILE_SIZE, obstacleLayer)) {
+                        if (isValidTile(x, y - TILE_SIZE, obstacleLayer)) {
                             tmo.setY(y - TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.LEFT) {
-                        if (isValidTile(x - TILE_SIZE, y) &&
-                            !containsObstacle(x - TILE_SIZE, y, obstacleLayer)) {
+                        if (isValidTile(x - TILE_SIZE, y, obstacleLayer)) {
                             tmo.setX(x - TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.RIGHT) {
-                        if (isValidTile(x + TILE_SIZE, y) &&
-                            !containsObstacle(x + TILE_SIZE, y, obstacleLayer)) {
+                        if (isValidTile(x + TILE_SIZE, y, obstacleLayer)) {
                             tmo.setX(x + TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.UP) {
-                        if (isValidTile(x, y + TILE_SIZE) &&
-                            !containsObstacle(x, y + TILE_SIZE, obstacleLayer)) {
+                        if (isValidTile(x, y + TILE_SIZE, obstacleLayer)) {
                             tmo.setY(y + TILE_SIZE);
                         }
                     } else if (keyCode == Input.Keys.ENTER) {
@@ -104,10 +119,26 @@ public class GameScreen implements Screen{
                         tmo2 = containsBuilding(x, y, buildingLayer);
                         if (tmo2 != null) {
                             buildingLayer.getObjects().remove(tmo2);
-                        } else if (!containsObstacle(x, y + TILE_SIZE, obstacleLayer) &&
-                            !containsObstacle(x + TILE_SIZE, y, obstacleLayer) &&
-                            !containsObstacle(x + TILE_SIZE, y + TILE_SIZE, obstacleLayer)) {
-                            Texture buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                        } else if (isValidTile(x, y + TILE_SIZE, obstacleLayer) &&
+                            isValidTile(x + TILE_SIZE, y, obstacleLayer) &&
+                            isValidTile(x + TILE_SIZE, y + TILE_SIZE, obstacleLayer)) {
+                            Texture buildingTexture;
+                            switch (buildType) {
+                                case SLEEP:
+                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    break;
+                                case LEARN:
+                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    break;
+                                case EAT:
+                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    break;
+                                case RECREATION:
+                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    break;
+                                default:
+                                    throw new IllegalStateException();
+                            }
                             //move the cursor before placing the building
                             if (x > 0) {
                                 tmo.setX(x-TILE_SIZE);
@@ -168,9 +199,9 @@ public class GameScreen implements Screen{
         return null;
     }
 
-    private boolean isValidTile(float x, float y) {
-        if (x >= 0 && y >= 0 && x <= TILE_SIZE * (WIDTH-1) && y <= TILE_SIZE * (HEIGHT-1)) {
-            return true;
+    private boolean isValidTile(float x, float y, TiledMapTileLayer layer) {
+        if (x >= 0 && y >= 64 && x <= TILE_SIZE * (WIDTH-1) && y <= TILE_SIZE * (HEIGHT-1)) {
+            return true && !(containsObstacle(x, y, layer));
         } else {
             return false;
         }
@@ -188,7 +219,31 @@ public class GameScreen implements Screen{
         //render the layers separately so the cursor remains visible
         renderer.render(new int[]{0,1,3});
         renderer.render(new int[]{2});
-        game.font.draw(game.spritebatch, "Press space to exit", 100, 150);
+        if (buildType == Building.SLEEP) {
+            game.font.setColor(Color.WHITE);
+        }
+        game.font.draw(game.spritebatch, "1 - Sleep", 300, 40);
+        if (buildType == Building.LEARN) {
+            game.font.setColor(Color.WHITE);
+        } else {
+            game.font.setColor(Color.BLACK);
+        }
+        game.font.draw(game.spritebatch, "2 - Learn", 400, 40);
+        if (buildType == Building.EAT) {
+            game.font.setColor(Color.WHITE);
+        } else {
+            game.font.setColor(Color.BLACK);
+        }
+        game.font.draw(game.spritebatch, "3 - Eat", 500, 40);
+        if (buildType == Building.RECREATION) {
+            game.font.setColor(Color.WHITE);
+        } else {
+            game.font.setColor(Color.BLACK);
+        }
+        game.font.draw(game.spritebatch, "4 - Recreation", 600, 40);
+        game.font.setColor(Color.BLACK);
+        game.font.draw(game.spritebatch, time, 100, 30);
+        game.font.draw(game.spritebatch, "Press space to exit", 400, 20);
         game.spritebatch.end();
     }
 
