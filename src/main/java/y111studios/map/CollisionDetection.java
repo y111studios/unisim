@@ -18,6 +18,12 @@ public class CollisionDetection {
      * @return true if the building can be placed at the specified location, false otherwise
      */
     public boolean canPlaceBuilding(int x, int y, int width, int height) {
+    	
+    	if (x < 0 || x > buildingGrid.length || y < 0 || y > buildingGrid.length) {
+    		return false;
+    	}
+    	
+    	
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
                 if ((buildingGrid[i][j]) == false) {
