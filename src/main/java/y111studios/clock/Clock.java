@@ -1,4 +1,4 @@
-package y111studios;
+package y111studios.clock;
 
 import java.time.Instant;
 import java.time.Duration;
