@@ -1,5 +1,7 @@
 package y111studios.buildings;
 
+import y111studios.position.GridPosition;
+
 /**
  * A manager class to maintain the buildings and the count of them.
  * <p>
@@ -72,6 +74,30 @@ public class BuildingManager {
         buildings[index] = building;
         counter.placeBuilding(building);
         return true;
+    }
+
+    /**
+     * Removes the building that contains the specified position.
+     * 
+     * <p>
+     * This method will remove the building that contains the specified position from the array of
+     * buildings and decrement the counter, returning true. If the position is null or no building
+     * contains the position, this method returns false and does nothing.
+     * </p>
+     * 
+     * @param position The position to remove
+     * @return if the building was successfully removed
+     */
+    public boolean removePosition(GridPosition position) {
+        if (position == null) {
+            return false;
+        }
+        for (int i = 0; i < getCount(); i++) {
+            if (buildings[i].contains(position)) {
+                return removeIndex(i);
+            }
+        }
+        return false;
     }
 
     /**

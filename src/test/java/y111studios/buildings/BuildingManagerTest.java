@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import y111studios.buildings.premade_variants.AccomodationVariant;
 import y111studios.position.GridPosition;
 
@@ -111,6 +114,20 @@ public class BuildingManagerTest {
         assertTrue(manager.isEmpty());
         pushToManager(1);
         assertFalse(manager.isEmpty());
+    }
+
+    @ParameterizedTest
+    @MethodSource("providePositionsAndResults")
+    void removePosition(GridPosition position, boolean result) {
+        pushToManager(1);
+        assertEquals(manager.removePosition(position), result);
+    }
+
+    static Stream<Arguments> providePositionsAndResults() {
+        return Stream.of(Arguments.of(null, false), Arguments.of(new GridPosition(0, 0), true),
+                Arguments.of(new GridPosition(1, 1), false),
+                Arguments.of(new GridPosition(1, 0), false),
+                Arguments.of(new GridPosition(0, 1), false));
     }
 
 }
