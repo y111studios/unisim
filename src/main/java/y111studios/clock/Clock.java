@@ -32,10 +32,12 @@ public class Clock {
     private Instant start;
 
     /**
-     * Initializes the clock with the current time.
+     * Initializes the clock to being initially paused.
      */
     public Clock() {
-        this(Instant.now());
+        this.totalDuration = Duration.ZERO;
+        this.paused = true;
+        this.start = null;
     }
 
     /**
