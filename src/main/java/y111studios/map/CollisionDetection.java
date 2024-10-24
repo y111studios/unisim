@@ -7,6 +7,9 @@ public class CollisionDetection {
     public CollisionDetection(int xSize, int ySize) {
         buildingGrid = new boolean[xSize][ySize];
     }
+    
+    
+    
 
     /**
      * Checks if a building can be placed on the terrain at the specified coordinates.
@@ -17,13 +20,39 @@ public class CollisionDetection {
      * @param height the height of the building
      * @return true if the building can be placed at the specified location, false otherwise
      */
+    
+     
+	  /**
+	   * Checks if a given building's values are valid
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return true if the building will have valid bounds if placed on the map, false otherwise
+	 */
+	private boolean boundChecker(int x, int y, int width, int height) {
+		
+		if (y > buildingGrid.length || x > buildingGrid[0].length) {
+			return false;
+			
+		}
+		else if (x + width > buildingGrid[0].length || y + height > buildingGrid.length ) {
+			
+			return false;
+			
+		}
+		else
+			return true;
+		
+    	
+    }
+    
+    
     public boolean canPlaceBuilding(int x, int y, int width, int height) {
     	
-    	if (x < 0 || x > buildingGrid.length || y < 0 || y > buildingGrid.length) {
+    	if (!boundChecker(x, y, width, height)) {
     		return false;
     	}
-    	
-    	
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
                 if ((buildingGrid[i][j]) == false) {
@@ -43,14 +72,16 @@ public class CollisionDetection {
      * @param width the width of the building
      * @param height the height of the building
      */
-    public void placeBuilding(int x, int y, int width, int height) {
+    public boolean placeBuilding(int x, int y, int width, int height) {
         if (canPlaceBuilding(x, y, width, height)) {
             for (int i = x; i < x + width; i++) {
                 for (int j = y; j < y + height; j++) {
                     buildingGrid[i][j] = false;
                 }
             }
-        }
+            return true;
+        } else
+        	return false;
     }
 
     /**
@@ -61,11 +92,15 @@ public class CollisionDetection {
      * @param width the width of the building
      * @param height the height of the building
      */
-    public void removeBuilding(int x, int y, int width, int height) {
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                buildingGrid[i][j] = true;
-            }
-        }
+    public boolean removeBuilding(int x, int y, int width, int height) {
+        if (canPlaceBuilding(x, y, width, height)) {
+			for (int i = x; i < x + width; i++) {
+				for (int j = y; j < y + height; j++) {
+					buildingGrid[i][j] = true;
+				}
+			}
+			return true;
+		} else
+			return false;
     }
 }
