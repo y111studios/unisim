@@ -1,7 +1,9 @@
 package y111studios;
 
+import java.time.Duration;
 import y111studios.buildings.BuildingManager;
 import y111studios.clock.Clock;
+import y111studios.clock.GameTimer;
 import y111studios.map.CollisionDetection;
 
 /**
@@ -13,9 +15,9 @@ import y111studios.map.CollisionDetection;
  * @see BuildingManager
  * @see CollisionDetection
  */
-public class GameState {
+public class GameState implements GameTimer {
 
-    Clock clock;
+    private GameTimer timer;
     BuildingManager buildingManager;
     CollisionDetection collisionDetection;
 
@@ -26,9 +28,36 @@ public class GameState {
      * @param height height of the game map
      */
     public GameState(int width, int height) {
-        clock = new Clock();
+        timer = new Clock();
         buildingManager = new BuildingManager();
         collisionDetection = new CollisionDetection(width, height);
+    }
+
+    // GameTimer methods
+
+    @Override
+    public boolean isPaused() {
+        return timer.isPaused();
+    }
+
+    @Override
+    public void pause() {
+        timer.pause();
+    }
+
+    @Override
+    public void resume() {
+        timer.resume();
+    }
+
+    @Override
+    public boolean isTimeUp() {
+        return timer.isTimeUp();
+    }
+
+    @Override
+    public Duration timeRemaining() {
+        return timer.timeRemaining();
     }
 
 }
