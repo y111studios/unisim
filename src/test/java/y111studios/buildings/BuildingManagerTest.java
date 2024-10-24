@@ -130,4 +130,12 @@ public class BuildingManagerTest {
                 Arguments.of(new GridPosition(0, 1), false));
     }
 
+    @Test
+    void getBuilding() {
+        pushToManager(1);
+
+        assertEquals(manager.getBuilding(ZERO), building);
+        assertEquals(manager.getBuilding(new GridPosition(1, 1)), null);
+    }
+
 }

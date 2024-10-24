@@ -1,5 +1,7 @@
 package y111studios.buildings;
 
+import java.util.OptionalInt;
+
 import y111studios.position.GridPosition;
 
 /**
@@ -49,6 +51,26 @@ public class BuildingManager {
     }
 
     /**
+     * Gets the building that contains the specified position.
+     * 
+     * <p>
+     * This method will return the building that contains the specified position. If no building
+     * contains the position, this method returns null. If the position is null, this method returns
+     * null.
+     * </p>
+     * 
+     * @param position The position to check
+     * @return The building that contains the specified position
+     */
+    public Building getBuilding(GridPosition position) {
+        OptionalInt index = indexContainingPosition(position);
+        if (index.isEmpty()) {
+            return null;
+        }
+        return buildings[index.getAsInt()];
+    }
+
+    /**
      * Pushes a building into the array of buildings.
      * <p>
      * This method will add the building to the array of buildings and increment the building
@@ -89,15 +111,35 @@ public class BuildingManager {
      * @return if the building was successfully removed
      */
     public boolean removePosition(GridPosition position) {
-        if (position == null) {
+        OptionalInt index = indexContainingPosition(position);
+        if (index.isEmpty()) {
             return false;
+        }
+        return removeIndex(index.getAsInt());
+    }
+
+    /**
+     * Returns the index of the building that contains the specified position.
+     * 
+     * <p>
+     * This method will return the index of the building that contains the specified position. If no
+     * building contains the position or the position is null, this method returns an empty
+     * OptionalInt.
+     * </p>
+     * 
+     * @param position The position to find the building for
+     * @return The index of the building that contains the specified position
+     */
+    private OptionalInt indexContainingPosition(GridPosition position) {
+        if (position == null) {
+            return OptionalInt.empty();
         }
         for (int i = 0; i < getCount(); i++) {
             if (buildings[i].contains(position)) {
-                return removeIndex(i);
+                return OptionalInt.of(i);
             }
         }
-        return false;
+        return OptionalInt.empty();
     }
 
     /**
