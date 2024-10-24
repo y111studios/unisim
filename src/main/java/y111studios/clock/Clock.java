@@ -7,25 +7,14 @@ import java.time.Duration;
  * A clock object to keep track of the time elapsed since its creation.
  * 
  * <p>
- * The clock has a maximum duration of 5 minutes (300 seconds). After this time has elapsed, the
- * clock will return true when the {@link #isTimeUp()} method is called.
+ * The clock implements the GameTimer interface so shares the maximum duration of
+ * {@value GameTimer#MAX_SECONDS} seconds. After this time has elapsed, the clock will return true
+ * when the {@link #isTimeUp()} method is called.
  * </p>
- * <h3>Fields</h3>
- * <ul>
- * <li>{@link #start} - The time at which the clock was created.</li>
- * </ul>
  * 
- * <h3>Constants</h3>
- * <ul>
- * <li>{@link #MAX_DURATION} - The maximum duration of the clock.</li>
- * </ul>
+ * @see GameTimer
  */
-public class Clock {
-
-    /**
-     * The maximum duration of the clock.
-     */
-    private final static Duration MAX_DURATION = Duration.ofSeconds(300);
+public class Clock implements GameTimer {
 
     private Duration totalDuration;
     private boolean paused;
@@ -50,6 +39,8 @@ public class Clock {
         this.paused = false;
         this.start = start;
     }
+
+    // Private helper methods
 
     /**
      * Gets a {@link Duration} representing the elapsed time since the clock was last started. If
@@ -77,11 +68,24 @@ public class Clock {
         return totalDuration.plusNanos(sessionTime.toNanos());
     }
 
+    // Public interface methods
+
+    /**
+     * Returns if the clock is paused.
+     * 
+     * @return True if the clock is paused, false otherwise.
+     */
+    @Override
+    public boolean isPaused() {
+        return paused;
+    }
+
     /**
      * Returns whether the maximum duration of the clock has been reached.
      * 
      * @return True if the maximum duration has been reached, false otherwise.
      */
+    @Override
     public boolean isTimeUp() {
         return totalElapsedTime().compareTo(MAX_DURATION) >= 0;
     }
@@ -91,6 +95,7 @@ public class Clock {
      * 
      * @return Duration representing the time remaining on the clock.
      */
+    @Override
     public Duration timeRemaining() {
         return MAX_DURATION.minus(totalElapsedTime());
     }
@@ -102,13 +107,15 @@ public class Clock {
      * If the clock is already paused, this method does nothing.
      * </p>
      */
+    @Override
     public void pause() {
-        if (!paused) {
-            Duration session = elapsedSessionTime();
-            totalDuration = totalDuration.plusNanos(session.toNanos());
-            paused = true;
-            start = null;
+        if (paused) {
+            return;
         }
+        Duration session = elapsedSessionTime();
+        totalDuration = totalDuration.plusNanos(session.toNanos());
+        paused = true;
+        start = null;
     }
 
     /**
@@ -118,11 +125,13 @@ public class Clock {
      * If the clock is not paused, this method does nothing.
      * </p>
      */
+    @Override
     public void resume() {
-        if (paused) {
-            start = Instant.now();
-            paused = false;
+        if (!paused) {
+            return;
         }
+        start = Instant.now();
+        paused = false;
     }
 
 }
