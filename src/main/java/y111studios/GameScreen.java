@@ -54,7 +54,7 @@ public class GameScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         camera.update();
-        map = game.assetLib.manager.get("src/main/java/y111studios/assets/map.tmx");
+        map = game.assetLib.manager.get("assets/map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map) {
             @Override
             public void renderObject(MapObject object) {
@@ -65,7 +65,7 @@ public class GameScreen implements Screen{
                 }
             }
         };
-        Texture cursorTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Cursor.png");
+        Texture cursorTexture = game.assetLib.manager.get("assets/Cursor.png");
         cursorLayer = map.getLayers().get("Cursor layer");
         //creates a 32x32 cursor
         TextureMapObject tmo = new TextureMapObject(new TextureRegion(cursorTexture, 32, 32));
@@ -125,16 +125,16 @@ public class GameScreen implements Screen{
                             Texture buildingTexture;
                             switch (buildType) {
                                 case SLEEP:
-                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    buildingTexture = game.assetLib.manager.get("assets/Building.png");
                                     break;
                                 case LEARN:
-                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    buildingTexture = game.assetLib.manager.get("assets/Building.png");
                                     break;
                                 case EAT:
-                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    buildingTexture = game.assetLib.manager.get("assets/Building.png");
                                     break;
                                 case RECREATION:
-                                    buildingTexture = game.assetLib.manager.get("src/main/java/y111studios/assets/Building.png");
+                                    buildingTexture = game.assetLib.manager.get("assets/Building.png");
                                     break;
                                 default:
                                     throw new IllegalStateException();

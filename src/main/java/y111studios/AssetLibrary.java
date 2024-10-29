@@ -26,7 +26,7 @@ public class AssetLibrary {
     }
 
     public void init(){
-        manager = new AssetManager();
+        manager = new AssetManager(new InternalFileHandleResolver());
         initialised = true;
         preload();
     }
@@ -40,11 +40,12 @@ public class AssetLibrary {
      * smoother
      */
     private void preload(){
-        manager.load("src/main/java/y111studios/assets/StartScreen.png", Texture.class);
+        manager.load("assets/StartScreen.png", Texture.class);
+        manager.finishLoading();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("src/main/java/y111studios/assets/map.tmx", TiledMap.class);
-        manager.load("src/main/java/y111studios/assets/Cursor.png", Texture.class);
-        manager.load("src/main/java/y111studios/assets/Building.png", Texture.class);
+        manager.load("assets/map.tmx", TiledMap.class);
+        manager.load("assets/Cursor.png", Texture.class);
+        manager.load("assets/Building.png", Texture.class);
         manager.finishLoading();
     }
 
