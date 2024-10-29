@@ -40,12 +40,11 @@ public class AssetLibrary {
      * smoother
      */
     private void preload(){
-        manager.load("assets/StartScreen.png", Texture.class);
-        manager.finishLoading();
+        manager.load(AssetPaths.START_SCREEN, Texture.class);
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("assets/map.tmx", TiledMap.class);
-        manager.load("assets/Cursor.png", Texture.class);
-        manager.load("assets/Building.png", Texture.class);
+        manager.load(AssetPaths.MAP, TiledMap.class);
+        manager.load(AssetPaths.CURSOR, Texture.class);
+        manager.load(AssetPaths.BUILDING, Texture.class);
         manager.finishLoading();
     }
 
