@@ -1,5 +1,7 @@
 package y111studios.map;
 
+import y111studios.position.GridArea;
+
 // 2D array - True = can build, False = can't build
 public class CollisionDetection {
     private boolean[][] buildingGrid;
@@ -29,6 +31,15 @@ public class CollisionDetection {
     }
 
     /**
+     * Checks if a building can be placed on the terrain in the given area.
+     *
+     * @param area the area to check
+     */
+    public boolean canPlaceBuilding(GridArea area) {
+        return canPlaceBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
+    }
+
+    /**
      * Attempts to place a building on the grid at the specified coordinates. If the building can be
      * placed, it marks the grid cells as occupied.
      *
@@ -48,6 +59,16 @@ public class CollisionDetection {
     }
 
     /**
+     * Attempts to place a building on the grid in the given area. If the build placed, it marks the
+     * grid cells as occupied.
+     *
+     * @param area the area to place the building
+     */
+    public void placeBuilding(GridArea area) {
+        placeBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
+    }
+
+    /**
      * Removes a building from the grid by setting the specified area to true.
      *
      * @param x the x-coordinate of the top-left corner of the building
@@ -61,5 +82,14 @@ public class CollisionDetection {
                 buildingGrid[i][j] = true;
             }
         }
+    }
+
+    /**
+     * Removes a building from the grid in the given area.
+     *
+     * @param area the area to remove the building from
+     */
+    public void removeBuilding(GridArea area) {
+        removeBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
     }
 }

@@ -22,9 +22,17 @@ public class GridArea {
         this.width = width;
         this.height = height;
     }
-
+    
     public GridArea(int x, int y, int width, int height) {
         this(new GridPosition(x, y), width, height);
+    }
+
+    public int getX() {
+        return origin.getX();
+    }
+
+    public int getY() {
+        return origin.getY();
     }
 
     /**
