@@ -25,7 +25,7 @@ public class StartScreen extends ScreenAdapter {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, GameScreen.WIDTH * GameScreen.TILE_SIZE, GameScreen.HEIGHT * GameScreen.TILE_SIZE);
-        startScreen = game.assetLib.manager.get("src/main/java/y111studios/assets/StartScreen.png");
+        startScreen = game.assetLib.manager.get(AssetPaths.START_SCREEN);
     }
 
     @Override
