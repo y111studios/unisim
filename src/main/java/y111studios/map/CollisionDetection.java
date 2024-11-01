@@ -11,15 +11,7 @@ public class CollisionDetection {
     
     
 
-    /**
-     * Checks if a building can be placed on the terrain at the specified coordinates.
-     *
-     * @param x the x-coordinate of the top-left corner of the building
-     * @param y the y-coordinate of the top-left corner of the building
-     * @param width the width of the building
-     * @param height the height of the building
-     * @return true if the building can be placed at the specified location, false otherwise
-     */
+    
     
      
 	  /**
@@ -39,15 +31,30 @@ public class CollisionDetection {
 		else if (x + width > buildingGrid[0].length || y + height > buildingGrid.length ) {
 			
 			return false;
-			
 		}
+		
+		else if(x <= 0 || y <= 0 || height <= 0 || width <= 0) {
+			return false;
+		}
+		
+		
+		
+		
 		else
 			return true;
 		
     	
     }
     
-    
+	/**
+     * Checks if a building can be placed on the terrain at the specified coordinates.
+     *
+     * @param x the x-coordinate of the top-left corner of the building
+     * @param y the y-coordinate of the top-left corner of the building
+     * @param width the width of the building
+     * @param height the height of the building
+     * @return true if the building can be placed at the specified location, false otherwise
+     */
     public boolean canPlaceBuilding(int x, int y, int width, int height) {
     	
     	if (!boundChecker(x, y, width, height)) {
@@ -55,7 +62,7 @@ public class CollisionDetection {
     	}
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
-                if ((buildingGrid[i][j]) == false) {
+                if (!(buildingGrid[i][j])) {
                     return false;
                 }
             }
