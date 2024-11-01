@@ -1,5 +1,6 @@
 package y111studios.buildings;
 
+import lombok.Getter;
 import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
@@ -9,7 +10,7 @@ import y111studios.position.GridPosition;
  */
 public abstract class MapObject {
 
-    protected GridArea area;
+    protected @Getter GridArea area;
 
     public MapObject(GridArea area) {
         if (area == null) {

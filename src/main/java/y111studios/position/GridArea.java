@@ -36,6 +36,24 @@ public class GridArea {
     }
 
     /**
+     * Gets the x-coordinate of the origin of this GridArea.
+     * 
+     * @return the x-coordinate of the origin
+     */
+    public int getX() {
+        return origin.getX();
+    }
+
+    /**
+     * Gets the y-coordinate of the origin of this GridArea.
+     * 
+     * @return the y-coordinate of the origin
+     */
+    public int getY() {
+        return origin.getY();
+    }
+
+    /**
      * Checks if the specified GridPosition is within this GridArea.
      * 
      * <p>
