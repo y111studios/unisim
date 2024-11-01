@@ -1,12 +1,24 @@
 package y111studios.position;
 
 import lombok.Getter;
+import y111studios.utils.IntRange;
 
 public class GridArea {
 
     private @Getter GridPosition origin;
     private @Getter int width;
     private @Getter int height;
+
+    /**
+     * The continuous range of x-coordinates that are within this GridArea. This field is
+     * lazily-initialised with the first call to {@link #getXRange()}.
+     */
+    private IntRange xRange = null;
+    /**
+     * The continuous range of y-coordinates that are within this GridArea. This field is
+     * lazily-initialised with the first call to {@link #getYRange()}.
+     */
+    private IntRange yRange = null;
 
     public GridArea(GridPosition origin, int width, int height) {
         if (origin == null) {
@@ -22,7 +34,7 @@ public class GridArea {
         this.width = width;
         this.height = height;
     }
-    
+
     public GridArea(int x, int y, int width, int height) {
         this(new GridPosition(x, y), width, height);
     }
@@ -61,18 +73,49 @@ public class GridArea {
         if (other == null) {
             return false;
         }
-        GridPosition end = getEndPosition();
-        return other.getX() >= origin.getX() && other.getX() < end.getX()
-                && other.getY() >= origin.getY() && other.getY() < end.getY();
+        return getXRange().contains(other.getX()) && getYRange().contains(other.getY());
     }
 
     /**
-     * Gets the GridPosition for the bottom-right corner of this area.
+     * Returns the range of x-coordinates that are within the GridArea.
      * 
-     * @return GridPosition representing the opposite corner to the origin
+     * @return the range of x-coordinates
      */
-    private GridPosition getEndPosition() {
-        return new GridPosition(origin.getX() + width, origin.getY() + height);
+    public IntRange getXRange() {
+        if (xRange == null) {
+            xRange = calculateXRange();
+        }
+        return xRange;
+    }
+
+    /**
+     * Returns the range of y-coordinates that are within the GridArea.
+     * 
+     * @return the range of y-coordinates
+     */
+    public IntRange getYRange() {
+        if (yRange == null) {
+            yRange = calculateYRange();
+        }
+        return yRange;
+    }
+
+    /**
+     * Returns a new instance of IntRange that represents the x-coordinates of this GridArea.
+     * 
+     * @return the range of x-coordinates
+     */
+    private IntRange calculateXRange() {
+        return new IntRange(origin.getX(), origin.getX() + width);
+    }
+
+    /**
+     * Returns a new instance of IntRange that represents the y-coordinates of this GridArea.
+     * 
+     * @return the range of y-coordinates
+     */
+    private IntRange calculateYRange() {
+        return new IntRange(origin.getY(), origin.getY() + height);
     }
 
 }
