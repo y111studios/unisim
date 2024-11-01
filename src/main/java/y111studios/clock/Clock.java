@@ -17,7 +17,6 @@ import java.time.Duration;
 public class Clock implements GameTimer {
 
     private Duration totalDuration;
-    private boolean paused;
     private Instant start;
 
     /**
@@ -25,7 +24,6 @@ public class Clock implements GameTimer {
      */
     public Clock() {
         this.totalDuration = Duration.ZERO;
-        this.paused = true;
         this.start = null;
     }
 
@@ -36,7 +34,6 @@ public class Clock implements GameTimer {
      */
     Clock(Instant start) {
         this.totalDuration = Duration.ZERO;
-        this.paused = false;
         this.start = start;
     }
 
@@ -50,7 +47,7 @@ public class Clock implements GameTimer {
      */
     private Duration elapsedSessionTime() {
         Instant now = Instant.now();
-        if (paused) {
+        if (isPaused()) {
             return Duration.ZERO;
         } else {
             return Duration.between(start, now);
@@ -77,7 +74,7 @@ public class Clock implements GameTimer {
      */
     @Override
     public boolean isPaused() {
-        return paused;
+        return start == null;
     }
 
     /**
@@ -109,12 +106,11 @@ public class Clock implements GameTimer {
      */
     @Override
     public void pause() {
-        if (paused) {
+        if (isPaused()) {
             return;
         }
         Duration session = elapsedSessionTime();
         totalDuration = totalDuration.plusNanos(session.toNanos());
-        paused = true;
         start = null;
     }
 
@@ -127,11 +123,10 @@ public class Clock implements GameTimer {
      */
     @Override
     public void resume() {
-        if (!paused) {
+        if (!isPaused()) {
             return;
         }
         start = Instant.now();
-        paused = false;
     }
 
 }
