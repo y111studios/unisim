@@ -27,14 +27,6 @@ public class GridArea {
         this(new GridPosition(x, y), width, height);
     }
 
-    public int getX() {
-        return origin.getX();
-    }
-
-    public int getY() {
-        return origin.getY();
-    }
-
     /**
      * Gets the x-coordinate of the origin of this GridArea.
      * 
