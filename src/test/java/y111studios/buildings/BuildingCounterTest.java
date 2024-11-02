@@ -77,6 +77,44 @@ public class BuildingCounterTest {
     }
 
     /**
+     * Tests the removal of buildings and verifies that the counts are updated
+     * correctly.
+     */
+    @Test
+    void testRemoveBuilding() {
+
+        buildingCounter.placeBuilding(BuildingType.ACCOMMODATION);
+        buildingCounter.placeBuilding(BuildingType.CATERING);
+        buildingCounter.placeBuilding(BuildingType.RECREATION);
+        buildingCounter.placeBuilding(BuildingType.TEACHING);
+    
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.ACCOMMODATION));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.CATERING));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.TEACHING));
+        assertEquals(4, buildingCounter.getTotalCount());
+
+        // Remove some buildings
+        buildingCounter.removeBuilding(BuildingType.ACCOMMODATION);
+        buildingCounter.removeBuilding(BuildingType.CATERING);
+    
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.ACCOMMODATION));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.CATERING));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(1, buildingCounter.getBuildingCount(BuildingType.TEACHING));
+        assertEquals(2, buildingCounter.getTotalCount());
+
+        // Remove the remaining buildings
+        buildingCounter.removeBuilding(BuildingType.RECREATION);
+        buildingCounter.removeBuilding(BuildingType.TEACHING);
+    
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.RECREATION));
+        assertEquals(0, buildingCounter.getBuildingCount(BuildingType.TEACHING));
+        assertEquals(0, buildingCounter.getTotalCount());
+
+    }
+
+    /**
      * Tests the reset functionality of the counter by placing some buildings, and
      * then resetting the counter and verifying that all counts return to zero.
      */
