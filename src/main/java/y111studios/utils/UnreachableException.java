@@ -8,8 +8,16 @@ public class UnreachableException extends RuntimeException {
         super(DEFAULT_MESSAGE + ".");
     }
 
+    public UnreachableException(Throwable cause) {
+        super(DEFAULT_MESSAGE + ".", cause);
+    }
+
     public UnreachableException(String message) {
         super(String.format("%s : %s", DEFAULT_MESSAGE, message));
+    }
+
+    public UnreachableException(String message, Throwable cause) {
+        super(String.format("%s : %s", DEFAULT_MESSAGE, message), cause);
     }
 
 }
