@@ -1,57 +1,42 @@
 package y111studios.map;
 
-// 2D array - True = can build, False = can't build
+// 2D array - True = tile occupied, False = tile empty
 public class CollisionDetection {
     private boolean[][] buildingGrid;
 
     public CollisionDetection(int xSize, int ySize) {
         buildingGrid = new boolean[xSize][ySize];
     }
-    
-    private int getLength() {
-    	return buildingGrid.length;
-    }
+
     private int getWidth() {
-    	return buildingGrid[0].length;
+        return buildingGrid.length;
     }
-    
-    
-    
-	 /**
-	   * Checks if a given building's values are valid
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @return true if the building will have valid bounds if placed on the map, false otherwise
-	 */
-	private boolean boundChecker(int x, int y, int width, int height) {
-		
-		
-		
-		if (y > this.getWidth() || x > this.getLength()) {
-			return false;
-			
-		}
-		else if (x + width > this.getLength() || y + height > this.getWidth() ) {
-			
-			return false;
-		}
-		
-		else if(x <= -1 || y <= -1 || height <= 0 || width <= 0) {
-			return false;
-		}
-		
-		
-		
-		
-		else
-			return true;
-		
-    	
+
+    private int getHeight() {
+        return buildingGrid[0].length;
     }
-    
-	/**
+
+    /**
+     * Checks if a given building's values are valid
+     * 
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return true if the building will have valid bounds if placed on the map, false otherwise
+     */
+    private boolean boundChecker(int x, int y, int width, int height) {
+        if (y > this.getHeight() || x > this.getWidth()) {
+            return false;
+        } else if (x + width > this.getWidth() || y + height > this.getHeight()) {
+            return false;
+        } else if (x < 0 || y < 0 || height <= 0 || width <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Checks if a building can be placed on the terrain at the specified coordinates.
      *
      * @param x the x-coordinate of the top-left corner of the building
@@ -61,13 +46,12 @@ public class CollisionDetection {
      * @return true if the building can be placed at the specified location, false otherwise
      */
     public boolean canPlaceBuilding(int x, int y, int width, int height) {
-    	
-    	if (!boundChecker(x, y, width, height)) {
-    		return false;
-    	}
+        if (!boundChecker(x, y, width, height)) {
+            return false;
+        }
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
-                if (!(buildingGrid[i][j])) {
+                if (buildingGrid[i][j]) {
                     return false;
                 }
             }
@@ -85,15 +69,15 @@ public class CollisionDetection {
      * @param height the height of the building
      */
     public boolean placeBuilding(int x, int y, int width, int height) {
-        if (canPlaceBuilding(x, y, width, height)) {
-            for (int i = x; i < x + width; i++) {
-                for (int j = y; j < y + height; j++) {
-                    buildingGrid[i][j] = false;
-                }
+        if (!canPlaceBuilding(x, y, width, height)) {
+            return false;
+        }
+        for (int i = x; i < x + width; i++) {
+            for (int j = y; j < y + height; j++) {
+                buildingGrid[i][j] = false;
             }
-            return true;
-        } else
-        	return false;
+        }
+        return true;
     }
 
     /**
@@ -105,14 +89,14 @@ public class CollisionDetection {
      * @param height the height of the building
      */
     public boolean removeBuilding(int x, int y, int width, int height) {
-        if (canPlaceBuilding(x, y, width, height)) {
-			for (int i = x; i < x + width; i++) {
-				for (int j = y; j < y + height; j++) {
-					buildingGrid[i][j] = true;
-				}
-			}
-			return true;
-		} else
-			return false;
+        if (!canPlaceBuilding(x, y, width, height)) {
+            return false;
+        }
+        for (int i = x; i < x + width; i++) {
+            for (int j = y; j < y + height; j++) {
+                buildingGrid[i][j] = true;
+            }
+        }
+        return true;
     }
 }
