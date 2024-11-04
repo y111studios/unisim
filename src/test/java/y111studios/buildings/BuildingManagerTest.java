@@ -19,7 +19,7 @@ public class BuildingManagerTest {
 
     final static GridPosition ZERO = new GridPosition(0, 0);
     final static Building building =
-            BuildingFactory.createAccomodationBuilding(AccomodationVariant.SMALL_HOUSE, ZERO);
+            BuildingFactory.createBuilding(AccomodationVariant.SMALL_HOUSE, ZERO);
 
     @BeforeEach
     void setUp() {

@@ -13,7 +13,7 @@ public final class BuildingFactory {
         // Prevent instatiation of Factory class
     }
 
-    public static AccomodationBuilding createAccomodationBuilding(AccomodationVariant variant,
+    public static AccomodationBuilding createBuilding(AccomodationVariant variant,
             GridPosition position) {
         if (variant == null) {
             throw new IllegalArgumentException("AccomodationVariant must not be null");
@@ -25,7 +25,7 @@ public final class BuildingFactory {
         return new AccomodationBuilding(area);
     }
 
-    public static CateringBuilding createCateringBuilding(CateringVariant variant,
+    public static CateringBuilding createBuilding(CateringVariant variant,
             GridPosition position) {
         if (variant == null) {
             throw new IllegalArgumentException("CateringVariant must not be null");
@@ -37,7 +37,7 @@ public final class BuildingFactory {
         return new CateringBuilding(area);
     }
 
-    public static RecreationBuilding createRecreationBuilding(RecreationVariant variant,
+    public static RecreationBuilding createBuilding(RecreationVariant variant,
             GridPosition position) {
         if (variant == null) {
             throw new IllegalArgumentException("RecreationVariant must not be null");
@@ -49,7 +49,7 @@ public final class BuildingFactory {
         return new RecreationBuilding(area);
     }
 
-    public static TeachingBuilding createTeachingBuilding(TeachingVariant variant,
+    public static TeachingBuilding createBuilding(TeachingVariant variant,
             GridPosition position) {
         if (variant == null) {
             throw new IllegalArgumentException("RecreationVariant must not be null");
