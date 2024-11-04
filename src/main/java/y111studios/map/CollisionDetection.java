@@ -8,13 +8,16 @@ public class CollisionDetection {
         buildingGrid = new boolean[xSize][ySize];
     }
     
+    private int getLength() {
+    	return buildingGrid.length;
+    }
+    private int getWidth() {
+    	return buildingGrid[0].length;
+    }
     
     
-
     
-    
-     
-	  /**
+	 /**
 	   * Checks if a given building's values are valid
 	 * @param x
 	 * @param y
@@ -24,16 +27,18 @@ public class CollisionDetection {
 	 */
 	private boolean boundChecker(int x, int y, int width, int height) {
 		
-		if (y > buildingGrid.length || x > buildingGrid[0].length) {
+		
+		
+		if (y > this.getWidth() || x > this.getLength()) {
 			return false;
 			
 		}
-		else if (x + width > buildingGrid[0].length || y + height > buildingGrid.length ) {
+		else if (x + width > this.getLength() || y + height > this.getWidth() ) {
 			
 			return false;
 		}
 		
-		else if(x <= 0 || y <= 0 || height <= 0 || width <= 0) {
+		else if(x <= -1 || y <= -1 || height <= 0 || width <= 0) {
 			return false;
 		}
 		
