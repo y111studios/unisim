@@ -1,6 +1,7 @@
 package y111studios.buildings.premade_variants;
 
-import lombok.Getter;
+import y111studios.buildings.AccomodationBuilding;
+import y111studios.buildings.Building;
 
 /**
  * An enum representing the different predefined variants of accomodation buildings. Each variant
@@ -28,15 +29,32 @@ import lombok.Getter;
  * <li>{@link #SMALL_HOUSE SMALL_HOUSE}</li>
  * </ul>
  */
-public enum AccomodationVariant {
+public enum AccomodationVariant implements VariantProperties {
     SMALL_HOUSE(1, 1);
 
-    private final @Getter int width;
-    private final @Getter int height;
+    private final static Class<? extends Building> buildingClass = AccomodationBuilding.class;
+
+    private final int width;
+    private final int height;
 
     AccomodationVariant(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public Class<? extends Building> getBuildingClass() {
+        return buildingClass;
     }
 
 }

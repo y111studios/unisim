@@ -1,6 +1,7 @@
 package y111studios.buildings.premade_variants;
 
-import lombok.Getter;
+import y111studios.buildings.RecreationBuilding;
+import y111studios.buildings.Building;
 
 /**
  * An enum representing the different predefined variants of recreation buildings. Each variant has
@@ -28,15 +29,32 @@ import lombok.Getter;
  * <li>{@link #PARK PARK}</li>
  * </ul>
  */
-public enum RecreationVariant {
+public enum RecreationVariant implements VariantProperties {
     PARK(2, 2);
 
-    private final @Getter int width;
-    private final @Getter int height;
+    private final static Class<? extends Building> buildingClass = RecreationBuilding.class;
+
+    private final int width;
+    private final int height;
 
     RecreationVariant(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public Class<? extends Building> getBuildingClass() {
+        return buildingClass;
     }
 
 }
