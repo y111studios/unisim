@@ -12,7 +12,7 @@ import y111studios.position.GridPosition;
 public class AccomodationBuilding extends Building {
 
     public AccomodationBuilding(GridPosition position, AccomodationVariant variant) {
-        super(position, variant.getWidth(), variant.getHeight());
+        super(position, variant);
     }
 
 }

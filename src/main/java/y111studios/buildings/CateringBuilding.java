@@ -12,7 +12,7 @@ import y111studios.position.GridPosition;
 public class CateringBuilding extends Building {
 
     public CateringBuilding(GridPosition position, CateringVariant variant) {
-        super(position, variant.getWidth(), variant.getHeight());
+        super(position, variant);
     }
 
 }

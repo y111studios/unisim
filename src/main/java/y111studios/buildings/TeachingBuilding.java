@@ -12,7 +12,7 @@ import y111studios.position.GridPosition;
 public class TeachingBuilding extends Building {
 
     public TeachingBuilding(GridPosition position, TeachingVariant variant) {
-        super(position, variant.getWidth(), variant.getHeight());
+        super(position, variant);
     }
 
 }

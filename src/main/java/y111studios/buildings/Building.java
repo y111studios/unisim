@@ -1,5 +1,6 @@
 package y111studios.buildings;
 
+import y111studios.buildings.premade_variants.VariantProperties;
 import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
@@ -16,6 +17,10 @@ public abstract class Building extends MapObject {
 
     protected Building(GridPosition position, int width, int height) {
         this(new GridArea(position, width, height));
+    }
+
+    protected <V extends Enum<V> & VariantProperties> Building(GridPosition position, V variant) {
+        this(position, variant.getWidth(), variant.getHeight());
     }
 
 }

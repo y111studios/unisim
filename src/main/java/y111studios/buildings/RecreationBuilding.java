@@ -12,7 +12,7 @@ import y111studios.position.GridPosition;
 public class RecreationBuilding extends Building {
 
     public RecreationBuilding(GridPosition position, RecreationVariant variant) {
-        super(position, variant.getWidth(), variant.getHeight());
+        super(position, variant);
     }
 
 }
