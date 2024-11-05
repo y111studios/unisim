@@ -57,4 +57,9 @@ public enum AccomodationVariant implements VariantProperties {
         return buildingClass;
     }
 
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return AccomodationVariant.class;
+    }
+
 }

@@ -57,4 +57,9 @@ public enum RecreationVariant implements VariantProperties {
         return buildingClass;
     }
 
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return RecreationVariant.class;
+    }
+
 }

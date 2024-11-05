@@ -9,7 +9,6 @@ import y111studios.buildings.premade_variants.VariantProperties;
 import y111studios.buildings.premade_variants.CateringVariant;
 import y111studios.buildings.premade_variants.RecreationVariant;
 import y111studios.buildings.premade_variants.TeachingVariant;
-import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 import y111studios.utils.UnreachableException;
 
@@ -21,23 +20,24 @@ public final class BuildingFactory {
 
     /**
      * A map of the constructors for each building class. The key is the class of the building and
-     * the value is the constructor of the building. The constructor used takes a {@Link GridArea}
-     * as an argument but can be adjusted to use a different constructor by modifying the
-     * implementation of the {@link #tryRegisterConstructor(Class)} method.
+     * the value is the constructor of the building.
+     * 
+     * @see #tryRegisterConstructor(Class)
      */
-    private static final Map<Class<? extends Building>, Constructor<? extends Building>> CONSTRUCTORS;
+    private static final Map<Class<? extends Enum<?>>, Constructor<? extends Building>> CONSTRUCTORS;
 
     /**
-     * At startup, try to register the constructors of the building classes. This is done to ensure
-     * that the constructors are correctly defined at the start rather than during runtime.
+     * At startup, try to register the constructors of the building classes using each variant. This
+     * is done to ensure that the constructors are correctly defined at the start rather than during
+     * runtime.
      */
     static {
         CONSTRUCTORS = new HashMap<>(4);
         try {
-            tryRegisterConstructor(AccomodationVariant.values()[0].getBuildingClass());
-            tryRegisterConstructor(CateringVariant.values()[0].getBuildingClass());
-            tryRegisterConstructor(RecreationVariant.values()[0].getBuildingClass());
-            tryRegisterConstructor(TeachingVariant.values()[0].getBuildingClass());
+            tryRegisterConstructor(AccomodationVariant.class);
+            tryRegisterConstructor(CateringVariant.class);
+            tryRegisterConstructor(RecreationVariant.class);
+            tryRegisterConstructor(TeachingVariant.class);
         } catch (UnreachableException e) {
             // This should not happen, as the constructors should be defined in the classes
             e.printStackTrace();
@@ -46,19 +46,24 @@ public final class BuildingFactory {
     }
 
     /**
-     * Try to register the constructor of the building class. This is done to ensure that each
-     * building class has a constructor that takes a {@Link GridArea} as an argument. If the
-     * constructor is not defined, an exception is thrown.
+     * Try to register the constructor of the building class attached to the variant. This is done
+     * to ensure that each building class has a constructor that takes a {@Link GridPosition} and
+     * variant class as arguments. If the constructor is not defined, an exception is thrown.
      * 
      * @param buildingClass the subclass of {@link Building} to register the constructor for
      * 
      * @throws UnreachableException if the constructor is not defined in the class
      */
-    private static void tryRegisterConstructor(Class<? extends Building> buildingClass) {
+    private static <V extends Enum<V> & VariantProperties> void tryRegisterConstructor(
+            Class<V> variantClass) {
+        // Get the first variant of the variant class
+        V variantInstance = variantClass.getEnumConstants()[0];
+        // Get the building class from the variant class
+        Class<? extends Building> buildingClass = variantInstance.getBuildingClass();
         Constructor<? extends Building> constructor;
         try {
             // Get the constructor of the building class
-            constructor = buildingClass.getConstructor(GridArea.class);
+            constructor = buildingClass.getConstructor(GridPosition.class, variantClass);
         } catch (NoSuchMethodException e) {
             // This should not happen, as the constructor should be defined in the class
             throw new UnreachableException("Constructor undefined", e);
@@ -68,7 +73,7 @@ public final class BuildingFactory {
             throw new UnreachableException("Constructor cannot be accessed", e);
         }
         // Register the constructor to the map
-        CONSTRUCTORS.put(buildingClass, constructor);
+        CONSTRUCTORS.put(variantClass, constructor);
     }
 
     /**
@@ -95,12 +100,10 @@ public final class BuildingFactory {
             throw new IllegalArgumentException("GridPosition must not be null");
         }
         // Get the appropriate constructor for the building class
-        Constructor<? extends Building> constructor = CONSTRUCTORS.get(variant.getBuildingClass());
-        // Generate the area for the constructor argument
-        GridArea area = new GridArea(position, variant.getWidth(), variant.getHeight());
+        Constructor<? extends Building> constructor = CONSTRUCTORS.get(variant.getVariantClass());
         try {
             // Return the new instance of the Building
-            return constructor.newInstance(area);
+            return constructor.newInstance(position, variant);
         } catch (Exception e) {
             // This should not happen, as the constructor should be defined in the class
             e.printStackTrace();

@@ -56,4 +56,10 @@ public enum TeachingVariant implements VariantProperties {
     public Class<? extends Building> getBuildingClass() {
         return buildingClass;
     }
+
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return TeachingVariant.class;
+    }
+
 }

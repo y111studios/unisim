@@ -56,4 +56,10 @@ public enum CateringVariant implements VariantProperties {
     public Class<? extends Building> getBuildingClass() {
         return buildingClass;
     }
+
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return CateringVariant.class;
+    }
+
 }

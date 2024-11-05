@@ -8,4 +8,6 @@ public interface VariantProperties{
     int getHeight();
 
     Class<? extends Building> getBuildingClass();
+
+    Class<? extends Enum<?>> getVariantClass();
 }
