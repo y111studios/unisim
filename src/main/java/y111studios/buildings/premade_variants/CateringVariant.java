@@ -1,8 +1,5 @@
 package y111studios.buildings.premade_variants;
 
-import y111studios.buildings.CateringBuilding;
-import y111studios.buildings.Building;
-
 /**
  * An enum representing the different predefined variants of catering buildings. Each variant has
  * contains these fields:
@@ -32,8 +29,6 @@ import y111studios.buildings.Building;
 public enum CateringVariant implements VariantProperties {
     FAST_FOOD(2, 1);
 
-    private final static Class<? extends Building> buildingClass = CateringBuilding.class;
-
     private final int width;
     private final int height;
 
@@ -50,11 +45,6 @@ public enum CateringVariant implements VariantProperties {
     @Override
     public int getHeight() {
         return height;
-    }
-
-    @Override
-    public Class<? extends Building> getBuildingClass() {
-        return buildingClass;
     }
 
     @Override

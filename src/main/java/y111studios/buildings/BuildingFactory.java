@@ -34,10 +34,10 @@ public final class BuildingFactory {
     static {
         CONSTRUCTORS = new HashMap<>(4);
         try {
-            tryRegisterConstructor(AccomodationVariant.class);
-            tryRegisterConstructor(CateringVariant.class);
-            tryRegisterConstructor(RecreationVariant.class);
-            tryRegisterConstructor(TeachingVariant.class);
+            tryRegisterConstructor(AccomodationVariant.class, AccomodationBuilding.class);
+            tryRegisterConstructor(CateringVariant.class, CateringBuilding.class);
+            tryRegisterConstructor(RecreationVariant.class, RecreationBuilding.class);
+            tryRegisterConstructor(TeachingVariant.class, TeachingBuilding.class);
         } catch (UnreachableException e) {
             // This should not happen, as the constructors should be defined in the classes
             e.printStackTrace();
@@ -50,16 +50,14 @@ public final class BuildingFactory {
      * to ensure that each building class has a constructor that takes a {@Link GridPosition} and
      * variant class as arguments. If the constructor is not defined, an exception is thrown.
      * 
+     * @param <V> the type of the variant
+     * @param variantClass the class of the variant to register the constructor for
      * @param buildingClass the subclass of {@link Building} to register the constructor for
      * 
      * @throws UnreachableException if the constructor is not defined in the class
      */
     private static <V extends Enum<V> & VariantProperties> void tryRegisterConstructor(
-            Class<V> variantClass) {
-        // Get the first variant of the variant class
-        V variantInstance = variantClass.getEnumConstants()[0];
-        // Get the building class from the variant class
-        Class<? extends Building> buildingClass = variantInstance.getBuildingClass();
+            Class<V> variantClass, Class<? extends Building> buildingClass) {
         Constructor<? extends Building> constructor;
         try {
             // Get the constructor of the building class
