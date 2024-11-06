@@ -22,9 +22,9 @@ public final class BuildingFactory {
      * A map of the constructors for each building class. The key is the class of the building and
      * the value is the constructor of the building.
      * 
-     * @see #tryRegisterConstructor(Class)
+     * @see #tryRegisterConstructor(Class, Class)
      */
-    private static final Map<Class<? extends Enum<?>>, Constructor<? extends Building>> CONSTRUCTORS;
+    private static final Map<Class<? extends VariantProperties>, Constructor<? extends Building>> CONSTRUCTORS;
 
     /**
      * At startup, try to register the constructors of the building classes using each variant. This
