@@ -2,6 +2,7 @@ package y111studios.map;
 
 // 2D array - True = tile occupied, False = tile empty
 import y111studios.position.GridArea;
+import y111studios.position.GridPosition;
 
 public class CollisionDetection {
     private boolean[][] buildingGrid;
@@ -22,6 +23,10 @@ public class CollisionDetection {
         return mapArea.contains(area);
     }
 
+    private boolean withinBounds(GridPosition position) {
+        return mapArea.contains(position);
+    }
+
     /**
      * Checks if a building can be placed on the terrain in the given area.
      *
@@ -39,6 +44,13 @@ public class CollisionDetection {
             }
         }
         return true;
+    }
+
+    public boolean canPlaceBuilding(GridPosition position) {
+        if (!withinBounds(position)) {
+            return false;
+        }
+        return buildingGrid[position.getX()][position.getY()];
     }
 
     /**

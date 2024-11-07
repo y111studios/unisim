@@ -7,7 +7,6 @@ import y111studios.buildings.BuildingManager;
 import y111studios.clock.Clock;
 import y111studios.clock.GameTimer;
 import y111studios.map.CollisionDetection;
-import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
 /**
@@ -44,7 +43,7 @@ public class GameState implements GameTimer, BuildingController {
         if (position == null) {
             return null;
         }
-        if (collisionDetection.canPlaceBuilding(new GridArea(position, 1, 1))) {
+        if (collisionDetection.canPlaceBuilding(position)) {
             return null;
         }
         return this.buildingManager.getBuilding(position);
@@ -74,7 +73,7 @@ public class GameState implements GameTimer, BuildingController {
             return false;
         }
         // Check if the origin point is used
-        if (collisionDetection.canPlaceBuilding(new GridArea(position, 1, 1))) {
+        if (collisionDetection.canPlaceBuilding(position)) {
             return false;
         }
         // Get building being removed
