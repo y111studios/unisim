@@ -215,8 +215,8 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.begin();
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
         objects.forEach( (o) -> {
-            int x = 129 + o.x * 32 - camera.x;
-            int y = -1343 + (o.x - 2 * o.y - o.width) * 16 + camera.y + (int)(HEIGHT * camera.scale);
+            int x = 161 + o.x * 32 - camera.x;
+            int y = -1343 + (o.x - 1 * o.y - o.width) * 16 + camera.y + (int)(HEIGHT * camera.scale);
             game.spritebatch.draw(o.texture, (int)(x / camera.scale), (int)(y / camera.scale), (int)(2 * o.texture.getWidth() / camera.scale), (int)(2 * o.texture.getHeight() / camera.scale), 0, 0, o.texture.getWidth(), o.texture.getHeight(), false, false);
         } );
         game.spritebatch.end();
