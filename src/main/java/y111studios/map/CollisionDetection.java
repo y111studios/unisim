@@ -1,0 +1,85 @@
+package y111studios.map;
+
+// 2D array - True = tile occupied, False = tile empty
+import y111studios.position.GridArea;
+import y111studios.position.GridPosition;
+
+public class CollisionDetection {
+    private boolean[][] buildingGrid;
+    private GridArea mapArea;
+
+    public CollisionDetection(int width, int height) {
+        buildingGrid = new boolean[width][height];
+        mapArea = new GridArea(0, 0, width, height);
+    }
+
+    /**
+     * Checks if a given building's values are valid
+     * 
+     * @param area the area to check
+     * @return true if the building will have valid bounds if placed on the map, false otherwise
+     */
+    private boolean withinBounds(GridArea area) {
+        return mapArea.contains(area);
+    }
+
+    private boolean withinBounds(GridPosition position) {
+        return mapArea.contains(position);
+    }
+
+    /**
+     * Checks if a building can be placed on the terrain in the given area.
+     *
+     * @param area the area to check
+     */
+    public boolean canPlaceBuilding(GridArea area) {
+        if (!withinBounds(area)) {
+            return false;
+        }
+        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
+            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
+                if (buildingGrid[x][y]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean canPlaceBuilding(GridPosition position) {
+        if (!withinBounds(position)) {
+            return false;
+        }
+        return buildingGrid[position.getX()][position.getY()];
+    }
+
+    /**
+     * Attempts to place a building on the grid in the given area. If the build placed, it marks the
+     * grid cells as occupied.
+     *
+     * @param area the area to place the building
+     */
+    public void placeBuilding(GridArea area) {
+        if (!canPlaceBuilding(area)) {
+            return;
+        }
+        fillArea(area, true);
+    }
+
+    /**
+     * Removes a building from the grid in the given area.
+     *
+     * @param area the area to remove the building from
+     */
+    public void removeBuilding(GridArea area) {
+        fillArea(area, false);
+    }
+
+    private void fillArea(GridArea area, boolean value) {
+        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
+            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
+                buildingGrid[x][y] = value;
+            }
+        }
+    }
+}
