@@ -24,7 +24,7 @@ public class StartScreen extends ScreenAdapter {
     public StartScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, GameScreen.WIDTH * GameScreen.TILE_SIZE, GameScreen.HEIGHT * GameScreen.TILE_SIZE);
+        camera.setToOrtho(false, MapScreen.WIDTH, MapScreen.HEIGHT);
         startScreen = game.assetLib.manager.get(AssetPaths.START_SCREEN);
     }
 
@@ -34,7 +34,7 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new MapScreen(game));
                 }
                 return true;
             }
@@ -57,18 +57,6 @@ public class StartScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resize'");
-    }*/
-
-    /*@Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }*/
-
-    /*@Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
     }*/
 
     @Override

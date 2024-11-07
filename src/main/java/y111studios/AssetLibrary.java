@@ -41,10 +41,8 @@ public class AssetLibrary {
      */
     private void preload(){
         manager.load(AssetPaths.START_SCREEN, Texture.class);
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load(AssetPaths.MAP, TiledMap.class);
-        manager.load(AssetPaths.CURSOR, Texture.class);
-        manager.load(AssetPaths.BUILDING, Texture.class);
+        manager.load(AssetPaths.MAP_BACKGROUND, Texture.class);
+        manager.load(AssetPaths.TEST_BUILDING, Texture.class);
         manager.finishLoading();
     }
 

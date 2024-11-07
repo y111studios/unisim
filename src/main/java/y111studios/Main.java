@@ -28,11 +28,11 @@ public class Main extends Game {
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         font.getData().setScale(1.3f);
-        Gdx.graphics.setWindowedMode(640, 480);
+        Gdx.graphics.setWindowedMode(1280, 960);
         while (!assetLib.manager.update()) {
             continue;
         }
-        this.setScreen(new StartScreen(this));
+        this.setScreen(new MapScreen(this));
 
         // Templates
         // backgroundTexture = new Texture("background.png");
