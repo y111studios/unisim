@@ -14,8 +14,13 @@ public abstract class Launcher {
             String className = "y111studios.App";
 
             // Build new process
-            ProcessBuilder builder = new ProcessBuilder(javaBin, "-XstartOnFirstThread", "-cp",
-                    classpath, className);
+            ProcessBuilder builder;
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                builder = new ProcessBuilder(javaBin, "-cp", classpath, className);
+            } else {
+                builder = new ProcessBuilder(javaBin, "-XstartOnFirstThread", "-cp", classpath,
+                        className);
+            }
             builder.inheritIO();
             // Begin process
             Process process = builder.start();
@@ -24,7 +29,7 @@ public abstract class Launcher {
             // Exit with the same status code
             System.exit(process.exitValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            App.main(args);
         }
     }
 
