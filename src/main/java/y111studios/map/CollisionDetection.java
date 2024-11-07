@@ -21,38 +21,8 @@ public class CollisionDetection {
      * @param height
      * @return true if the building will have valid bounds if placed on the map, false otherwise
      */
-    private boolean boundChecker(int x, int y, int width, int height) {
-        if (y > mapArea.getHeight() || x > mapArea.getWidth()) {
-            return false;
-        } else if (x + width > mapArea.getWidth() || y + height > mapArea.getHeight()) {
-            return false;
-        } else if (x < 0 || y < 0 || height <= 0 || width <= 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Checks if a building can be placed on the terrain at the specified coordinates.
-     *
-     * @param x the x-coordinate of the top-left corner of the building
-     * @param y the y-coordinate of the top-left corner of the building
-     * @param width the width of the building
-     * @param height the height of the building
-     * @return true if the building can be placed at the specified location, false otherwise
-     */
-    public boolean canPlaceBuilding(int x, int y, int width, int height) {
-        if (!boundChecker(x, y, width, height)) {
-            return false;
-        }
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                if (buildingGrid[i][j]) {
-                    return false;
-                }
-            }
-        }
-        return true;
+    private boolean withinBounds(GridArea area) {
+        return mapArea.contains(area);
     }
 
     /**
@@ -61,25 +31,14 @@ public class CollisionDetection {
      * @param area the area to check
      */
     public boolean canPlaceBuilding(GridArea area) {
-        return canPlaceBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
-    }
-
-    /**
-     * Attempts to place a building on the grid at the specified coordinates. If the building can be
-     * placed, it marks the grid cells as occupied.
-     *
-     * @param x the x-coordinate of the top-left corner of the building
-     * @param y the y-coordinate of the top-left corner of the building
-     * @param width the width of the building
-     * @param height the height of the building
-     */
-    public boolean placeBuilding(int x, int y, int width, int height) {
-        if (!canPlaceBuilding(x, y, width, height)) {
+        if (!withinBounds(area)) {
             return false;
         }
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                buildingGrid[i][j] = false;
+        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
+            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
+                if (buildingGrid[x][y]) {
+                    return false;
+                }
             }
         }
         return true;
@@ -92,27 +51,14 @@ public class CollisionDetection {
      * @param area the area to place the building
      */
     public void placeBuilding(GridArea area) {
-        placeBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
-    }
-
-    /**
-     * Removes a building from the grid by setting the specified area to true.
-     *
-     * @param x the x-coordinate of the top-left corner of the building
-     * @param y the y-coordinate of the top-left corner of the building
-     * @param width the width of the building
-     * @param height the height of the building
-     */
-    public boolean removeBuilding(int x, int y, int width, int height) {
-        if (!canPlaceBuilding(x, y, width, height)) {
-            return false;
+        if (!canPlaceBuilding(area)) {
+            return;
         }
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                buildingGrid[i][j] = true;
+        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
+            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
+                buildingGrid[x][y] = true;
             }
         }
-        return true;
     }
 
     /**
@@ -121,6 +67,10 @@ public class CollisionDetection {
      * @param area the area to remove the building from
      */
     public void removeBuilding(GridArea area) {
-        removeBuilding(area.getX(), area.getY(), area.getWidth(), area.getHeight());
+        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
+            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
+                buildingGrid[x][y] = false;
+            }
+        }
     }
 }
