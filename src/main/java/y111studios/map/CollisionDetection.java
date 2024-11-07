@@ -5,17 +5,11 @@ import y111studios.position.GridArea;
 
 public class CollisionDetection {
     private boolean[][] buildingGrid;
+    private GridArea mapArea;
 
-    public CollisionDetection(int xSize, int ySize) {
-        buildingGrid = new boolean[xSize][ySize];
-    }
-
-    private int getWidth() {
-        return buildingGrid.length;
-    }
-
-    private int getHeight() {
-        return buildingGrid[0].length;
+    public CollisionDetection(int width, int height) {
+        buildingGrid = new boolean[width][height];
+        mapArea = new GridArea(0, 0, width, height);
     }
 
     /**
@@ -28,9 +22,9 @@ public class CollisionDetection {
      * @return true if the building will have valid bounds if placed on the map, false otherwise
      */
     private boolean boundChecker(int x, int y, int width, int height) {
-        if (y > this.getHeight() || x > this.getWidth()) {
+        if (y > mapArea.getHeight() || x > mapArea.getWidth()) {
             return false;
-        } else if (x + width > this.getWidth() || y + height > this.getHeight()) {
+        } else if (x + width > mapArea.getWidth() || y + height > mapArea.getHeight()) {
             return false;
         } else if (x < 0 || y < 0 || height <= 0 || width <= 0) {
             return false;
