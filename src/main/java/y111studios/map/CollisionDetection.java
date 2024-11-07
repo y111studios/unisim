@@ -54,11 +54,7 @@ public class CollisionDetection {
         if (!canPlaceBuilding(area)) {
             return;
         }
-        for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
-            for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
-                buildingGrid[x][y] = true;
-            }
-        }
+        fillArea(area, true);
     }
 
     /**
@@ -67,9 +63,13 @@ public class CollisionDetection {
      * @param area the area to remove the building from
      */
     public void removeBuilding(GridArea area) {
+        fillArea(area, false);
+    }
+
+    private void fillArea(GridArea area, boolean value) {
         for (int x = area.getX(); x < area.getX() + area.getWidth(); x++) {
             for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
-                buildingGrid[x][y] = false;
+                buildingGrid[x][y] = value;
             }
         }
     }
