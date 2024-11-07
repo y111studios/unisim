@@ -43,4 +43,22 @@ public class IntRange {
         return value >= start && value < end;
     }
 
+    /**
+     * Checks if the specified range is completely contained within this range.
+     * 
+     * <p>
+     * This method returns true if the other range is completely encompassed by this range. This
+     * includes if the other range has the same start and end points as this range.
+     * </p>
+     * 
+     * @param other the range to check
+     * @return true if the other range is completely contained within this range, false otherwise
+     */
+    public boolean contains(IntRange other) {
+        if (other == null) {
+            return false;
+        }
+        return other.start >= start && other.end <= end;
+    }
+
 }

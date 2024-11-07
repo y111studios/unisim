@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import y111studios.position.GridArea;
 
 public class CollisionDetectionTest {
 
@@ -12,7 +13,7 @@ public class CollisionDetectionTest {
     @MethodSource("provideCanPlaceBuildingCases")
     void canPlaceBuilding(CollisionDetection cd, int x, int y, int width, int height,
             boolean expected) {
-        assertEquals(expected, cd.canPlaceBuilding(x, y, width, height));
+        assertEquals(expected, cd.canPlaceBuilding(new GridArea(x, y, width, height)));
     }
 
     private static Stream<Arguments> provideCanPlaceBuildingCases() {
@@ -24,13 +25,7 @@ public class CollisionDetectionTest {
             Arguments.of(square, 10, 8, 1, 1, false), // Case: x out of bounds
             Arguments.of(square, 8, 10, 1, 1, false), // Case: y out of bounds
             Arguments.of(square, 9, 8, 10, 1, false), // Case: x + width out of bounds
-            Arguments.of(square, 8, 9, 1, 10, false), // Case: y + height out of bounds
-            Arguments.of(square, -1, 8, 1, 1, false), // Case: negative x
-            Arguments.of(square, 8, -1, 1, 1, false), // Case: negative y
-            Arguments.of(square, 8, 8, -1, 1, false), // Case: negative width
-            Arguments.of(square, 8, 8, 1, -1, false), // Case: negative height
-            Arguments.of(square, 8, 8, 0, 1, false), // Case: 0 width
-            Arguments.of(square, 8, 8, 1, 0, false) // Case: 0 height
+            Arguments.of(square, 8, 9, 1, 10, false)  // Case: y + height out of bounds
         );
         CollisionDetection yRect = new CollisionDetection(10, 20);
         Stream<Arguments> yRectCases = Stream.of(

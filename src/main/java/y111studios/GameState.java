@@ -7,7 +7,6 @@ import y111studios.buildings.BuildingManager;
 import y111studios.clock.Clock;
 import y111studios.clock.GameTimer;
 import y111studios.map.CollisionDetection;
-import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
 /**
@@ -44,7 +43,7 @@ public class GameState implements GameTimer, BuildingController {
         if (position == null) {
             return null;
         }
-        if (collisionDetection.canPlaceBuilding(position.getX(), position.getY(), 1, 1)) {
+        if (collisionDetection.canPlaceBuilding(position)) {
             return null;
         }
         return this.buildingManager.getBuilding(position);
@@ -59,10 +58,8 @@ public class GameState implements GameTimer, BuildingController {
         if (buildingManager.isFull()) {
             return false;
         }
-        GridArea buildingArea = building.getArea();
         // Cannot push if the building area is not empty
-        if (collisionDetection.canPlaceBuilding(buildingArea.getX(), buildingArea.getY(),
-                buildingArea.getWidth(), buildingArea.getHeight()) == false) {
+        if (collisionDetection.canPlaceBuilding(building.getArea()) == false) {
             return false;
         }
         // Push the building into the building mangager
@@ -76,7 +73,7 @@ public class GameState implements GameTimer, BuildingController {
             return false;
         }
         // Check if the origin point is used
-        if (collisionDetection.canPlaceBuilding(position.getX(), position.getY(), 1, 1)) {
+        if (collisionDetection.canPlaceBuilding(position)) {
             return false;
         }
         // Get building being removed
@@ -85,11 +82,8 @@ public class GameState implements GameTimer, BuildingController {
             // This should never happen provided push is correctly implemented
             throw new IllegalStateException("Building not found at position: " + position);
         }
-        // Extract the area the building occupies
-        GridArea buildingArea = building.getArea();
         // Remove the building from the collision detection
-        this.collisionDetection.removeBuilding(buildingArea.getX(), buildingArea.getY(),
-                buildingArea.getWidth(), buildingArea.getHeight());
+        this.collisionDetection.removeBuilding(building.getArea());
         this.buildingManager.removePosition(position);
         return true;
     }
