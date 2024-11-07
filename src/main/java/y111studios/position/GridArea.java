@@ -77,6 +77,24 @@ public class GridArea {
     }
 
     /**
+     * Checks if the specified GridArea is completely contained within this GridArea.
+     * 
+     * <p>
+     * This method returns true if the other area is completely encompassed by this area. This
+     * includes if the other area has the same origin and dimensions as this area.
+     * </p>
+     * 
+     * @param other
+     * @return
+     */
+    public boolean contains(GridArea other) {
+        if (other == null) {
+            return false;
+        }
+        return getXRange().contains(other.getXRange()) && getYRange().contains(other.getYRange());
+    }
+
+    /**
      * Returns the range of x-coordinates that are within the GridArea.
      * 
      * @return the range of x-coordinates
