@@ -15,10 +15,7 @@ public class CollisionDetection {
     /**
      * Checks if a given building's values are valid
      * 
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param area the area to check
      * @return true if the building will have valid bounds if placed on the map, false otherwise
      */
     private boolean withinBounds(GridArea area) {
