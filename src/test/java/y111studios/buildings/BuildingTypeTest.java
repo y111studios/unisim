@@ -19,16 +19,16 @@ public class BuildingTypeTest {
         Building building;
 
         building =
-                BuildingFactory.createAccomodationBuilding(AccomodationVariant.SMALL_HOUSE, ZERO);
+                BuildingFactory.createBuilding(AccomodationVariant.SMALL_HOUSE, ZERO);
         assertEquals(BuildingType.ACCOMMODATION, BuildingType.fromBuilding(building));
 
-        building = BuildingFactory.createCateringBuilding(CateringVariant.FAST_FOOD, ZERO);
+        building = BuildingFactory.createBuilding(CateringVariant.FAST_FOOD, ZERO);
         assertEquals(BuildingType.CATERING, BuildingType.fromBuilding(building));
 
-        building = BuildingFactory.createRecreationBuilding(RecreationVariant.PARK, ZERO);
+        building = BuildingFactory.createBuilding(RecreationVariant.PARK, ZERO);
         assertEquals(BuildingType.RECREATION, BuildingType.fromBuilding(building));
 
-        building = BuildingFactory.createTeachingBuilding(TeachingVariant.SMALL_CLASSROOM, ZERO);
+        building = BuildingFactory.createBuilding(TeachingVariant.SMALL_CLASSROOM, ZERO);
         assertEquals(BuildingType.TEACHING, BuildingType.fromBuilding(building));
     }
 

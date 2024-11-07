@@ -12,7 +12,7 @@ public abstract class MapObject {
 
     protected @Getter GridArea area;
 
-    public MapObject(GridArea area) {
+    protected MapObject(GridArea area) {
         if (area == null) {
             throw new IllegalArgumentException("GridArea must not be null");
         }

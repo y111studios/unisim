@@ -1,7 +1,5 @@
 package y111studios.buildings.premade_variants;
 
-import lombok.Getter;
-
 /**
  * An enum representing the different predefined variants of catering buildings. Each variant has
  * contains these fields:
@@ -28,14 +26,30 @@ import lombok.Getter;
  * <li>{@link #FAST_FOOD FAST_FOOD}</li>
  * </ul>
  */
-public enum CateringVariant {
+public enum CateringVariant implements VariantProperties {
     FAST_FOOD(2, 1);
 
-    private final @Getter int width;
-    private final @Getter int height;
+    private final int width;
+    private final int height;
 
     CateringVariant(int width, int height) {
         this.width = width;
         this.height = height;
     }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return CateringVariant.class;
+    }
+
 }

@@ -1,7 +1,5 @@
 package y111studios.buildings.premade_variants;
 
-import lombok.Getter;
-
 /**
  * An enum representing the different predefined variants of teaching buildings. Each variant has
  * contains these fields:
@@ -28,14 +26,30 @@ import lombok.Getter;
  * <li>{@link #SMALL_CLASSROOM SMALL_CLASSROOM}</li>
  * </ul>
  */
-public enum TeachingVariant {
+public enum TeachingVariant implements VariantProperties {
     SMALL_CLASSROOM(2, 2);
 
-    private final @Getter int width;
-    private final @Getter int height;
+    private final int width;
+    private final int height;
 
     TeachingVariant(int width, int height) {
         this.width = width;
         this.height = height;
     }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public Class<? extends Enum<?>> getVariantClass() {
+        return TeachingVariant.class;
+    }
+
 }

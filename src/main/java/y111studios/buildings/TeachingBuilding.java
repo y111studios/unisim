@@ -1,6 +1,7 @@
 package y111studios.buildings;
 
-import y111studios.position.GridArea;
+import y111studios.buildings.premade_variants.TeachingVariant;
+import y111studios.position.GridPosition;
 
 /**
  * A class representing an teaching building within the game. This class extends the
@@ -10,8 +11,8 @@ import y111studios.position.GridArea;
  */
 public class TeachingBuilding extends Building {
 
-    public TeachingBuilding(GridArea area) {
-        super(area);
+    public TeachingBuilding(GridPosition position, TeachingVariant variant) {
+        super(position, variant);
     }
 
 }
