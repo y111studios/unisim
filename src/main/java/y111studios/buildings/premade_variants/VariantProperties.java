@@ -25,5 +25,5 @@ public interface VariantProperties {
      * 
      * @return the class of the variant
      */
-    Class<? extends Enum<?>> getVariantClass();
+    Class<? extends VariantProperties> getVariantClass();
 }

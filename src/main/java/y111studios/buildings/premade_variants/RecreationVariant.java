@@ -30,7 +30,7 @@ public enum RecreationVariant implements VariantProperties {
     }
 
     @Override
-    public Class<? extends Enum<?>> getVariantClass() {
+    public Class<? extends VariantProperties> getVariantClass() {
         return RecreationVariant.class;
     }
 

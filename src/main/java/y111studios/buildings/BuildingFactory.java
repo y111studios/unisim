@@ -17,8 +17,8 @@ import y111studios.utils.UnreachableException;
  * 
  * <p>
  * The factory class is used to create new instances of the building classes. The factory class
- * ensures that the constructors of the building classes are correctly defined at startup and uses
- * a generic function to create new instance of the building classes using the variant and position.
+ * ensures that the constructors of the building classes are correctly defined at startup and uses a
+ * function to create a new instance of the building class with any variant at a specified position.
  * </p>
  * 
  * @see Building
@@ -71,8 +71,8 @@ public final class BuildingFactory {
      * 
      * @throws UnreachableException if the constructor is not defined in the class
      */
-    private static <V extends Enum<V> & VariantProperties> void tryRegisterConstructor(
-            Class<V> variantClass, Class<? extends Building> buildingClass) {
+    private static <V extends VariantProperties> void tryRegisterConstructor(Class<V> variantClass,
+            Class<? extends Building> buildingClass) {
         Constructor<? extends Building> constructor;
         try {
             // Get the constructor of the building class
@@ -92,20 +92,13 @@ public final class BuildingFactory {
     /**
      * Create a new building instance of the specified variant at the specified position.
      * 
-     * <p>
-     * The variant must be implement the {@link VariantProperties} interface and the position must
-     * not be null.
-     * </p>
-     * 
-     * @param <V> the type of the variant
      * @param variant the variant of the building
      * @param position the position of the building
      * @return a new instance of the building
      * 
      * @throws IllegalArgumentException if the variant or position is null
      */
-    public static <V extends Enum<V> & VariantProperties> Building createBuilding(V variant,
-            GridPosition position) {
+    public static Building createBuilding(VariantProperties variant, GridPosition position) {
         if (variant == null) {
             throw new IllegalArgumentException("BuildingProperties must not be null");
         }

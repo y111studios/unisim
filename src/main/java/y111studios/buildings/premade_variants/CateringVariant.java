@@ -30,7 +30,7 @@ public enum CateringVariant implements VariantProperties {
     }
 
     @Override
-    public Class<? extends Enum<?>> getVariantClass() {
+    public Class<? extends VariantProperties> getVariantClass() {
         return CateringVariant.class;
     }
 
