@@ -12,6 +12,11 @@ public abstract class MapObject {
 
     protected @Getter GridArea area;
 
+    /**
+     * Constructs a new map object with the specified area.
+     * 
+     * @param area the area of the map object
+     */
     protected MapObject(GridArea area) {
         if (area == null) {
             throw new IllegalArgumentException("GridArea must not be null");
