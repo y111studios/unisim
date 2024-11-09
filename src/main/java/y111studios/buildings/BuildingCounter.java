@@ -4,15 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A building counter to keep track of the number of buildings placed on the university campus.
+ * A counter class to keep track of the number of buildings. This class keeps track of the number of
+ * each type of building and the total number of buildings placed.
  */
 public class BuildingCounter {
 
-    private final Map<BuildingType, Integer> buildingMap; // A dictionary to store the count of each building type.
-    private int count; // A field to track the total number of buildings
+    /**
+     * A map to store the count of each type of building
+     */
+    private final Map<BuildingType, Integer> buildingMap;
+    /**
+     * Sum total of all buildings placed
+     */
+    private int count;
 
     /**
-     * Initializes the building counter with the numbers of all building types set to 0.
+     * Creates a new building counter starting with 0 buildings placed.
      */
     public BuildingCounter() {
         buildingMap = new HashMap<>();
@@ -82,7 +89,7 @@ public class BuildingCounter {
     }
 
     /**
-     * Resets the building counter to its initial state, setting all building counts to 0 and the total buildings placed to 0.
+     * Resets the building counter to have 0 buildings placed.
      */
     public void reset() {
         for (BuildingType type : BuildingType.values()) {
@@ -90,5 +97,5 @@ public class BuildingCounter {
         }
         count = 0;
     }
-    
+
 }
