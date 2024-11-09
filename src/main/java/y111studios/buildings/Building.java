@@ -34,11 +34,10 @@ public abstract class Building extends MapObject {
     /**
      * Constructor for a building that starts at a position and is of a specified variant.
      * 
-     * @param <V> generic type of the variant
      * @param position the position of the building
      * @param variant the variant information of the building
      */
-    protected <V extends Enum<V> & VariantProperties> Building(GridPosition position, V variant) {
+    protected Building(GridPosition position, VariantProperties variant) {
         this(position, variant.getWidth(), variant.getHeight());
     }
 
