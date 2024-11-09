@@ -11,6 +11,12 @@ import y111studios.position.GridPosition;
  */
 public class AccomodationBuilding extends Building {
 
+    /**
+     * Creates a new accomodation building at the given position of the given variant.
+     * 
+     * @param position The position of the building
+     * @param variant The variant type of the building
+     */
     public AccomodationBuilding(GridPosition position, AccomodationVariant variant) {
         super(position, variant);
     }

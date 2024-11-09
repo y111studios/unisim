@@ -11,6 +11,12 @@ import y111studios.position.GridPosition;
  */
 public class RecreationBuilding extends Building {
 
+    /**
+     * Creates a new recreation building at the given position of the given variant.
+     * 
+     * @param position The position of the building
+     * @param variant The variant type of the building
+     */
     public RecreationBuilding(GridPosition position, RecreationVariant variant) {
         super(position, variant);
     }
