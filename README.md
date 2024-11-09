@@ -4,6 +4,7 @@
 
 - [Build](#build)
 - [Run](#run)
+- [Dependencies](#dependencies)
 
 ## Build
 
@@ -39,3 +40,11 @@ java -jar ./target/unisim-0.1.0.jar
 ```sh
 java -jar unisim-0.1.0.jar
 ```
+
+## Dependencies
+
+This project uses the following dependencies:
+
+- JUnit 5 - [JUnit Jupiter API](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api), [JUnit Jupiter Engine](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine), [JUnit Jupiter Params](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params) - Licensed under the [Eclipse Public License 2.0](https://www.eclipse.org/legal/epl-v20.html)
+- LibGDX - [LibGDX](https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx), [LibGDX LWJGL Backend](https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-backend-lwjgl), [LibGDX Native Libraries](https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-platform) - Licenses under the [Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+- Lombok - [Lombok](https://mvnrepository.com/artifact/org.projectlombok/lombok) - Licensed under the [MIT License](https://projectlombok.org/LICENSE)
