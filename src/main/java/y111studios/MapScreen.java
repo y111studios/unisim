@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import y111studios.position.GridPosition;
 
@@ -163,6 +164,8 @@ public class MapScreen extends ScreenAdapter {
     public MapScreen(final Main game) {
         this.game = game;
         viewport = new FitViewport(WIDTH, HEIGHT);
+        viewport.getCamera().position.set(WIDTH / 2f, HEIGHT / 2f, 0);
+        viewport.getCamera().update();
         gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND);
         camera = new Camera(2000, 1000);
         objects = new ArrayList<MapObject>();
@@ -206,18 +209,49 @@ public class MapScreen extends ScreenAdapter {
                 }
                 return true;
             }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+                System.out.println((int)screenPos.x + " " + (int)screenPos.y);
+                GridPosition test;
+                try {
+                    test = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
+                    System.out.println(test.getX() + " " + test.getY());
+                } catch(IllegalArgumentException e) {
+                    System.out.println("Out of bounds!");
+                }
+                return true;
+            }
         });
     }
 
     /**
-     * Converts building tile coordinates to pixel coordinates.
+     * Converts building tile coordinates to pixel coordinates. Must account for camera.scale and building width separately.
      * 
      * @param coords The tile coordinates to convert.
+     * @return The pixel coordinates.
      */
     public int[] tileToPixel(GridPosition coords) {
         int pixelX = 129 + (coords.getX() + coords.getY()) * 32 - camera.x;
         int pixelY = -1343 + (coords.getX() - coords.getY()) * 16 + camera.y + (int)(HEIGHT * camera.scale);
         return new int[] {pixelX, pixelY};
+    }
+
+    /**
+     * Converts pixel coordinates to tile coordinates. Must account for camera.scale separately.
+     * 
+     * @param x The x pixel coordinate to convert.
+     * @param y The y pixel coordinate to convert.
+     * @return A GridPosition containing the tile coordinates.
+     * @throws IllegalArgumentException if the GridPosition is invalid.
+     */
+    public GridPosition pixelToTile(int x, int y) {
+        int sum = (x + camera.x - 129) / 32;
+        int diff = (y - camera.y - (int)(HEIGHT * camera.scale) + 1343) / 16;
+        int tileY = (sum - diff) / 2;
+        int tileX = sum - tileY;
+        return new GridPosition(tileX, tileY);
     }
 
     /**

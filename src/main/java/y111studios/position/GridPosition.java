@@ -25,6 +25,12 @@ public class GridPosition {
         if (y < 0) {
             throw new IllegalArgumentException("Y must not be negative");
         }
+        if (x > 75) {
+            throw new IllegalArgumentException("X must not be greater than 75");
+        }
+        if (y > 75) {
+            throw new IllegalArgumentException("X must not be greater than 75");
+        }
         this.x = x;
         this.y = y;
     }
