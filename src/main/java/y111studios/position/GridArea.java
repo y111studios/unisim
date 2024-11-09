@@ -3,10 +3,24 @@ package y111studios.position;
 import lombok.Getter;
 import y111studios.utils.IntRange;
 
+/**
+ * A class representing a continuous rectangular area on a grid.
+ * 
+ * @see GridPosition
+ */
 public class GridArea {
 
+    /**
+     * The origin of the GridArea. This is the top-left corner of the area.
+     */
     private @Getter GridPosition origin;
+    /**
+     * The width of the GridArea in grid tiles.
+     */
     private @Getter int width;
+    /**
+     * The height of the GridArea in grid tiles.
+     */
     private @Getter int height;
 
     /**
@@ -20,6 +34,17 @@ public class GridArea {
      */
     private IntRange yRange = null;
 
+    /**
+     * Constructs a new GridArea with the specified origin, width, and height.
+     * 
+     * @param origin the origin of the GridArea
+     * @param width the width of the GridArea
+     * @param height the height of the GridArea
+     * 
+     * @throws IllegalArgumentException if the origin is null
+     * @throws IllegalArgumentException if the width is less than or equal to 0
+     * @throws IllegalArgumentException if the height is less than or equal to 0
+     */
     public GridArea(GridPosition origin, int width, int height) {
         if (origin == null) {
             throw new IllegalArgumentException("Origin must not be null");
@@ -35,6 +60,19 @@ public class GridArea {
         this.height = height;
     }
 
+    /**
+     * Constructs a new GridArea with the specified x-coordinate, y-coordinate, width, and height.
+     * 
+     * @param x the x-coordinate of the origin
+     * @param y the y-coordinate of the origin
+     * @param width the width of the GridArea
+     * @param height the height of the GridArea
+     * 
+     * @throws IllegalArgumentException if the x is less than 0
+     * @throws IllegalArgumentException if the y is less than 0
+     * @throws IllegalArgumentException if the width is less than or equal to 0
+     * @throws IllegalArgumentException if the height is less than or equal to 0
+     */
     public GridArea(int x, int y, int width, int height) {
         this(new GridPosition(x, y), width, height);
     }
