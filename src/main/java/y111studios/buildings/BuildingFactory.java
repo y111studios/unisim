@@ -12,10 +12,25 @@ import y111studios.buildings.premade_variants.TeachingVariant;
 import y111studios.position.GridPosition;
 import y111studios.utils.UnreachableException;
 
+/**
+ * A factory class for creating new {@link Building} instances.
+ * 
+ * <p>
+ * The factory class is used to create new instances of the building classes. The factory class
+ * ensures that the constructors of the building classes are correctly defined at startup and uses
+ * a generic function to create new instance of the building classes using the variant and position.
+ * </p>
+ * 
+ * @see Building
+ * @see VariantProperties
+ */
 public final class BuildingFactory {
 
-    private BuildingFactory() {
-        // Prevent instatiation of Factory class
+    /**
+     * Prevent instantiation of the factory class.
+     */
+    private BuildingFactory() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("BuildingFactory should not be instantiated");
     }
 
     /**
