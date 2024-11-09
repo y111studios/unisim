@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
+import y111studios.position.GridPosition;
 
 /**
  * A class to interact with LibGDX to render the game window.
@@ -107,14 +108,24 @@ public class MapScreen extends ScreenAdapter {
      */
     private class MapObject {
 
-        int x;
-        int y;
+        /**
+         * The tile coordinates of the object.
+         */
+        GridPosition coords;
+        /**
+         * The width/depth of the object.
+         */
         int width;
+        /**
+         * The texture for the object to use.
+         */
         Texture texture;
 
-        public MapObject(int x, int y, int width, Texture texture) {
-            this.x = x;
-            this.y = y;
+        /**
+         * Initializes the given object at set coordinates.
+         */
+        public MapObject(GridPosition coords, int width, Texture texture) {
+            this.coords = coords;
             this.width = width;
             this.texture = texture;
         }
@@ -126,19 +137,18 @@ public class MapScreen extends ScreenAdapter {
      */
     ArrayList<MapObject> objects;
 
-    public void addObject(int x, int y) {
+    public void addObject(GridPosition coords) {
         // to be completed when merging
     }
 
     /**
      * Removes an object from the game.
      * 
-     * @param x The x coordinate of the object to remove.
-     * @param y The y coordinate of the object to remove.
+     * @param coords The tile coordinates of the object to remove.
      */
-    public void removeObject(int x, int y) {
+    public void removeObject(GridPosition coords) {
         for(int i = 0; i < objects.size(); i++) {
-            if(objects.get(i).x == x && objects.get(i).y == y) {
+            if(objects.get(i).coords.getX() == coords.getX() && objects.get(i).coords.getY() == coords.getY()) {
                 objects.remove(i);
                 return;
             }
@@ -156,7 +166,7 @@ public class MapScreen extends ScreenAdapter {
         gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND);
         camera = new Camera(2000, 1000);
         objects = new ArrayList<MapObject>();
-        objects.add(new MapObject(3, 1, 3, game.assetLib.manager.get(AssetPaths.TEST_BUILDING)));
+        objects.add(new MapObject(new GridPosition(2, 6), 3, game.assetLib.manager.get(AssetPaths.TEST_BUILDING)));
     }
 
     /**
@@ -200,6 +210,17 @@ public class MapScreen extends ScreenAdapter {
     }
 
     /**
+     * Converts building tile coordinates to pixel coordinates.
+     * 
+     * @param coords The tile coordinates to convert.
+     */
+    public int[] tileToPixel(GridPosition coords) {
+        int pixelX = 129 + (coords.getX() + coords.getY()) * 32 - camera.x;
+        int pixelY = -1343 + (coords.getX() - coords.getY()) * 16 + camera.y + (int)(HEIGHT * camera.scale);
+        return new int[] {pixelX, pixelY};
+    }
+
+    /**
      * Renders the game each tick.
      * 
      * @param delta The time since the previous tick.
@@ -215,9 +236,8 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.begin();
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
         objects.forEach( (o) -> {
-            int x = 161 + o.x * 32 - camera.x;
-            int y = -1343 + (o.x - 1 * o.y - o.width) * 16 + camera.y + (int)(HEIGHT * camera.scale);
-            game.spritebatch.draw(o.texture, (int)(x / camera.scale), (int)(y / camera.scale), (int)(2 * o.texture.getWidth() / camera.scale), (int)(2 * o.texture.getHeight() / camera.scale), 0, 0, o.texture.getWidth(), o.texture.getHeight(), false, false);
+            int[] pixelCoords = tileToPixel(o.coords);
+            game.spritebatch.draw(o.texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - o.width * 16) / camera.scale), (int)(2 * o.texture.getWidth() / camera.scale), (int)(2 * o.texture.getHeight() / camera.scale), 0, 0, o.texture.getWidth(), o.texture.getHeight(), false, false);
         } );
         game.spritebatch.end();
     }
