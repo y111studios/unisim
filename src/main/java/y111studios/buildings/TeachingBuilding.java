@@ -11,6 +11,12 @@ import y111studios.position.GridPosition;
  */
 public class TeachingBuilding extends Building {
 
+    /**
+     * Creates a new teaching building at the given position of the given variant.
+     * 
+     * @param position The position of the building
+     * @param variant The variant type of the building
+     */
     public TeachingBuilding(GridPosition position, TeachingVariant variant) {
         super(position, variant);
     }

@@ -16,11 +16,17 @@ import java.time.Duration;
  */
 public class Clock implements GameTimer {
 
+    /**
+     * The duration of the clock that has elapsed before the clock was most recently started.
+     */
     private Duration totalDuration;
+    /**
+     * The time the clock was most recently started.
+     */
     private Instant start;
 
     /**
-     * Initializes the clock to being initially paused.
+     * Initializes a paused instance of the clock.
      */
     public Clock() {
         this.totalDuration = Duration.ZERO;
@@ -55,8 +61,7 @@ public class Clock implements GameTimer {
     }
 
     /**
-     * Gets a {@link Duration} representing the total elapsed time since the clock was created,
-     * excluding the time the clock was paused.
+     * Gets a {@link Duration} representing the total elapsed time while the clock has been running.
      * 
      * @return The total counted time since the clock was created.
      */
@@ -98,11 +103,7 @@ public class Clock implements GameTimer {
     }
 
     /**
-     * Pauses the clock.
-     * 
-     * <p>
-     * If the clock is already paused, this method does nothing.
-     * </p>
+     * Pauses the clock if it is not paused.
      */
     @Override
     public void pause() {
@@ -115,11 +116,7 @@ public class Clock implements GameTimer {
     }
 
     /**
-     * Resumes the clock.
-     * 
-     * <p>
-     * If the clock is not paused, this method does nothing.
-     * </p>
+     * Resumes the clock if it is paused.
      */
     @Override
     public void resume() {
