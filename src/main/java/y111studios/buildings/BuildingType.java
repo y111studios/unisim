@@ -11,8 +11,13 @@ public enum BuildingType {
      * 
      * @param building Building instance to determine the type of.
      * @return BuildingType
+     * 
+     * @throws IllegalArgumentException if the building is null or the type is not recognised.
      */
     public static BuildingType fromBuilding(Building building) {
+        if (building == null) {
+            throw new IllegalArgumentException("Building cannot be null.");
+        }
         if (building instanceof AccomodationBuilding) {
             return ACCOMMODATION;
         } else if (building instanceof CateringBuilding) {
