@@ -464,9 +464,7 @@ public class MapScreen extends ScreenAdapter {
 
         // Render buildings
 
-        for (Building building : renderOrdering) {
-            renderBuilding(building);
-        }
+        renderOrdering.forEach(this::renderBuilding);
         
         game.spritebatch.draw(menu, (menuTab.toInt() - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
         game.spritebatch.draw(accommodationMenu, 5, 85);
