@@ -46,6 +46,7 @@ public class AssetLibrary {
         manager.load(AssetPaths.ACCOMMODATION_MENU, Texture.class);
         manager.load(AssetPaths.CATERING_MENU, Texture.class);
         manager.load(AssetPaths.TEACHING_MENU, Texture.class);
+        manager.load(AssetPaths.PAUSE, Texture.class);
         manager.load(AssetPaths.ACC1, Texture.class);
         manager.load(AssetPaths.ACC2, Texture.class);
         manager.load(AssetPaths.ACC3, Texture.class);

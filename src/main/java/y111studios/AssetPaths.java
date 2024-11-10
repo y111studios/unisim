@@ -16,6 +16,7 @@ public abstract class AssetPaths {
     public final static String ACCOMMODATION_MENU = "assets/Accommodation.png";
     public final static String CATERING_MENU = "assets/Catering.png";
     public final static String TEACHING_MENU = "assets/Teaching.png";
+    public final static String PAUSE = "assets/Pause.png";
 
     public final static String ACC1 = "assets/Acc1.png";
     public final static String ACC2 = "assets/Acc2.png";

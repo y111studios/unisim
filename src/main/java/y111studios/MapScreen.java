@@ -83,6 +83,14 @@ public class MapScreen extends ScreenAdapter {
      * The viewport to keep proportions consistent when resizing.
      */
     FitViewport viewport;
+    /**
+     * Whether the game is paused.
+     */
+    boolean paused;
+    /**
+     * The texture for the pause menu.
+     */
+    Texture pauseMenu;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -245,6 +253,7 @@ public class MapScreen extends ScreenAdapter {
         accommodationMenu = game.assetLib.manager.get(AssetPaths.ACCOMMODATION_MENU);
         cateringMenu = game.assetLib.manager.get(AssetPaths.CATERING_MENU);
         teachingMenu = game.assetLib.manager.get(AssetPaths.TEACHING_MENU);
+        pauseMenu = game.assetLib.manager.get(AssetPaths.PAUSE);
         menuTab = 0;
         menuItem = -1;
         camera = new Camera(2000, 1000);
@@ -255,6 +264,7 @@ public class MapScreen extends ScreenAdapter {
                                           game.assetLib.manager.get(AssetPaths.REC2), game.assetLib.manager.get(AssetPaths.TEACH1), game.assetLib.manager.get(AssetPaths.TEACH2),
                                           game.assetLib.manager.get(AssetPaths.TEACH3), game.assetLib.manager.get(AssetPaths.TEACH4), game.assetLib.manager.get(AssetPaths.TEACH5)};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
+        paused = false;
         addObject(buildingVariants[0], new GridPosition(3, 6), buildingTextures[0]);
         //addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);
     }
@@ -267,6 +277,14 @@ public class MapScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
+                if(keyCode == Input.Keys.ESCAPE) {
+                    paused = !paused;
+                    camera.addVelocity(-1 * camera.vx, -1 * camera.vy);
+                    return true;
+                }
+                if(paused) {
+                    return true;
+                }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
                     camera.addVelocity(8, 0);
                 } else if(keyCode == Input.Keys.LEFT || keyCode == Input.Keys.A) {
@@ -285,6 +303,9 @@ public class MapScreen extends ScreenAdapter {
 
             @Override
             public boolean keyUp(int keyCode) {
+                if(paused) {
+                    return true;
+                }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
                     camera.addVelocity(-8, 0);
                 } else if(keyCode == Input.Keys.LEFT || keyCode == Input.Keys.A) {
@@ -299,6 +320,9 @@ public class MapScreen extends ScreenAdapter {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if(paused) {
+                    return true;
+                }
                 Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
                 System.out.println((int)screenPos.x + " " + (int)screenPos.y);
                 if(screenPos.y < 100) {
@@ -375,7 +399,11 @@ public class MapScreen extends ScreenAdapter {
         camera.shift();
 
         game.spritebatch.begin();
-        game.spritebatch.setColor(1, 1, 1, 1);
+        if(paused) {
+            game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
+        } else {
+            game.spritebatch.setColor(1, 1, 1, 1);
+        }
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
         objects.forEach( (o) -> {
             int[] pixelCoords = tileToPixel(o.coords);
@@ -387,7 +415,7 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.draw(teachingMenu, 491, 85);
         
         for(int i = 0; i < 5; i++) {
-            if(i == menuItem) {
+            if(i == menuItem || paused) {
                 game.spritebatch.setColor(1, 1, 1, 0.5f);
             } else {
                 game.spritebatch.setColor(1, 1, 1, 1);
@@ -399,6 +427,11 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)(buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
+        if(paused) {
+            game.spritebatch.setColor(1, 1, 1, 1);
+            game.spritebatch.draw(pauseMenu, 220, 204);
+        }
+
         game.spritebatch.end();
     }
 
