@@ -1,6 +1,5 @@
 package y111studios.buildings;
 
-import java.util.Iterator;
 import y111studios.position.GridPosition;
 
 /**
@@ -45,12 +44,5 @@ public interface BuildingController {
      * @return if the building array is full
      */
     boolean isFull();
-
-    /**
-     * Returns an iterator over all buildings.
-     * 
-     * @return An iterator over all buildings
-     */
-    Iterator<Building> buildingIterator();
 
 }

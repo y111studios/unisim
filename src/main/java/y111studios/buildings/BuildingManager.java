@@ -1,6 +1,5 @@
 package y111studios.buildings;
 
-import java.util.Iterator;
 import java.util.OptionalInt;
 
 import y111studios.position.GridPosition;
@@ -234,35 +233,6 @@ public class BuildingManager implements BuildingController {
      */
     public boolean isFull() {
         return getCount() >= MAX_BUILDINGS;
-    }
-
-    @Override
-    public Iterator<Building> buildingIterator() {
-        return new BuildingIterator(buildings, getCount());
-    }
-
-    private class BuildingIterator implements Iterator<Building> {
-
-        private Building[] buildings;
-        private int index;
-        private final int end;
-
-        public BuildingIterator(Building[] buildings, int count) {
-            this.buildings = buildings;
-            this.index = 0;
-            this.end = count;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return index < end;
-        }
-
-        @Override
-        public Building next() {
-            return buildings[index++];
-        }
-
     }
 
 }
