@@ -8,7 +8,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import y111studios.position.GridPosition;
 import y111studios.utils.UnreachableException;
 import y111studios.buildings.Building;
@@ -156,7 +157,7 @@ public class MapScreen extends ScreenAdapter {
      */
     Camera camera;
 
-    ArrayList<Building> renderOrdering = new ArrayList<Building>();
+    List<Building> renderOrdering;
 
     /**
      * Adds an object to the game.
@@ -214,6 +215,7 @@ public class MapScreen extends ScreenAdapter {
     public MapScreen(final Main game) {
         this.game = game;
         this.gameState = new GameState(TILE_WIDTH, TILE_HEIGHT);
+        renderOrdering = new LinkedList<>();
         viewport = new FitViewport(WIDTH, HEIGHT);
         viewport.getCamera().position.set(WIDTH / 2f, HEIGHT / 2f, 0);
         viewport.getCamera().update();
