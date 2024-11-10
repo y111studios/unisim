@@ -267,6 +267,7 @@ public class MapScreen extends ScreenAdapter {
                                           game.assetLib.manager.get(AssetPaths.TEACH3.getPath()), game.assetLib.manager.get(AssetPaths.TEACH4.getPath()), game.assetLib.manager.get(AssetPaths.TEACH5.getPath())};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         paused = false;
+        gameState.resume();
         addObject(buildingVariants[0], new GridPosition(3, 6));
     }
 
