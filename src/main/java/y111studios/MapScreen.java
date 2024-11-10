@@ -416,8 +416,12 @@ public class MapScreen extends ScreenAdapter {
         }
     }
 
+    public GridPosition currentGridPosition() {
+        return pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
+    }
+
     public void renderBuilding(Building building) {
-        if (menuItem == 5 && building.getArea().contains(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)))) {
+        if (menuItem == 5 && building.getArea().contains(currentGridPosition())) {
             game.spritebatch.setColor(INVALID_PREVIEW);
         }
         Texture texture = game.getAsset(building.getTexturePath());
@@ -464,9 +468,8 @@ public class MapScreen extends ScreenAdapter {
 
         if (!gameState.isPaused() && menuItem >= 0 && menuItem < 5) {
             VariantProperties variant = buildingVariants.get(menuTab)[menuItem];
-            GridPosition hologramPosition = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
 
-            Building possibleInstance = BuildingFactory.createBuilding(variant, hologramPosition);
+            Building possibleInstance = BuildingFactory.createBuilding(variant, currentGridPosition());
             // Set hologram colour
             if (!gameState.canPlaceBuilding(possibleInstance)) {
                 game.spritebatch.setColor(INVALID_PREVIEW);
