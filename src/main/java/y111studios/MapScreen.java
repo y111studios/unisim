@@ -20,6 +20,7 @@ import y111studios.utils.MenuTab;
 import y111studios.utils.UnreachableException;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingFactory;
+import y111studios.buildings.BuildingManager;
 import y111studios.buildings.premade_variants.*;
 
 /**
@@ -500,6 +501,15 @@ public class MapScreen extends ScreenAdapter {
         float textX = (viewport.getWorldWidth() - textWidth) / 2;
         float textY = viewport.getWorldHeight() - 20;
         game.font.draw(game.spritebatch, timeString, textX, textY);
+
+        // Render the total count of buildings placed
+
+        int buildingCount = gameState.getCount();
+        String buildingString = String.format("Count: %d / %d", buildingCount, BuildingManager.MAX_BUILDINGS);
+
+        float buildingX = 15;
+        float buildingY = 120;
+        game.font.draw(game.spritebatch, buildingString, buildingX, buildingY);
 
         // Draw the pause menu if paused
 

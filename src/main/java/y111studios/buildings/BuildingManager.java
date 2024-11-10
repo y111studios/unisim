@@ -23,7 +23,7 @@ public class BuildingManager implements BuildingController {
     /**
      * The maximum number of buildings that can be placed.
      */
-    private final static int MAX_BUILDINGS = 100;
+    public final static int MAX_BUILDINGS = 100;
 
     /**
      * Fixed sized array containing the buildings.
