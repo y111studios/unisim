@@ -548,7 +548,12 @@ public class MapScreen extends ScreenAdapter {
                 String countString = String.format("%c: %d", type.toString().toCharArray()[0], count);
                 buildingY += 20;
                 game.font.draw(game.spritebatch, countString, buildingX, buildingY);
+             
             }
+           
+            game.font.draw(game.spritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 15, (buildingY + 20));
+            
+           
         }
 
         // Draw the pause menu if paused
