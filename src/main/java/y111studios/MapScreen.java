@@ -95,6 +95,11 @@ public class MapScreen extends ScreenAdapter {
      * The current variant to be placed.
      */
     VariantProperties currentVariant;
+
+    /**
+     * The current mouse coordinates.
+     */
+    Vector3 screenPos;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -231,6 +236,7 @@ public class MapScreen extends ScreenAdapter {
         menuTab = MenuTab.ACCOMODATION;
         menuItem = -1;
         camera = new Camera(2000, 1000);
+        screenPos = new Vector3(0, 0, 0);
         buildingTextures = new Texture[] {game.getAsset(AssetPaths.ACC1), game.getAsset(AssetPaths.ACC2), game.getAsset(AssetPaths.ACC3),
                                           game.getAsset(AssetPaths.ACC4), game.getAsset(AssetPaths.ACC5), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.CATER1),
                                           game.getAsset(AssetPaths.CATER2), game.getAsset(AssetPaths.CATER3), game.getAsset(AssetPaths.REC1),
@@ -302,7 +308,6 @@ public class MapScreen extends ScreenAdapter {
                 if(gameState.isPaused()) {
                     return true;
                 }
-                Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
@@ -329,6 +334,7 @@ public class MapScreen extends ScreenAdapter {
 
             @Override
             public boolean mouseMoved(int screenX, int screenY) {
+                screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
                 return true;
             }
         });
