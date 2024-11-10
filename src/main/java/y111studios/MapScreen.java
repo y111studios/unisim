@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import java.util.ArrayList;
 import java.util.Iterator;
 import y111studios.position.GridPosition;
 import y111studios.buildings.Building;
@@ -161,40 +160,6 @@ public class MapScreen extends ScreenAdapter {
     Camera camera;
 
     /**
-     * Stores the information necessary to render an object.
-     */
-    private class GraphicsObject {
-
-        /**
-         * The tile coordinates of the object.
-         */
-        GridPosition coords;
-        /**
-         * The depth/height of the object.
-         */
-        int depth;
-        /**
-         * The texture for the object to use.
-         */
-        Texture texture;
-
-        /**
-         * Initializes the given object at set coordinates.
-         */
-        public GraphicsObject(GridPosition coords, int depth, Texture texture) {
-            this.coords = coords;
-            this.depth = depth;
-            this.texture = texture;
-        }
-
-    }
-
-    /**
-     * The list of objects to be rendered.
-     */
-    ArrayList<GraphicsObject> objects;
-
-    /**
      * Adds an object to the game.
      * 
      * @param object The object to add.
@@ -203,20 +168,6 @@ public class MapScreen extends ScreenAdapter {
     public boolean addObject(VariantProperties variant, GridPosition coords) {
         Building building = BuildingFactory.createBuilding(variant, coords);
         return gameState.push(building);
-        // if(!gameState.push(building)) {
-        //     return false;
-        // }
-        // int i;
-        // for(i = 0; i < objects.size(); i++) {
-        //     if(objects.get(i).coords.getY() > coords.getY()) {
-        //         break;
-        //     }
-        //     if(objects.get(i).coords.getY() == coords.getY() && objects.get(i).coords.getX() < coords.getX()) {
-        //         break;
-        //     }
-        // }
-        // objects.add(i, new GraphicsObject(coords, variant.getHeight(), texture));
-        // return true;
     }
 
     /**
@@ -226,17 +177,7 @@ public class MapScreen extends ScreenAdapter {
      * @return Whether an object was removed.
      */
     public boolean removeObject(GridPosition coords) {
-        if(!gameState.removePosition(coords)) {
-            return false;
-        }
-        for(int i = 0; i < objects.size(); i++) {
-            if(objects.get(i).coords.getX() == coords.getX() && objects.get(i).coords.getY() == coords.getY()) {
-                objects.remove(i);
-                return true;
-            }
-        }
-        // We should never get here
-        return false;
+        return gameState.removePosition(coords);
     }
 
     /**
@@ -259,7 +200,6 @@ public class MapScreen extends ScreenAdapter {
         menuTab = 0;
         menuItem = -1;
         camera = new Camera(2000, 1000);
-        objects = new ArrayList<GraphicsObject>();
         buildingTextures = new Texture[] {game.assetLib.manager.get(AssetPaths.ACC1.getPath()), game.assetLib.manager.get(AssetPaths.ACC2.getPath()), game.assetLib.manager.get(AssetPaths.ACC3.getPath()),
                                           game.assetLib.manager.get(AssetPaths.ACC4.getPath()), game.assetLib.manager.get(AssetPaths.ACC5.getPath()), game.assetLib.manager.get(AssetPaths.CATER1.getPath()),
                                           game.assetLib.manager.get(AssetPaths.CATER2.getPath()), game.assetLib.manager.get(AssetPaths.CATER3.getPath()), game.assetLib.manager.get(AssetPaths.REC1.getPath()),
