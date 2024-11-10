@@ -183,10 +183,10 @@ public class MapScreen extends ScreenAdapter {
         int index;
         for (index = 0; index < renderOrdering.size(); index++) {
             Building current = renderOrdering.get(index);
-            if (current.getArea().getX() < building.getArea().getX()) {
+            if (current.getArea().getY() > building.getArea().getY()) {
                 break;
             }
-            if (current.getArea().getY() > building.getArea().getY()) {
+            if (current.getArea().getX() < building.getArea().getX()) {
                 break;
             }
         }
@@ -374,7 +374,7 @@ public class MapScreen extends ScreenAdapter {
         try {
             return new GridPosition(tileX, tileY);
         } catch(IllegalArgumentException e) {
-            return new GridPosition(100, 100);
+            return new GridPosition(10000, 10000);
         }
     }
 
