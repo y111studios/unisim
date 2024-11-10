@@ -1,5 +1,7 @@
 package y111studios.buildings.premade_variants;
 
+import y111studios.AssetPaths;
+
 /**
  * An interface representing the properties that all variants of a
  * {@link y111studios.buildings.Building Building} must have. This interface is used as a type bound
@@ -19,6 +21,13 @@ public interface VariantProperties {
      * @return the height of the variant
      */
     int getHeight();
+
+    /**
+     * Get the texture of the variant.
+     *
+     * @return the texture of the variant
+     */
+    AssetPaths getTexturePath();
 
     /**
      * Returns the class object of the variant.

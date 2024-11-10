@@ -248,25 +248,25 @@ public class MapScreen extends ScreenAdapter {
         viewport = new FitViewport(WIDTH, HEIGHT);
         viewport.getCamera().position.set(WIDTH / 2f, HEIGHT / 2f, 0);
         viewport.getCamera().update();
-        gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND);
-        menu = game.assetLib.manager.get(AssetPaths.MENU);
-        accommodationMenu = game.assetLib.manager.get(AssetPaths.ACCOMMODATION_MENU);
-        cateringMenu = game.assetLib.manager.get(AssetPaths.CATERING_MENU);
-        teachingMenu = game.assetLib.manager.get(AssetPaths.TEACHING_MENU);
-        pauseMenu = game.assetLib.manager.get(AssetPaths.PAUSE);
+        gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND.getPath());
+        menu = game.assetLib.manager.get(AssetPaths.MENU.getPath());
+        accommodationMenu = game.assetLib.manager.get(AssetPaths.ACCOMMODATION_MENU.getPath());
+        cateringMenu = game.assetLib.manager.get(AssetPaths.CATERING_MENU.getPath());
+        teachingMenu = game.assetLib.manager.get(AssetPaths.TEACHING_MENU.getPath());
+        pauseMenu = game.assetLib.manager.get(AssetPaths.PAUSE.getPath());
         menuTab = 0;
         menuItem = -1;
         camera = new Camera(2000, 1000);
         objects = new ArrayList<GraphicsObject>();
-        buildingTextures = new Texture[] {game.assetLib.manager.get(AssetPaths.ACC1), game.assetLib.manager.get(AssetPaths.ACC2), game.assetLib.manager.get(AssetPaths.ACC3),
-                                          game.assetLib.manager.get(AssetPaths.ACC4), game.assetLib.manager.get(AssetPaths.ACC5), game.assetLib.manager.get(AssetPaths.CATER1),
-                                          game.assetLib.manager.get(AssetPaths.CATER2), game.assetLib.manager.get(AssetPaths.CATER3), game.assetLib.manager.get(AssetPaths.REC1),
-                                          game.assetLib.manager.get(AssetPaths.REC2), game.assetLib.manager.get(AssetPaths.TEACH1), game.assetLib.manager.get(AssetPaths.TEACH2),
-                                          game.assetLib.manager.get(AssetPaths.TEACH3), game.assetLib.manager.get(AssetPaths.TEACH4), game.assetLib.manager.get(AssetPaths.TEACH5)};
+        buildingTextures = new Texture[] {game.assetLib.manager.get(AssetPaths.ACC1.getPath()), game.assetLib.manager.get(AssetPaths.ACC2.getPath()), game.assetLib.manager.get(AssetPaths.ACC3.getPath()),
+                                          game.assetLib.manager.get(AssetPaths.ACC4.getPath()), game.assetLib.manager.get(AssetPaths.ACC5.getPath()), game.assetLib.manager.get(AssetPaths.CATER1.getPath()),
+                                          game.assetLib.manager.get(AssetPaths.CATER2.getPath()), game.assetLib.manager.get(AssetPaths.CATER3.getPath()), game.assetLib.manager.get(AssetPaths.REC1.getPath()),
+                                          game.assetLib.manager.get(AssetPaths.REC2.getPath()), game.assetLib.manager.get(AssetPaths.TEACH1.getPath()), game.assetLib.manager.get(AssetPaths.TEACH2.getPath()),
+                                          game.assetLib.manager.get(AssetPaths.TEACH3.getPath()), game.assetLib.manager.get(AssetPaths.TEACH4.getPath()), game.assetLib.manager.get(AssetPaths.TEACH5.getPath())};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         paused = false;
         addObject(buildingVariants[0], new GridPosition(3, 6), buildingTextures[0]);
-        //addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);
+        //addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);.getPath()
     }
 
     /**

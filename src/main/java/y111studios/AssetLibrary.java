@@ -40,28 +40,28 @@ public class AssetLibrary {
      * smoother
      */
     private void preload(){
-        manager.load(AssetPaths.START_SCREEN, Texture.class);
-        manager.load(AssetPaths.MAP_BACKGROUND, Texture.class);
-        manager.load(AssetPaths.MENU, Texture.class);
-        manager.load(AssetPaths.ACCOMMODATION_MENU, Texture.class);
-        manager.load(AssetPaths.CATERING_MENU, Texture.class);
-        manager.load(AssetPaths.TEACHING_MENU, Texture.class);
-        manager.load(AssetPaths.PAUSE, Texture.class);
-        manager.load(AssetPaths.ACC1, Texture.class);
-        manager.load(AssetPaths.ACC2, Texture.class);
-        manager.load(AssetPaths.ACC3, Texture.class);
-        manager.load(AssetPaths.ACC4, Texture.class);
-        manager.load(AssetPaths.ACC5, Texture.class);
-        manager.load(AssetPaths.CATER1, Texture.class);
-        manager.load(AssetPaths.CATER2, Texture.class);
-        manager.load(AssetPaths.CATER3, Texture.class);
-        manager.load(AssetPaths.REC1, Texture.class);
-        manager.load(AssetPaths.REC2, Texture.class);
-        manager.load(AssetPaths.TEACH1, Texture.class);
-        manager.load(AssetPaths.TEACH2, Texture.class);
-        manager.load(AssetPaths.TEACH3, Texture.class);
-        manager.load(AssetPaths.TEACH4, Texture.class);
-        manager.load(AssetPaths.TEACH5, Texture.class);
+        manager.load(AssetPaths.START_SCREEN.getPath(), Texture.class);
+        manager.load(AssetPaths.MAP_BACKGROUND.getPath(), Texture.class);
+        manager.load(AssetPaths.MENU.getPath(), Texture.class);
+        manager.load(AssetPaths.ACCOMMODATION_MENU.getPath(), Texture.class);
+        manager.load(AssetPaths.CATERING_MENU.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACHING_MENU.getPath(), Texture.class);
+        manager.load(AssetPaths.PAUSE.getPath(), Texture.class);
+        manager.load(AssetPaths.ACC1.getPath(), Texture.class);
+        manager.load(AssetPaths.ACC2.getPath(), Texture.class);
+        manager.load(AssetPaths.ACC3.getPath(), Texture.class);
+        manager.load(AssetPaths.ACC4.getPath(), Texture.class);
+        manager.load(AssetPaths.ACC5.getPath(), Texture.class);
+        manager.load(AssetPaths.CATER1.getPath(), Texture.class);
+        manager.load(AssetPaths.CATER2.getPath(), Texture.class);
+        manager.load(AssetPaths.CATER3.getPath(), Texture.class);
+        manager.load(AssetPaths.REC1.getPath(), Texture.class);
+        manager.load(AssetPaths.REC2.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACH1.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACH2.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACH3.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACH4.getPath(), Texture.class);
+        manager.load(AssetPaths.TEACH5.getPath(), Texture.class);
         manager.finishLoading();
     }
 

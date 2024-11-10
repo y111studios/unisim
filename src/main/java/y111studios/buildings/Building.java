@@ -1,5 +1,6 @@
 package y111studios.buildings;
 
+import y111studios.AssetPaths;
 import y111studios.buildings.premade_variants.VariantProperties;
 import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
@@ -16,8 +17,8 @@ public abstract class Building extends MapObject {
      * 
      * @param area the area the building takes up
      */
-    protected Building(GridArea area) {
-        super(area);
+    protected Building(GridArea area, AssetPaths texturePath) {
+        super(area, texturePath);
     }
 
     /**
@@ -27,8 +28,8 @@ public abstract class Building extends MapObject {
      * @param width the width of the building
      * @param height the height of the building
      */
-    protected Building(GridPosition position, int width, int height) {
-        this(new GridArea(position, width, height));
+    protected Building(GridPosition position, int width, int height, AssetPaths texturePath) {
+        this(new GridArea(position, width, height), texturePath);
     }
 
     /**
@@ -38,7 +39,7 @@ public abstract class Building extends MapObject {
      * @param variant the variant information of the building
      */
     protected Building(GridPosition position, VariantProperties variant) {
-        this(position, variant.getWidth(), variant.getHeight());
+        this(position, variant.getWidth(), variant.getHeight(), variant.getTexturePath());
     }
 
 }

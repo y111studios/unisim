@@ -1,6 +1,7 @@
 package y111studios.buildings;
 
 import lombok.Getter;
+import y111studios.AssetPaths;
 import y111studios.position.GridArea;
 import y111studios.position.GridPosition;
 
@@ -11,17 +12,24 @@ import y111studios.position.GridPosition;
 public abstract class MapObject {
 
     protected @Getter GridArea area;
+    protected AssetPaths texturePath;
 
     /**
      * Constructs a new map object with the specified area.
      * 
      * @param area the area of the map object
+     * 
+     * @throws IllegalArgumentException if the area or texture are null
      */
-    protected MapObject(GridArea area) {
+    protected MapObject(GridArea area, AssetPaths texturePath) {
         if (area == null) {
             throw new IllegalArgumentException("GridArea must not be null");
         }
+        if (texturePath == null) {
+            throw new IllegalArgumentException("Texture Path must not be null");
+        }
         this.area = area;
+        this.texturePath = texturePath;
     }
 
     /**

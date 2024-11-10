@@ -1,5 +1,7 @@
 package y111studios.buildings.premade_variants;
 
+import y111studios.AssetPaths;
+
 /**
  * An enum representing the different predefined variants an
  * {@link y111studios.buildings.AccomodationBuilding AccomodationBuilding}.
@@ -9,14 +11,16 @@ package y111studios.buildings.premade_variants;
  * AccomodationBuilding}.
  */
 public enum AccomodationVariant implements VariantProperties {
-    SMALL_HOUSE(1, 1);
+    SMALL_HOUSE(1, 1, AssetPaths.ACC1),;
 
     private final int width;
     private final int height;
+    private final AssetPaths texturePath;
 
-    AccomodationVariant(int width, int height) {
+    AccomodationVariant(int width, int height, AssetPaths texturePath) {
         this.width = width;
         this.height = height;
+        this.texturePath = texturePath;
     }
 
     @Override
@@ -27,6 +31,11 @@ public enum AccomodationVariant implements VariantProperties {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public AssetPaths getTexturePath() {
+        return texturePath;
     }
 
     @Override
