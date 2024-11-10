@@ -32,7 +32,8 @@ public enum AssetPaths {
     TEACH2("assets/Teach2.png"),
     TEACH3("assets/Teach3.png"),
     TEACH4("assets/Teach4.png"),
-    TEACH5("assets/Teach5.png");
+    TEACH5("assets/Teach5.png"),
+    TRASH("custom_asset/trash.png");
 
     private @Getter final String path;
 
