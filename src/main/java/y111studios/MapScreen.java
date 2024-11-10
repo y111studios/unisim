@@ -322,6 +322,13 @@ public class MapScreen extends ScreenAdapter {
                 if(menuItem >= 0 && menuItem < 5) {
                     addObject(buildingVariants[menuItem + menuTab.toInt() * 5], pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
                     menuItem = -1;
+                } else if(menuItem == 5) {
+                    try{
+                        boolean test = removeObject(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+                        System.out.println(test);
+                    } catch(IllegalStateException e) {
+                        System.out.println("Building not found.");
+                    }
                 }
                 return true;
             }
