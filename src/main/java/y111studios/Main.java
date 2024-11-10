@@ -3,6 +3,7 @@ package y111studios;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -39,6 +40,16 @@ public class Main extends Game {
         // bucketTexture = new Texture("bucket.png");
         // dropTexture = new Texture("drop.png");
         // Templates
+    }
+
+    /**
+     * Get the asset from the asset library
+     * 
+     * @param path the asset's load path
+     * @return the asset
+     */
+    public Texture getAsset(AssetPaths path) {
+        return assetLib.manager.get(path.getPath());
     }
 
     @Override

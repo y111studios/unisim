@@ -217,20 +217,20 @@ public class MapScreen extends ScreenAdapter {
         viewport = new FitViewport(WIDTH, HEIGHT);
         viewport.getCamera().position.set(WIDTH / 2f, HEIGHT / 2f, 0);
         viewport.getCamera().update();
-        gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND.getPath());
-        menu = game.assetLib.manager.get(AssetPaths.MENU.getPath());
-        accommodationMenu = game.assetLib.manager.get(AssetPaths.ACCOMMODATION_MENU.getPath());
-        cateringMenu = game.assetLib.manager.get(AssetPaths.CATERING_MENU.getPath());
-        teachingMenu = game.assetLib.manager.get(AssetPaths.TEACHING_MENU.getPath());
-        pauseMenu = game.assetLib.manager.get(AssetPaths.PAUSE.getPath());
+        gameMap = game.getAsset(AssetPaths.MAP_BACKGROUND);
+        menu = game.getAsset(AssetPaths.MENU);
+        accommodationMenu = game.getAsset(AssetPaths.ACCOMMODATION_MENU);
+        cateringMenu = game.getAsset(AssetPaths.CATERING_MENU);
+        teachingMenu = game.getAsset(AssetPaths.TEACHING_MENU);
+        pauseMenu = game.getAsset(AssetPaths.PAUSE);
         menuTab = 0;
         menuItem = -1;
         camera = new Camera(2000, 1000);
-        buildingTextures = new Texture[] {game.assetLib.manager.get(AssetPaths.ACC1.getPath()), game.assetLib.manager.get(AssetPaths.ACC2.getPath()), game.assetLib.manager.get(AssetPaths.ACC3.getPath()),
-                                          game.assetLib.manager.get(AssetPaths.ACC4.getPath()), game.assetLib.manager.get(AssetPaths.ACC5.getPath()), game.assetLib.manager.get(AssetPaths.CATER1.getPath()),
-                                          game.assetLib.manager.get(AssetPaths.CATER2.getPath()), game.assetLib.manager.get(AssetPaths.CATER3.getPath()), game.assetLib.manager.get(AssetPaths.REC1.getPath()),
-                                          game.assetLib.manager.get(AssetPaths.REC2.getPath()), game.assetLib.manager.get(AssetPaths.TEACH1.getPath()), game.assetLib.manager.get(AssetPaths.TEACH2.getPath()),
-                                          game.assetLib.manager.get(AssetPaths.TEACH3.getPath()), game.assetLib.manager.get(AssetPaths.TEACH4.getPath()), game.assetLib.manager.get(AssetPaths.TEACH5.getPath())};
+        buildingTextures = new Texture[] {game.getAsset(AssetPaths.ACC1), game.getAsset(AssetPaths.ACC2), game.getAsset(AssetPaths.ACC3),
+                                          game.getAsset(AssetPaths.ACC4), game.getAsset(AssetPaths.ACC5), game.getAsset(AssetPaths.CATER1),
+                                          game.getAsset(AssetPaths.CATER2), game.getAsset(AssetPaths.CATER3), game.getAsset(AssetPaths.REC1),
+                                          game.getAsset(AssetPaths.REC2), game.getAsset(AssetPaths.TEACH1), game.getAsset(AssetPaths.TEACH2),
+                                          game.getAsset(AssetPaths.TEACH3), game.getAsset(AssetPaths.TEACH4), game.getAsset(AssetPaths.TEACH5)};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         gameState.resume();
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 6));
@@ -386,7 +386,7 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
 
         for (Building building : renderOrdering) {
-            Texture texture = game.assetLib.manager.get(building.getTexturePath().getPath());
+            Texture texture = game.getAsset(building.getTexturePath());
             int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
             game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         }
