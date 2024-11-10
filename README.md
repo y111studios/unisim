@@ -42,6 +42,8 @@ java -jar ./target/unisim-0.1.0.jar
 java -jar unisim-0.1.0.jar
 ```
 
+To show debug issue press the `Tab` key.
+
 ## Dependencies
 
 This project uses the following dependencies:
