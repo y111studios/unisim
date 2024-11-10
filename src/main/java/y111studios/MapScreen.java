@@ -417,6 +417,9 @@ public class MapScreen extends ScreenAdapter {
     }
 
     public void renderBuilding(Building building) {
+        if (menuItem == 5 && building.getArea().contains(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)))) {
+            game.spritebatch.setColor(INVALID_PREVIEW);
+        }
         Texture texture = game.getAsset(building.getTexturePath());
         int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
         game.spritebatch.draw(texture,
@@ -427,6 +430,11 @@ public class MapScreen extends ScreenAdapter {
             0, 0, texture.getWidth(), texture.getHeight(),
             false, false
         );
+        if (gameState.isPaused()) {
+            game.spritebatch.setColor(PAUSED_DULLING);
+        } else {
+            game.spritebatch.setColor(NORMAL);
+        }
     }
 
     /**
