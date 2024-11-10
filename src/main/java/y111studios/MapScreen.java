@@ -178,6 +178,9 @@ public class MapScreen extends ScreenAdapter {
             if (current.getArea().getY() == building.getArea().getY() && current.getArea().getX() > building.getArea().getX()) {
                 break;
             }
+            if (current.getArea().getX() < building.getArea().getX()) {
+                break;
+            }
         }
         renderOrdering.add(index, building);
         return true;
