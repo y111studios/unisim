@@ -95,11 +95,6 @@ public class MapScreen extends ScreenAdapter {
      * The current variant to be placed.
      */
     VariantProperties currentVariant;
-
-    /**
-     * The current mouse coordinates.
-     */
-    Vector3 screenPos;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -184,10 +179,10 @@ public class MapScreen extends ScreenAdapter {
         int index;
         for (index = 0; index < renderOrdering.size(); index++) {
             Building current = renderOrdering.get(index);
-            if (current.getArea().getY() > building.getArea().getY()) {
+            if (current.getArea().getX() < building.getArea().getX()) {
                 break;
             }
-            if (current.getArea().getX() < building.getArea().getX()) {
+            if (current.getArea().getY() > building.getArea().getY()) {
                 break;
             }
         }
@@ -236,18 +231,12 @@ public class MapScreen extends ScreenAdapter {
         menuTab = MenuTab.ACCOMODATION;
         menuItem = -1;
         camera = new Camera(2000, 1000);
-        screenPos = new Vector3(0, 0, 0);
         buildingTextures = new Texture[] {game.getAsset(AssetPaths.ACC1), game.getAsset(AssetPaths.ACC2), game.getAsset(AssetPaths.ACC3),
                                           game.getAsset(AssetPaths.ACC4), game.getAsset(AssetPaths.ACC5), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.CATER1),
                                           game.getAsset(AssetPaths.CATER2), game.getAsset(AssetPaths.CATER3), game.getAsset(AssetPaths.REC1),
                                           game.getAsset(AssetPaths.REC2), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.TEACH1), game.getAsset(AssetPaths.TEACH2),
                                           game.getAsset(AssetPaths.TEACH3), game.getAsset(AssetPaths.TEACH4), game.getAsset(AssetPaths.TEACH5), game.getAsset(AssetPaths.TRASH)};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
-        gameState.resume();
-        addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 6));
-        addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(8, 6));
-        addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 11));
-        addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(8, 11));
     }
 
     /**
@@ -308,6 +297,7 @@ public class MapScreen extends ScreenAdapter {
                 if(gameState.isPaused()) {
                     return true;
                 }
+                Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
@@ -329,12 +319,10 @@ public class MapScreen extends ScreenAdapter {
                     }
                     return true;
                 }
-                return true;
-            }
-
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+                if(menuItem >= 0 && menuItem < 5) {
+                    addObject(buildingVariants[menuItem + menuTab.toInt() * 5], pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+                    menuItem = -1;
+                }
                 return true;
             }
         });
