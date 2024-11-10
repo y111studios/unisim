@@ -84,10 +84,6 @@ public class MapScreen extends ScreenAdapter {
      */
     FitViewport viewport;
     /**
-     * Whether the game is paused.
-     */
-    boolean paused;
-    /**
      * The texture for the pause menu.
      */
     Texture pauseMenu;
@@ -206,7 +202,6 @@ public class MapScreen extends ScreenAdapter {
                                           game.assetLib.manager.get(AssetPaths.REC2.getPath()), game.assetLib.manager.get(AssetPaths.TEACH1.getPath()), game.assetLib.manager.get(AssetPaths.TEACH2.getPath()),
                                           game.assetLib.manager.get(AssetPaths.TEACH3.getPath()), game.assetLib.manager.get(AssetPaths.TEACH4.getPath()), game.assetLib.manager.get(AssetPaths.TEACH5.getPath())};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
-        paused = false;
         gameState.resume();
         addObject(buildingVariants[0], new GridPosition(3, 6));
     }
@@ -220,11 +215,15 @@ public class MapScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if(keyCode == Input.Keys.ESCAPE) {
-                    paused = !paused;
+                    if (gameState.isPaused()) {
+                        gameState.resume();
+                    } else {
+                        gameState.pause();
+                    }
                     camera.addVelocity(-1 * camera.vx, -1 * camera.vy);
                     return true;
                 }
-                if(paused) {
+                if(gameState.isPaused()) {
                     return true;
                 }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
@@ -245,7 +244,7 @@ public class MapScreen extends ScreenAdapter {
 
             @Override
             public boolean keyUp(int keyCode) {
-                if(paused) {
+                if(gameState.isPaused()) {
                     return true;
                 }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
@@ -262,7 +261,7 @@ public class MapScreen extends ScreenAdapter {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if(paused) {
+                if(gameState.isPaused()) {
                     return true;
                 }
                 Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
@@ -346,7 +345,7 @@ public class MapScreen extends ScreenAdapter {
         camera.shift();
 
         game.spritebatch.begin();
-        if(paused) {
+        if(gameState.isPaused()) {
             game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
         } else {
             game.spritebatch.setColor(1, 1, 1, 1);
@@ -365,7 +364,7 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.draw(teachingMenu, 491, 85);
         
         for(int i = 0; i < 5; i++) {
-            if(i == menuItem || paused) {
+            if(i == menuItem || gameState.isPaused()) {
                 game.spritebatch.setColor(1, 1, 1, 0.5f);
             } else {
                 game.spritebatch.setColor(1, 1, 1, 1);
@@ -377,7 +376,7 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
-        if(paused) {
+        if(gameState.isPaused()) {
             game.spritebatch.setColor(1, 1, 1, 1);
             game.spritebatch.draw(pauseMenu, 220, 204);
         }
