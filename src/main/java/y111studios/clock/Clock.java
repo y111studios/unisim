@@ -89,7 +89,12 @@ public class Clock implements GameTimer {
      */
     @Override
     public boolean isTimeUp() {
-        return totalElapsedTime().compareTo(MAX_DURATION) >= 0;
+        boolean isTimeUp = totalElapsedTime().compareTo(MAX_DURATION) >= 0;
+        // Fix clock to 0
+        if (isTimeUp) {
+            totalDuration = MAX_DURATION;
+        }
+        return isTimeUp;
     }
 
     /**
@@ -120,7 +125,7 @@ public class Clock implements GameTimer {
      */
     @Override
     public void resume() {
-        if (!isPaused()) {
+        if (!isPaused() || isTimeUp()) {
             return;
         }
         start = Instant.now();
