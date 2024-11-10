@@ -125,9 +125,7 @@ public class BuildingManagerTest {
 
     static Stream<Arguments> providePositionsAndResults() {
         return Stream.of(Arguments.of(null, false), Arguments.of(new GridPosition(0, 0), true),
-                Arguments.of(new GridPosition(1, 1), false),
-                Arguments.of(new GridPosition(1, 0), false),
-                Arguments.of(new GridPosition(0, 1), false));
+                Arguments.of(new GridPosition(100, 100), false));
     }
 
     @Test
@@ -135,7 +133,7 @@ public class BuildingManagerTest {
         pushToManager(1);
 
         assertEquals(manager.getBuilding(ZERO), building);
-        assertEquals(manager.getBuilding(new GridPosition(1, 1)), null);
+        assertEquals(manager.getBuilding(new GridPosition(100, 100)), null);
     }
 
 }

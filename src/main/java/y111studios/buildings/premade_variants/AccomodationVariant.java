@@ -11,7 +11,7 @@ import y111studios.AssetPaths;
  * AccomodationBuilding}.
  */
 public enum AccomodationVariant implements VariantProperties {
-    SMALL_HOUSE(1, 1, AssetPaths.ACC1),;
+    SMALL_HOUSE(5, 5, AssetPaths.ACC1),;
 
     private final int width;
     private final int height;

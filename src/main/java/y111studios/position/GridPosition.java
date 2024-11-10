@@ -1,7 +1,6 @@
 package y111studios.position;
 
 import lombok.Getter;
-import y111studios.MapScreen;
 
 /**
  * Represents a position on a grid.
@@ -25,12 +24,6 @@ public class GridPosition {
         }
         if (y < 0) {
             throw new IllegalArgumentException("Y must not be negative");
-        }
-        if (x > MapScreen.TILE_WIDTH) {
-            throw new IllegalArgumentException("X must not be greater than " + MapScreen.TILE_WIDTH);
-        }
-        if (y > MapScreen.TILE_HEIGHT) {
-            throw new IllegalArgumentException("X must not be greater than " + MapScreen.TILE_HEIGHT);
         }
         this.x = x;
         this.y = y;
