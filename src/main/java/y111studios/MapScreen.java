@@ -310,6 +310,8 @@ public class MapScreen extends ScreenAdapter {
                     return true;
                 }
                 Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+                GridPosition test = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
+                System.out.println(test.getX() + " " + test.getY());
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
@@ -327,7 +329,6 @@ public class MapScreen extends ScreenAdapter {
                         } else {
                             menuItem = newItem;
                         }
-                        System.out.println(menuItem);
                     }
                     return true;
                 }
@@ -336,10 +337,9 @@ public class MapScreen extends ScreenAdapter {
                     menuItem = -1;
                 } else if(menuItem == 5) {
                     try{
-                        boolean test = removeObject(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
-                        System.out.println(test);
+                        removeObject(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
                     } catch(IllegalStateException e) {
-                        System.out.println("Building not found.");
+
                     }
                 }
                 return true;
@@ -371,7 +371,11 @@ public class MapScreen extends ScreenAdapter {
         int diff = (y - camera.y - (int)(HEIGHT * camera.scale) + 1343) / 16;
         int tileY = (sum - diff) / 2;
         int tileX = sum - tileY;
-        return new GridPosition(tileX, tileY);
+        try {
+            return new GridPosition(tileX, tileY);
+        } catch(IllegalArgumentException e) {
+            return new GridPosition(100, 100);
+        }
     }
 
     /**

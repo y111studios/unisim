@@ -34,6 +34,13 @@ public class CollisionDetection {
         mapArea = new GridArea(0, 0, width, height);
     }
 
+    public CollisionDetection(int width, int height, int[][] staticObjects) {
+        this(width, height);
+        for(int i = 0; i < staticObjects.length; i++) {
+            fillArea(new GridArea(staticObjects[i][0], staticObjects[i][1], staticObjects[i][2], staticObjects[i][3]), true);
+        }
+    }
+
     /**
      * Checks if a given building's values are valid
      * 
