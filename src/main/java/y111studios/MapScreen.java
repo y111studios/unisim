@@ -6,8 +6,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 import y111studios.position.GridPosition;
@@ -400,6 +403,16 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
+        
+        Duration timeRemaining = gameState.timeRemaining();
+        String timeString = String.format("%02d:%02d", timeRemaining.toMinutesPart(), timeRemaining.toSecondsPart());
+
+        GlyphLayout layout = new GlyphLayout(game.font, timeString);
+        float textWidth = layout.width;
+        float textX = (viewport.getWorldWidth() - textWidth) / 2;
+        float textY = viewport.getWorldHeight() - 20;
+        game.font.draw(game.spritebatch, timeString, textX, textY);
+
         if(gameState.isPaused()) {
             game.spritebatch.setColor(1, 1, 1, 1);
             game.spritebatch.draw(pauseMenu, 220, 204);
