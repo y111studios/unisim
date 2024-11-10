@@ -157,6 +157,16 @@ public class MapScreen extends ScreenAdapter {
             this.vx += vx;
             this.vy += vy;
         }
+        
+        
+        /**
+         * Resets the camera's velocity
+         * 
+         */
+        public void velocityReset() {
+        	this.vx = 0;
+        	this.vy = 0;
+        }
 
     }
 
@@ -251,8 +261,9 @@ public class MapScreen extends ScreenAdapter {
             public boolean keyDown(int keyCode) {
                 if(keyCode == Input.Keys.ESCAPE) {
                     if (gameState.isPaused()) {
-                        gameState.resume();
+                        gameState.resume();    
                     } else {
+                    	camera.velocityReset();
                         gameState.pause();
                     }
                     camera.addVelocity(-1 * camera.vx, -1 * camera.vy);
@@ -284,12 +295,16 @@ public class MapScreen extends ScreenAdapter {
                 }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
                     camera.addVelocity(-8, 0);
+                    camera.velocityReset();
                 } else if(keyCode == Input.Keys.LEFT || keyCode == Input.Keys.A) {
                     camera.addVelocity(8, 0);
+                    camera.velocityReset();
                 } else if(keyCode == Input.Keys.DOWN || keyCode == Input.Keys.S) {
                     camera.addVelocity(0, -8);
+                    camera.velocityReset();
                 } else if(keyCode == Input.Keys.UP || keyCode == Input.Keys.W) {
                     camera.addVelocity(0, 8);
+                    camera.velocityReset();
                 }
                 return true;
             }
