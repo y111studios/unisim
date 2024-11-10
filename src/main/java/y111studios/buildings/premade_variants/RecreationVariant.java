@@ -11,7 +11,8 @@ import y111studios.AssetPaths;
  * RecreationBuilding}.
  */
 public enum RecreationVariant implements VariantProperties {
-    PARK(3, 3, AssetPaths.REC1),;
+    PARK(3, 3, AssetPaths.REC1),
+    GYM(4, 4, AssetPaths.REC2),;
 
     private final int width;
     private final int height;

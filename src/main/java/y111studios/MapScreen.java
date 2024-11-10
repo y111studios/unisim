@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import y111studios.position.GridPosition;
 import y111studios.utils.MenuTab;
 import y111studios.utils.UnreachableException;
@@ -83,7 +85,7 @@ public class MapScreen extends ScreenAdapter {
     /**
      * The variants for the buildings.
      */
-    VariantProperties[] buildingVariants;
+    Map<MenuTab, VariantProperties[]> buildingVariants;
     /**
      * The viewport to keep proportions consistent when resizing.
      */
@@ -248,7 +250,15 @@ public class MapScreen extends ScreenAdapter {
                                           game.getAsset(AssetPaths.CATER2), game.getAsset(AssetPaths.CATER3), game.getAsset(AssetPaths.REC1),
                                           game.getAsset(AssetPaths.REC2), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.TEACH1), game.getAsset(AssetPaths.TEACH2),
                                           game.getAsset(AssetPaths.TEACH3), game.getAsset(AssetPaths.TEACH4), game.getAsset(AssetPaths.TEACH5), game.getAsset(AssetPaths.TRASH)};
-        buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
+        buildingVariants = new HashMap<>();
+        buildingVariants.put(MenuTab.ACCOMODATION, AccomodationVariant.values());
+        buildingVariants.put(MenuTab.TEACHING, TeachingVariant.values());
+
+        VariantProperties[] jointTabVariants = new VariantProperties[CateringVariant.values().length + RecreationVariant.values().length];
+        System.arraycopy(CateringVariant.values(), 0, jointTabVariants, 0, CateringVariant.values().length);
+        System.arraycopy(RecreationVariant.values(), 0, jointTabVariants, CateringVariant.values().length, RecreationVariant.values().length);
+
+        buildingVariants.put(MenuTab.CATERING_RECREATION, jointTabVariants);
     }
 
     /**
@@ -332,19 +342,17 @@ public class MapScreen extends ScreenAdapter {
                         } else {
                             menuItem = newItem;
                         }
-                        System.out.println(menuItem);
                     }
                     return true;
                 }
                 if(menuItem >= 0 && menuItem < 5) {
-                    addObject(buildingVariants[menuItem + menuTab.toInt() * 5], pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+                    addObject(buildingVariants.get(menuTab)[menuItem], pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
                     menuItem = -1;
                 } else if(menuItem == 5) {
                     try{
-                        boolean test = removeObject(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
-                        System.out.println(test);
+                        removeObject(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
                     } catch(IllegalStateException e) {
-                        System.out.println("Building not found.");
+
                     }
                 }
                 return true;
@@ -376,7 +384,11 @@ public class MapScreen extends ScreenAdapter {
         int diff = (y - camera.y - (int)(HEIGHT * camera.scale) + 1343) / 16;
         int tileY = (sum - diff) / 2;
         int tileX = sum - tileY;
-        return new GridPosition(tileX, tileY);
+        try {
+            return new GridPosition(tileX, tileY);
+        } catch(IllegalArgumentException e) {
+            return new GridPosition(10000, 10000);
+        }
     }
 
     /**
