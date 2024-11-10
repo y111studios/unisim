@@ -8,8 +8,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import java.util.Iterator;
+import java.util.ArrayList;
 import y111studios.position.GridPosition;
+import y111studios.utils.UnreachableException;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingFactory;
 import y111studios.buildings.premade_variants.*;
@@ -155,6 +156,8 @@ public class MapScreen extends ScreenAdapter {
      */
     Camera camera;
 
+    ArrayList<Building> renderOrdering = new ArrayList<Building>();
+
     /**
      * Adds an object to the game.
      * 
@@ -163,7 +166,21 @@ public class MapScreen extends ScreenAdapter {
      */
     public boolean addObject(VariantProperties variant, GridPosition coords) {
         Building building = BuildingFactory.createBuilding(variant, coords);
-        return gameState.push(building);
+        if (!gameState.push(building)) {
+            return false;
+        }
+        int index;
+        for (index = 0; index < renderOrdering.size(); index++) {
+            Building current = renderOrdering.get(index);
+            if (current.getArea().getY() > building.getArea().getY()) {
+                break;
+            }
+            if (current.getArea().getY() == building.getArea().getY() && current.getArea().getX() > building.getArea().getX()) {
+                break;
+            }
+        }
+        renderOrdering.add(index, building);
+        return true;
     }
 
     /**
@@ -173,7 +190,17 @@ public class MapScreen extends ScreenAdapter {
      * @return Whether an object was removed.
      */
     public boolean removeObject(GridPosition coords) {
-        return gameState.removePosition(coords);
+        if (!gameState.removePosition(coords)) {
+            return false;
+        }
+        for (int i = 0; i < renderOrdering.size(); i++) {
+            Building current = renderOrdering.get(i);
+            if (current.contains(coords)) {
+                renderOrdering.remove(i);
+                return true;
+            }
+        }
+        throw new UnreachableException("State desynced with renderOrdering");
     }
 
     /**
@@ -207,8 +234,6 @@ public class MapScreen extends ScreenAdapter {
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(8, 6));
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 11));
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(8, 11));
-
-        addObject(TeachingVariant.SMALL_CLASSROOM, new GridPosition(30, 30));
     }
 
     /**
@@ -356,13 +381,13 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.setColor(1, 1, 1, 1);
         }
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
-        Iterator<Building> buildingIterator = gameState.buildingIterator();
-        while (buildingIterator.hasNext()) {
-            Building building = buildingIterator.next();
+
+        for (Building building : renderOrdering) {
             Texture texture = game.assetLib.manager.get(building.getTexturePath().getPath());
             int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
             game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         }
+        
         game.spritebatch.draw(menu, (menuTab - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
         game.spritebatch.draw(accommodationMenu, 5, 85);
         game.spritebatch.draw(cateringMenu, 248, 85);
