@@ -433,11 +433,13 @@ public class MapScreen extends ScreenAdapter {
         camera.shift();
 
         game.spritebatch.begin();
+        // Change colour based to dull the screen if paused
         if(gameState.isPaused()) {
             game.spritebatch.setColor(PAUSED_DULLING);
         } else {
             game.spritebatch.setColor(NORMAL);
         }
+        // Draw the game map
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
 
         // Add building placement hologram
@@ -447,14 +449,16 @@ public class MapScreen extends ScreenAdapter {
             GridPosition hologramPosition = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
 
             Building possibleInstance = BuildingFactory.createBuilding(variant, hologramPosition);
+            // Set hologram colour
             if (!gameState.canPlaceBuilding(possibleInstance)) {
                 game.spritebatch.setColor(INVALID_PREVIEW);
             } else {
                 game.spritebatch.setColor(TRANSPARENT_PREVIEW);
             }
 
-            renderBuilding(possibleInstance);
+            renderBuilding(possibleInstance); // Render hologram
             
+            // Reset colour to previous one
             if(gameState.isPaused()) {
                 game.spritebatch.setColor(PAUSED_DULLING);
             } else {
@@ -466,11 +470,13 @@ public class MapScreen extends ScreenAdapter {
 
         renderOrdering.forEach(this::renderBuilding);
         
+        // Draw the menu
         game.spritebatch.draw(menu, (menuTab.toInt() - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
         game.spritebatch.draw(accommodationMenu, 5, 85);
         game.spritebatch.draw(cateringMenu, 248, 85);
         game.spritebatch.draw(teachingMenu, 491, 85);
         
+        // Draw the appropriate items in the menu
         for(int i = 0; i < 6; i++) {
             if(i == menuItem || gameState.isPaused()) {
                 game.spritebatch.setColor(1, 1, 1, 0.5f);
@@ -484,6 +490,8 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
+        // Render the time remaining at the top of the screen
+
         Duration timeRemaining = gameState.timeRemaining();
         String timeString = String.format("%02d:%02d", timeRemaining.toMinutesPart(), timeRemaining.toSecondsPart());
 
@@ -493,9 +501,12 @@ public class MapScreen extends ScreenAdapter {
         float textY = viewport.getWorldHeight() - 20;
         game.font.draw(game.spritebatch, timeString, textX, textY);
 
+        // Draw the pause menu if paused
+
         if(gameState.isPaused()) {
             game.spritebatch.setColor(1, 1, 1, 1);
             if (gameState.isTimeUp()) {
+                // Covers case where the game is locked paused due to time running out
                 game.spritebatch.draw(game.getAsset(AssetPaths.GAME_OVER), 220, 204);
             } else {
                 game.spritebatch.draw(pauseMenu, 220, 204);
@@ -507,8 +518,8 @@ public class MapScreen extends ScreenAdapter {
         // Check for game over
 
         if (gameState.isTimeUp()) {
-            camera.velocityReset();
-            gameState.pause();
+            camera.velocityReset(); // Lock camera
+            gameState.pause(); // Lock pause
         }
     }
 
