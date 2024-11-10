@@ -310,8 +310,6 @@ public class MapScreen extends ScreenAdapter {
                     return true;
                 }
                 Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-                GridPosition test = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
-                System.out.println(test.getX() + " " + test.getY());
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
@@ -374,7 +372,7 @@ public class MapScreen extends ScreenAdapter {
         try {
             return new GridPosition(tileX, tileY);
         } catch(IllegalArgumentException e) {
-            return new GridPosition(100, 100);
+            return new GridPosition(10000, 10000);
         }
     }
 
