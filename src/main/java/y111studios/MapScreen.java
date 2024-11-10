@@ -52,9 +52,33 @@ public class MapScreen extends ScreenAdapter {
      */
     Texture menu;
     /**
+     * The texture for the accommodation menu text.
+     */
+    Texture accommodationMenu;
+    /**
+     * The texture for the catering menu text.
+     */
+    Texture cateringMenu;
+    /**
+     * The texture for the teaching menu text.
+     */
+    Texture teachingMenu;
+    /**
      * The current tab of the menu.
      */
     int menuTab;
+    /**
+     * The current item of the menu.
+     */
+    int menuItem;
+    /**
+     * The textures for the buildings.
+     */
+    Texture[] buildingTextures;
+    /**
+     * The variants for the buildings.
+     */
+    VariantProperties[] buildingVariants;
     /**
      * The viewport to keep proportions consistent when resizing.
      */
@@ -172,7 +196,16 @@ public class MapScreen extends ScreenAdapter {
         if(!gameState.push(building)) {
             return false;
         }
-        objects.add(new GraphicsObject(coords, variant.getHeight(), texture));
+        int i;
+        for(i = 0; i < objects.size(); i++) {
+            if(objects.get(i).coords.getY() > coords.getY()) {
+                break;
+            }
+            if(objects.get(i).coords.getY() == coords.getY() && objects.get(i).coords.getX() < coords.getX()) {
+                break;
+            }
+        }
+        objects.add(i, new GraphicsObject(coords, variant.getHeight(), texture));
         return true;
     }
 
@@ -209,10 +242,21 @@ public class MapScreen extends ScreenAdapter {
         viewport.getCamera().update();
         gameMap = game.assetLib.manager.get(AssetPaths.MAP_BACKGROUND);
         menu = game.assetLib.manager.get(AssetPaths.MENU);
+        accommodationMenu = game.assetLib.manager.get(AssetPaths.ACCOMMODATION_MENU);
+        cateringMenu = game.assetLib.manager.get(AssetPaths.CATERING_MENU);
+        teachingMenu = game.assetLib.manager.get(AssetPaths.TEACHING_MENU);
         menuTab = 0;
+        menuItem = -1;
         camera = new Camera(2000, 1000);
         objects = new ArrayList<GraphicsObject>();
-        addObject(TeachingVariant.SMALL_CLASSROOM, new GridPosition(3, 6), game.assetLib.manager.get(AssetPaths.TEST_BUILDING));
+        buildingTextures = new Texture[] {game.assetLib.manager.get(AssetPaths.ACC1), game.assetLib.manager.get(AssetPaths.ACC2), game.assetLib.manager.get(AssetPaths.ACC3),
+                                          game.assetLib.manager.get(AssetPaths.ACC4), game.assetLib.manager.get(AssetPaths.ACC5), game.assetLib.manager.get(AssetPaths.CATER1),
+                                          game.assetLib.manager.get(AssetPaths.CATER2), game.assetLib.manager.get(AssetPaths.CATER3), game.assetLib.manager.get(AssetPaths.REC1),
+                                          game.assetLib.manager.get(AssetPaths.REC2), game.assetLib.manager.get(AssetPaths.TEACH1), game.assetLib.manager.get(AssetPaths.TEACH2),
+                                          game.assetLib.manager.get(AssetPaths.TEACH3), game.assetLib.manager.get(AssetPaths.TEACH4), game.assetLib.manager.get(AssetPaths.TEACH5)};
+        buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
+        addObject(buildingVariants[0], new GridPosition(3, 6), buildingTextures[0]);
+        //addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);
     }
 
     /**
@@ -266,8 +310,15 @@ public class MapScreen extends ScreenAdapter {
                         } else if(screenPos.x > 490) {
                             menuTab = 2;
                         }
-                    } else {
-
+                        menuItem = -1;
+                    } else if(screenPos.y < 75 && screenPos.y > 10){
+                        int newItem = (int)((screenPos.x - 10) / 80);
+                        if(newItem == menuItem || newItem > 4) {
+                            menuItem = -1;
+                        } else {
+                            menuItem = newItem;
+                        }
+                        System.out.println(menuItem);
                     }
                     return true;
                 }
@@ -324,12 +375,30 @@ public class MapScreen extends ScreenAdapter {
         camera.shift();
 
         game.spritebatch.begin();
+        game.spritebatch.setColor(1, 1, 1, 1);
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
         objects.forEach( (o) -> {
             int[] pixelCoords = tileToPixel(o.coords);
             game.spritebatch.draw(o.texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - o.depth * 16) / camera.scale), (int)(2 * o.texture.getWidth() / camera.scale), (int)(2 * o.texture.getHeight() / camera.scale), 0, 0, o.texture.getWidth(), o.texture.getHeight(), false, false);
         } );
         game.spritebatch.draw(menu, (menuTab - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
+        game.spritebatch.draw(accommodationMenu, 5, 85);
+        game.spritebatch.draw(cateringMenu, 248, 85);
+        game.spritebatch.draw(teachingMenu, 491, 85);
+        
+        for(int i = 0; i < 5; i++) {
+            if(i == menuItem) {
+                game.spritebatch.setColor(1, 1, 1, 0.5f);
+            } else {
+                game.spritebatch.setColor(1, 1, 1, 1);
+            }
+            int j = i;
+            if(menuTab > 0) {
+                j += menuTab * 5;
+            }
+            game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)(buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
+        }
+        
         game.spritebatch.end();
     }
 

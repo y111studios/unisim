@@ -42,8 +42,25 @@ public class AssetLibrary {
     private void preload(){
         manager.load(AssetPaths.START_SCREEN, Texture.class);
         manager.load(AssetPaths.MAP_BACKGROUND, Texture.class);
-        manager.load(AssetPaths.TEST_BUILDING, Texture.class);
         manager.load(AssetPaths.MENU, Texture.class);
+        manager.load(AssetPaths.ACCOMMODATION_MENU, Texture.class);
+        manager.load(AssetPaths.CATERING_MENU, Texture.class);
+        manager.load(AssetPaths.TEACHING_MENU, Texture.class);
+        manager.load(AssetPaths.ACC1, Texture.class);
+        manager.load(AssetPaths.ACC2, Texture.class);
+        manager.load(AssetPaths.ACC3, Texture.class);
+        manager.load(AssetPaths.ACC4, Texture.class);
+        manager.load(AssetPaths.ACC5, Texture.class);
+        manager.load(AssetPaths.CATER1, Texture.class);
+        manager.load(AssetPaths.CATER2, Texture.class);
+        manager.load(AssetPaths.CATER3, Texture.class);
+        manager.load(AssetPaths.REC1, Texture.class);
+        manager.load(AssetPaths.REC2, Texture.class);
+        manager.load(AssetPaths.TEACH1, Texture.class);
+        manager.load(AssetPaths.TEACH2, Texture.class);
+        manager.load(AssetPaths.TEACH3, Texture.class);
+        manager.load(AssetPaths.TEACH4, Texture.class);
+        manager.load(AssetPaths.TEACH5, Texture.class);
         manager.finishLoading();
     }
 
