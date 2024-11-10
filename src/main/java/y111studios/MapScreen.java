@@ -436,7 +436,6 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
-        
         Duration timeRemaining = gameState.timeRemaining();
         String timeString = String.format("%02d:%02d", timeRemaining.toMinutesPart(), timeRemaining.toSecondsPart());
 
@@ -448,10 +447,20 @@ public class MapScreen extends ScreenAdapter {
 
         if(gameState.isPaused()) {
             game.spritebatch.setColor(1, 1, 1, 1);
-            game.spritebatch.draw(pauseMenu, 220, 204);
+            if (gameState.isTimeUp()) {
+                game.spritebatch.draw(game.getAsset(AssetPaths.GAME_OVER), 220, 204);
+            } else {
+                game.spritebatch.draw(pauseMenu, 220, 204);
+            }
         }
 
         game.spritebatch.end();
+
+        // Check for game over
+
+        if (gameState.isTimeUp()) {
+            gameState.pause();
+        }
     }
 
     /**
