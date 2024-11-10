@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
+import java.util.Iterator;
 import y111studios.position.GridPosition;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingFactory;
@@ -266,7 +267,7 @@ public class MapScreen extends ScreenAdapter {
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         paused = false;
         addObject(buildingVariants[0], new GridPosition(3, 6), buildingTextures[0]);
-        //addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);.getPath()
+        addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);
     }
 
     /**
@@ -410,10 +411,13 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.setColor(1, 1, 1, 1);
         }
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
-        objects.forEach( (o) -> {
-            int[] pixelCoords = tileToPixel(o.coords);
-            game.spritebatch.draw(o.texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - o.depth * 16) / camera.scale), (int)(2 * o.texture.getWidth() / camera.scale), (int)(2 * o.texture.getHeight() / camera.scale), 0, 0, o.texture.getWidth(), o.texture.getHeight(), false, false);
-        } );
+        Iterator<Building> buildingIterator = gameState.buildingIterator();
+        while (buildingIterator.hasNext()) {
+            Building building = buildingIterator.next();
+            Texture texture = game.assetLib.manager.get(building.getTexturePath().getPath());
+            int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
+            game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        }
         game.spritebatch.draw(menu, (menuTab - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
         game.spritebatch.draw(accommodationMenu, 5, 85);
         game.spritebatch.draw(cateringMenu, 248, 85);

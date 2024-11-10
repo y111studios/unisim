@@ -12,7 +12,7 @@ import y111studios.position.GridPosition;
 public abstract class MapObject {
 
     protected @Getter GridArea area;
-    protected AssetPaths texturePath;
+    protected @Getter AssetPaths texturePath;
 
     /**
      * Constructs a new map object with the specified area.
