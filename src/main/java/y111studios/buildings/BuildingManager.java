@@ -1,7 +1,7 @@
 package y111studios.buildings;
 
 import java.util.OptionalInt;
-
+import lombok.Getter;
 import y111studios.position.GridPosition;
 
 /**
@@ -41,7 +41,7 @@ public class BuildingManager implements BuildingController {
     /**
      * The building counter to keep track of the number of buildings placed.
      */
-    private BuildingCounter counter;
+    private @Getter BuildingCounter counter;
 
     /**
      * Initializes the building manager with a null-initialized array of buildings and a building

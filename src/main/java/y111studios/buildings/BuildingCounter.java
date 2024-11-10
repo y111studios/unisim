@@ -2,6 +2,7 @@ package y111studios.buildings;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 /**
  * A counter class to keep track of the number of buildings. This class keeps track of the number of
@@ -12,7 +13,7 @@ public class BuildingCounter {
     /**
      * A map to store the count of each type of building
      */
-    private final Map<BuildingType, Integer> buildingMap;
+    private @Getter final Map<BuildingType, Integer> buildingMap;
     /**
      * Sum total of all buildings placed
      */

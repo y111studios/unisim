@@ -21,6 +21,7 @@ import y111studios.utils.UnreachableException;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingFactory;
 import y111studios.buildings.BuildingManager;
+import y111studios.buildings.BuildingType;
 import y111studios.buildings.premade_variants.*;
 
 /**
@@ -510,6 +511,16 @@ public class MapScreen extends ScreenAdapter {
         float buildingX = 15;
         float buildingY = 120;
         game.font.draw(game.spritebatch, buildingString, buildingX, buildingY);
+
+        // Render individual building counts
+
+        Map<BuildingType, Integer> buildingCounts = gameState.buildingManager.getCounter().getBuildingMap();
+        for (BuildingType type : BuildingType.values()) {
+            int count = buildingCounts.get(type);
+            String countString = String.format("%c: %d", type.toString().toCharArray()[0], count);
+            buildingY += 20;
+            game.font.draw(game.spritebatch, countString, buildingX, buildingY);
+        }
 
         // Draw the pause menu if paused
 
