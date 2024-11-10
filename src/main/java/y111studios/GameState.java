@@ -63,7 +63,7 @@ public class GameState implements GameTimer, BuildingController {
             return false;
         }
         // Cannot push if the building area is not empty
-        if (collisionDetection.canPlaceBuilding(building.getArea()) == false) {
+        if (collisionDetection.placeBuilding(building.getArea()) == false) {
             return false;
         }
         // Push the building into the building mangager

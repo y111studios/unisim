@@ -93,11 +93,12 @@ public class CollisionDetection {
      *
      * @param area the area to place the building
      */
-    public void placeBuilding(GridArea area) {
+    public boolean placeBuilding(GridArea area) {
         if (!canPlaceBuilding(area)) {
-            return;
+            return false;
         }
         fillArea(area, true);
+        return true;
     }
 
     /**
@@ -105,8 +106,12 @@ public class CollisionDetection {
      *
      * @param area the area to remove the building from
      */
-    public void removeBuilding(GridArea area) {
+    public boolean removeBuilding(GridArea area) {
+        if (!withinBounds(area)) {
+            return false;
+        }
         fillArea(area, false);
+        return true;
     }
 
     /**
