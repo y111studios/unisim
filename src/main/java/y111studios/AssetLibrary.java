@@ -43,6 +43,7 @@ public class AssetLibrary {
         manager.load(AssetPaths.START_SCREEN, Texture.class);
         manager.load(AssetPaths.MAP_BACKGROUND, Texture.class);
         manager.load(AssetPaths.TEST_BUILDING, Texture.class);
+        manager.load(AssetPaths.MENU, Texture.class);
         manager.finishLoading();
     }
 

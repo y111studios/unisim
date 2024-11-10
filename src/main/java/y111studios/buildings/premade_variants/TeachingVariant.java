@@ -9,7 +9,7 @@ package y111studios.buildings.premade_variants;
  * TeachingBuilding}.
  */
 public enum TeachingVariant implements VariantProperties {
-    SMALL_CLASSROOM(2, 2);
+    SMALL_CLASSROOM(3, 3);
 
     private final int width;
     private final int height;
