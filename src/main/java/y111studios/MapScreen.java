@@ -109,6 +109,9 @@ public class MapScreen extends ScreenAdapter {
      */
     VariantProperties currentVariant;
 
+    /**
+     * The current screen position of the cursor.
+     */
     Vector3 screenPos;
 
     /**
@@ -416,6 +419,11 @@ public class MapScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Returns the current grid position of the cursor.
+     * 
+     * @return The current grid position of the cursor.
+     */
     public GridPosition currentGridPosition() {
         return pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
     }
