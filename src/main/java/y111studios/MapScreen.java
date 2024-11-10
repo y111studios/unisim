@@ -459,6 +459,7 @@ public class MapScreen extends ScreenAdapter {
         // Check for game over
 
         if (gameState.isTimeUp()) {
+            camera.velocityReset();
             gameState.pause();
         }
     }
