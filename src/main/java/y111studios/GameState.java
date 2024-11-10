@@ -34,9 +34,9 @@ public class GameState implements GameTimer, BuildingController {
     public GameState(int width, int height) {
         timer = new Clock();
         buildingManager = new BuildingManager();
-        int[][] staticObjects = new int[][] {{11, 35, 11, 13}, {14, 13, 7, 10}, {40, 13, 15, 15}, {42, 7, 17, 5},
-                                             {55, 29, 2, 5}, {30, 32, 27, 2}, {30, 32, 2, 21}, {26, 52, 5, 2},
-                                             {26, 52, 2, 8}, {20, 60, 7, 2}, {14, 58, 5, 5}, {55, 47, 10, 13}};
+        int[][] staticObjects = new int[][] {{11, 35, 11, 13}, {14, 13, 7, 10}, {40, 13, 15, 15},
+                {42, 7, 17, 5}, {55, 29, 2, 5}, {30, 32, 27, 2}, {30, 32, 2, 21}, {26, 52, 5, 2},
+                {26, 52, 2, 8}, {20, 60, 7, 2}, {14, 58, 5, 5}, {55, 47, 10, 13}};
         collisionDetection = new CollisionDetection(width, height, staticObjects);
     }
 
@@ -134,6 +134,16 @@ public class GameState implements GameTimer, BuildingController {
     @Override
     public Duration timeRemaining() {
         return timer.timeRemaining();
+    }
+
+    /**
+     * Returns if the building can be placed given the current state of the game.
+     * 
+     * @param building the building to be placed
+     * @return true if the building can be placed, false otherwise
+     */
+    public boolean canPlaceBuilding(Building building) {
+        return collisionDetection.canPlaceBuilding(building.getArea());
     }
 
 

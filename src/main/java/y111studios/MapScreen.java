@@ -427,7 +427,14 @@ public class MapScreen extends ScreenAdapter {
             VariantProperties variant = buildingVariants.get(menuTab)[menuItem];
             Texture texture = game.getAsset(variant.getTexturePath());
             int[] pixelCoords = tileToPixel(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
-            game.spritebatch.setColor(1f, 1f, 1f, 0.475f);
+
+            Building possibleInstance = BuildingFactory.createBuilding(variant, pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+            if (!gameState.canPlaceBuilding(possibleInstance)) {
+                game.spritebatch.setColor(1f, 0.5f, 0.5f, 0.475f);
+            } else {
+                game.spritebatch.setColor(1f, 1f, 1f, 0.475f);
+            }
+
             game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - variant.getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
             if(gameState.isPaused()) {
                 game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
