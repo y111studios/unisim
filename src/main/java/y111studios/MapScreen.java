@@ -200,22 +200,23 @@ public class MapScreen extends ScreenAdapter {
      * @param object The object to add.
      * @return Whether the object was added.
      */
-    public boolean addObject(VariantProperties variant, GridPosition coords, Texture texture) {
+    public boolean addObject(VariantProperties variant, GridPosition coords) {
         Building building = BuildingFactory.createBuilding(variant, coords);
-        if(!gameState.push(building)) {
-            return false;
-        }
-        int i;
-        for(i = 0; i < objects.size(); i++) {
-            if(objects.get(i).coords.getY() > coords.getY()) {
-                break;
-            }
-            if(objects.get(i).coords.getY() == coords.getY() && objects.get(i).coords.getX() < coords.getX()) {
-                break;
-            }
-        }
-        objects.add(i, new GraphicsObject(coords, variant.getHeight(), texture));
-        return true;
+        return gameState.push(building);
+        // if(!gameState.push(building)) {
+        //     return false;
+        // }
+        // int i;
+        // for(i = 0; i < objects.size(); i++) {
+        //     if(objects.get(i).coords.getY() > coords.getY()) {
+        //         break;
+        //     }
+        //     if(objects.get(i).coords.getY() == coords.getY() && objects.get(i).coords.getX() < coords.getX()) {
+        //         break;
+        //     }
+        // }
+        // objects.add(i, new GraphicsObject(coords, variant.getHeight(), texture));
+        // return true;
     }
 
     /**
@@ -266,8 +267,7 @@ public class MapScreen extends ScreenAdapter {
                                           game.assetLib.manager.get(AssetPaths.TEACH3.getPath()), game.assetLib.manager.get(AssetPaths.TEACH4.getPath()), game.assetLib.manager.get(AssetPaths.TEACH5.getPath())};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         paused = false;
-        addObject(buildingVariants[0], new GridPosition(3, 6), buildingTextures[0]);
-        addObject(buildingVariants[0], new GridPosition(3, 7), buildingTextures[0]);
+        addObject(buildingVariants[0], new GridPosition(3, 6));
     }
 
     /**
