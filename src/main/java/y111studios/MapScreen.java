@@ -426,9 +426,10 @@ public class MapScreen extends ScreenAdapter {
         if (!gameState.isPaused() && menuItem >= 0 && menuItem < 5) {
             VariantProperties variant = buildingVariants.get(menuTab)[menuItem];
             Texture texture = game.getAsset(variant.getTexturePath());
-            int[] pixelCoords = tileToPixel(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+            GridPosition hologramPosition = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
+            int[] pixelCoords = tileToPixel(hologramPosition);
 
-            Building possibleInstance = BuildingFactory.createBuilding(variant, pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+            Building possibleInstance = BuildingFactory.createBuilding(variant, hologramPosition);
             if (!gameState.canPlaceBuilding(possibleInstance)) {
                 game.spritebatch.setColor(1f, 0.5f, 0.5f, 0.475f);
             } else {
