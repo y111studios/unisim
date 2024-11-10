@@ -232,10 +232,10 @@ public class MapScreen extends ScreenAdapter {
         menuItem = -1;
         camera = new Camera(2000, 1000);
         buildingTextures = new Texture[] {game.getAsset(AssetPaths.ACC1), game.getAsset(AssetPaths.ACC2), game.getAsset(AssetPaths.ACC3),
-                                          game.getAsset(AssetPaths.ACC4), game.getAsset(AssetPaths.ACC5), game.getAsset(AssetPaths.CATER1),
+                                          game.getAsset(AssetPaths.ACC4), game.getAsset(AssetPaths.ACC5), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.CATER1),
                                           game.getAsset(AssetPaths.CATER2), game.getAsset(AssetPaths.CATER3), game.getAsset(AssetPaths.REC1),
-                                          game.getAsset(AssetPaths.REC2), game.getAsset(AssetPaths.TEACH1), game.getAsset(AssetPaths.TEACH2),
-                                          game.getAsset(AssetPaths.TEACH3), game.getAsset(AssetPaths.TEACH4), game.getAsset(AssetPaths.TEACH5)};
+                                          game.getAsset(AssetPaths.REC2), game.getAsset(AssetPaths.TRASH), game.getAsset(AssetPaths.TEACH1), game.getAsset(AssetPaths.TEACH2),
+                                          game.getAsset(AssetPaths.TEACH3), game.getAsset(AssetPaths.TEACH4), game.getAsset(AssetPaths.TEACH5), game.getAsset(AssetPaths.TRASH)};
         buildingVariants = new VariantProperties[] {TeachingVariant.SMALL_CLASSROOM};
         gameState.resume();
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 6));
@@ -315,7 +315,7 @@ public class MapScreen extends ScreenAdapter {
                         menuItem = -1;
                     } else if(screenPos.y < 75 && screenPos.y > 10){
                         int newItem = (int)((screenPos.x - 10) / 80);
-                        if(newItem == menuItem || newItem > 4) {
+                        if(newItem == menuItem || newItem > 5) {
                             menuItem = -1;
                         } else {
                             menuItem = newItem;
@@ -393,7 +393,7 @@ public class MapScreen extends ScreenAdapter {
         game.spritebatch.draw(cateringMenu, 248, 85);
         game.spritebatch.draw(teachingMenu, 491, 85);
         
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 6; i++) {
             if(i == menuItem || gameState.isPaused()) {
                 game.spritebatch.setColor(1, 1, 1, 0.5f);
             } else {
@@ -401,7 +401,7 @@ public class MapScreen extends ScreenAdapter {
             }
             int j = i;
             if(menuTab.toInt() > 0) {
-                j += menuTab.toInt() * 5;
+                j += menuTab.toInt() * 6;
             }
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
