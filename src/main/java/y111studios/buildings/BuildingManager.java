@@ -72,7 +72,6 @@ public class BuildingManager implements BuildingController {
         }
         Building building = buildings[index];
         buildings[index] = null;
-        counter.removeBuilding(building);
         return building;
     }
 
@@ -95,13 +94,16 @@ public class BuildingManager implements BuildingController {
         if (index < 0 || index >= length) {
             return false;
         }
+        Building removed;
         if (index == length - 1) {
             // If removing the last building just remove it
-            popLast();
+            removed = popLast();
         } else {
             // Swap index building with last building
+            removed = buildings[index];
             buildings[index] = popLast();
         }
+        counter.removeBuilding(removed);
         return true;
     }
 
