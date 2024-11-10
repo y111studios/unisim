@@ -208,7 +208,7 @@ public class MapScreen extends ScreenAdapter {
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(3, 11));
         addObject(AccomodationVariant.SMALL_HOUSE, new GridPosition(8, 11));
 
-        addObject(RecreationVariant.PARK, new GridPosition(30, 30));
+        addObject(TeachingVariant.SMALL_CLASSROOM, new GridPosition(30, 30));
     }
 
     /**

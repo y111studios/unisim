@@ -11,7 +11,7 @@ import y111studios.AssetPaths;
  * TeachingBuilding}.
  */
 public enum TeachingVariant implements VariantProperties {
-    SMALL_CLASSROOM(5, 5, AssetPaths.TEACH1),;
+    SMALL_CLASSROOM(3, 3, AssetPaths.TEACH1),;
 
     private final int width;
     private final int height;
