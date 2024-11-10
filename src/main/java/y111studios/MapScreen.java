@@ -43,6 +43,12 @@ public class MapScreen extends ScreenAdapter {
      * Height of map in tiles.
      */
     public static final int TILE_HEIGHT = 75;
+
+    private final static Color TRANSPARENT_PREVIEW = new Color(1, 1, 1, 0.475f);
+    private final static Color INVALID_PREVIEW = new Color(1, 0.5f, 0.5f, 0.475f);
+    private final static Color PAUSED_DULLING = new Color(0.5f, 0.5f, 0.5f, 1f);
+    private final static Color NORMAL = new Color(1, 1, 1, 1);
+
     /**
      * The game object.
      */
@@ -428,9 +434,9 @@ public class MapScreen extends ScreenAdapter {
 
         game.spritebatch.begin();
         if(gameState.isPaused()) {
-            game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
+            game.spritebatch.setColor(PAUSED_DULLING);
         } else {
-            game.spritebatch.setColor(1, 1, 1, 1);
+            game.spritebatch.setColor(NORMAL);
         }
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
 
@@ -442,17 +448,17 @@ public class MapScreen extends ScreenAdapter {
 
             Building possibleInstance = BuildingFactory.createBuilding(variant, hologramPosition);
             if (!gameState.canPlaceBuilding(possibleInstance)) {
-                game.spritebatch.setColor(1f, 0.5f, 0.5f, 0.475f);
+                game.spritebatch.setColor(INVALID_PREVIEW);
             } else {
-                game.spritebatch.setColor(1f, 1f, 1f, 0.475f);
+                game.spritebatch.setColor(TRANSPARENT_PREVIEW);
             }
 
             renderBuilding(possibleInstance);
             
             if(gameState.isPaused()) {
-                game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
+                game.spritebatch.setColor(PAUSED_DULLING);
             } else {
-                game.spritebatch.setColor(1, 1, 1, 1);
+                game.spritebatch.setColor(NORMAL);
             }
         }
 
