@@ -1,6 +1,7 @@
 package y111studios;
 
 import java.time.Duration;
+import java.util.Iterator;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingController;
 import y111studios.buildings.BuildingManager;
@@ -96,6 +97,11 @@ public class GameState implements GameTimer, BuildingController {
     @Override
     public boolean isFull() {
         return this.buildingManager.isFull();
+    }
+
+    @Override
+    public Iterator<Building> buildingIterator() {
+        return this.buildingManager.buildingIterator();
     }
 
     // GameTimer methods
