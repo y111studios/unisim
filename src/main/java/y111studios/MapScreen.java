@@ -355,6 +355,11 @@ public class MapScreen extends ScreenAdapter {
                 }
                 return true;
             }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return true;
+            }
         });
     }
 
@@ -424,7 +429,7 @@ public class MapScreen extends ScreenAdapter {
             if(menuTab > 0) {
                 j += menuTab * 5;
             }
-            game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)(buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
+            game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
         
         if(paused) {
