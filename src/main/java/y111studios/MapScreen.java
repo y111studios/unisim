@@ -400,6 +400,19 @@ public class MapScreen extends ScreenAdapter {
         }
     }
 
+    public void renderBuilding(Building building) {
+        Texture texture = game.getAsset(building.getTexturePath());
+        int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
+        game.spritebatch.draw(texture,
+            (int)(pixelCoords[0] / camera.scale),
+            (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale),
+            (int)(2 * texture.getWidth() / camera.scale),
+            (int)(2 * texture.getHeight() / camera.scale),
+            0, 0, texture.getWidth(), texture.getHeight(),
+            false, false
+        );
+    }
+
     /**
      * Renders the game each tick.
      * 
@@ -425,9 +438,7 @@ public class MapScreen extends ScreenAdapter {
 
         if (!gameState.isPaused() && menuItem >= 0 && menuItem < 5) {
             VariantProperties variant = buildingVariants.get(menuTab)[menuItem];
-            Texture texture = game.getAsset(variant.getTexturePath());
             GridPosition hologramPosition = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
-            int[] pixelCoords = tileToPixel(hologramPosition);
 
             Building possibleInstance = BuildingFactory.createBuilding(variant, hologramPosition);
             if (!gameState.canPlaceBuilding(possibleInstance)) {
@@ -436,7 +447,8 @@ public class MapScreen extends ScreenAdapter {
                 game.spritebatch.setColor(1f, 1f, 1f, 0.475f);
             }
 
-            game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - variant.getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+            renderBuilding(possibleInstance);
+            
             if(gameState.isPaused()) {
                 game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
             } else {
@@ -447,9 +459,7 @@ public class MapScreen extends ScreenAdapter {
         // Render buildings
 
         for (Building building : renderOrdering) {
-            Texture texture = game.getAsset(building.getTexturePath());
-            int[] pixelCoords = tileToPixel(building.getArea().getOrigin());
-            game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+            renderBuilding(building);
         }
         
         game.spritebatch.draw(menu, (menuTab.toInt() - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
