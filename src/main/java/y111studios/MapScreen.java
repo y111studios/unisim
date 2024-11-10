@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
@@ -99,6 +100,8 @@ public class MapScreen extends ScreenAdapter {
      * The current variant to be placed.
      */
     VariantProperties currentVariant;
+
+    Vector3 screenPos;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -357,6 +360,12 @@ public class MapScreen extends ScreenAdapter {
                 }
                 return true;
             }
+
+            @Override
+            public boolean mouseMoved(int x, int y) {
+                screenPos = viewport.getCamera().unproject(new Vector3(x, y, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+                return true;
+            }
         });
     }
 
@@ -411,6 +420,23 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.setColor(1, 1, 1, 1);
         }
         game.spritebatch.draw(gameMap, 0, 0, WIDTH, HEIGHT, camera.x, camera.y, (int)(WIDTH * camera.scale), (int)(HEIGHT * camera.scale), false, false);
+
+        // Add building placement hologram
+
+        if (!gameState.isPaused() && menuItem >= 0 && menuItem < 5) {
+            VariantProperties variant = buildingVariants.get(menuTab)[menuItem];
+            Texture texture = game.getAsset(variant.getTexturePath());
+            int[] pixelCoords = tileToPixel(pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale)));
+            game.spritebatch.setColor(1f, 1f, 1f, 0.475f);
+            game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - variant.getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+            if(gameState.isPaused()) {
+                game.spritebatch.setColor(0.5f, 0.5f, 0.5f, 1);
+            } else {
+                game.spritebatch.setColor(1, 1, 1, 1);
+            }
+        }
+
+        // Render buildings
 
         for (Building building : renderOrdering) {
             Texture texture = game.getAsset(building.getTexturePath());
