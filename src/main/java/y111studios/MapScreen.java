@@ -89,6 +89,11 @@ public class MapScreen extends ScreenAdapter {
      * The texture for the pause menu.
      */
     Texture pauseMenu;
+
+    /**
+     * The current variant to be placed.
+     */
+    VariantProperties currentVariant;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -300,7 +305,6 @@ public class MapScreen extends ScreenAdapter {
                     return true;
                 }
                 Vector3 screenPos = viewport.getCamera().unproject(new Vector3(screenX, screenY, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-                System.out.println((int)screenPos.x + " " + (int)screenPos.y);
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
@@ -321,13 +325,6 @@ public class MapScreen extends ScreenAdapter {
                         System.out.println(menuItem);
                     }
                     return true;
-                }
-                GridPosition test;
-                try {
-                    test = pixelToTile((int)(screenPos.x * camera.scale), (int)(screenPos.y * camera.scale));
-                    System.out.println(test.getX() + " " + test.getY());
-                } catch(IllegalArgumentException e) {
-                    System.out.println("Out of bounds!");
                 }
                 return true;
             }
