@@ -79,10 +79,6 @@ public class GameState implements GameTimer, BuildingController {
         if (position == null) {
             return false;
         }
-        // Check if the origin point is used
-        if (collisionDetection.canPlaceBuilding(position)) {
-            return false;
-        }
         // Get building being removed
         final Building building = this.buildingManager.getBuilding(position);
         if (building == null) {
