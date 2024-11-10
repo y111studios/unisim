@@ -110,6 +110,11 @@ public class MapScreen extends ScreenAdapter {
     VariantProperties currentVariant;
 
     Vector3 screenPos;
+
+    /**
+     * Toggle flag for debug info screen.
+     */
+    boolean showDebugInfo = false;
     
     /**
      * Stores the camera position, velocity and scale.
@@ -292,6 +297,9 @@ public class MapScreen extends ScreenAdapter {
                 }
                 if(gameState.isPaused()) {
                     return true;
+                }
+                if (keyCode == Input.Keys.TAB) {
+                    showDebugInfo = !showDebugInfo;
                 }
                 if(keyCode == Input.Keys.RIGHT || keyCode == Input.Keys.D) {
                     camera.addVelocity(8, 0);
@@ -505,21 +513,23 @@ public class MapScreen extends ScreenAdapter {
 
         // Render the total count of buildings placed
 
-        int buildingCount = gameState.getCount();
-        String buildingString = String.format("Count: %d / %d", buildingCount, BuildingManager.MAX_BUILDINGS);
-
-        float buildingX = 15;
-        float buildingY = 120;
-        game.font.draw(game.spritebatch, buildingString, buildingX, buildingY);
-
-        // Render individual building counts
-
-        Map<BuildingType, Integer> buildingCounts = gameState.buildingManager.getCounter().getBuildingMap();
-        for (BuildingType type : BuildingType.values()) {
-            int count = buildingCounts.get(type);
-            String countString = String.format("%c: %d", type.toString().toCharArray()[0], count);
-            buildingY += 20;
-            game.font.draw(game.spritebatch, countString, buildingX, buildingY);
+        if (showDebugInfo) {
+            int buildingCount = gameState.getCount();
+            String buildingString = String.format("Count: %d / %d", buildingCount, BuildingManager.MAX_BUILDINGS);
+    
+            float buildingX = 15;
+            float buildingY = 120;
+            game.font.draw(game.spritebatch, buildingString, buildingX, buildingY);
+    
+            // Render individual building counts
+    
+            Map<BuildingType, Integer> buildingCounts = gameState.buildingManager.getCounter().getBuildingMap();
+            for (BuildingType type : BuildingType.values()) {
+                int count = buildingCounts.get(type);
+                String countString = String.format("%c: %d", type.toString().toCharArray()[0], count);
+                buildingY += 20;
+                game.font.draw(game.spritebatch, countString, buildingX, buildingY);
+            }
         }
 
         // Draw the pause menu if paused
