@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.LinkedList;
 import java.util.List;
 import y111studios.position.GridPosition;
+import y111studios.utils.MenuTab;
 import y111studios.utils.UnreachableException;
 import y111studios.buildings.Building;
 import y111studios.buildings.BuildingFactory;
@@ -68,7 +69,7 @@ public class MapScreen extends ScreenAdapter {
     /**
      * The current tab of the menu.
      */
-    int menuTab;
+    MenuTab menuTab;
     /**
      * The current item of the menu.
      */
@@ -227,7 +228,7 @@ public class MapScreen extends ScreenAdapter {
         cateringMenu = game.getAsset(AssetPaths.CATERING_MENU);
         teachingMenu = game.getAsset(AssetPaths.TEACHING_MENU);
         pauseMenu = game.getAsset(AssetPaths.PAUSE);
-        menuTab = 0;
+        menuTab = MenuTab.ACCOMODATION;
         menuItem = -1;
         camera = new Camera(2000, 1000);
         buildingTextures = new Texture[] {game.getAsset(AssetPaths.ACC1), game.getAsset(AssetPaths.ACC2), game.getAsset(AssetPaths.ACC3),
@@ -305,11 +306,11 @@ public class MapScreen extends ScreenAdapter {
                 if(screenPos.y < 100) {
                     if(screenPos.y > 80) {
                         if(screenPos.x < 155) {
-                            menuTab = 0;
+                            menuTab = MenuTab.ACCOMODATION;
                         } else if(screenPos.x > 245 && screenPos.x < 395) {
-                            menuTab = 1;
+                            menuTab = MenuTab.CATERING_RECREATION;
                         } else if(screenPos.x > 490) {
-                            menuTab = 2;
+                            menuTab = MenuTab.TEACHING;
                         }
                         menuItem = -1;
                     } else if(screenPos.y < 75 && screenPos.y > 10){
@@ -387,7 +388,7 @@ public class MapScreen extends ScreenAdapter {
             game.spritebatch.draw(texture, (int)(pixelCoords[0] / camera.scale), (int)((pixelCoords[1] - building.getArea().getHeight() * 16) / camera.scale), (int)(2 * texture.getWidth() / camera.scale), (int)(2 * texture.getHeight() / camera.scale), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         }
         
-        game.spritebatch.draw(menu, (menuTab - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
+        game.spritebatch.draw(menu, (menuTab.toInt() - 2) * 243, 0, 1126, 100, 0, 0, menu.getWidth(), menu.getHeight(), false, false);
         game.spritebatch.draw(accommodationMenu, 5, 85);
         game.spritebatch.draw(cateringMenu, 248, 85);
         game.spritebatch.draw(teachingMenu, 491, 85);
@@ -399,8 +400,8 @@ public class MapScreen extends ScreenAdapter {
                 game.spritebatch.setColor(1, 1, 1, 1);
             }
             int j = i;
-            if(menuTab > 0) {
-                j += menuTab * 5;
+            if(menuTab.toInt() > 0) {
+                j += menuTab.toInt() * 5;
             }
             game.spritebatch.draw(buildingTextures[j], 10 + i * 80, 15, 50, (int)((float)buildingTextures[j].getHeight() / buildingTextures[j].getWidth() * 50), 0, 0, buildingTextures[j].getWidth(), buildingTextures[j].getHeight(), false, false);
         }
